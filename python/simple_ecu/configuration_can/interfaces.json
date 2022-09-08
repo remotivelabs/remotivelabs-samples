@@ -1,0 +1,21 @@
+{
+  "chains": [
+    {
+      "device_name": "virtual",
+      "namespace": "VirtualInterface",
+      "type": "virtual"
+    },
+    {
+      "type": "can",
+      "namespace": "ecu_A",
+      "device_name": "can0",
+      "database": "can/test.dbc"
+    },
+    {
+      "type": "can",
+      "namespace": "ecu_B",
+      "device_name": "can1",
+      "database": "can/test.dbc"
+    }
+  ]
+}
