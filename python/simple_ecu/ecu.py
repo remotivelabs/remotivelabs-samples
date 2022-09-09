@@ -133,14 +133,6 @@ def main(argv):
         default="http://127.0.0.1:50051",
     )
     parser.add_argument(
-        "-reload_config",
-        "--reload_config",
-        action="store_true",
-        help="Reload configuration",
-        required=False,
-        default=False,
-    )
-    parser.add_argument(
         "-x_api_key",
         "--x_api_key",
         type=str,
@@ -150,7 +142,7 @@ def main(argv):
     )
     args = parser.parse_args()
 
-    run(args.url, args.reload_config, args.x_api_key)
+    run(args.url, args.x_api_key)
 
 
 def double_and_publish(network_stub, client_id, trigger, signals):
@@ -172,7 +164,7 @@ def double_and_publish(network_stub, client_id, trigger, signals):
             )
 
 
-def run(url, restart_broker, x_api_key):
+def run(url, x_api_key):
     """Main function, checking arguments passed to script, setting up stubs, configuration and starting Threads."""
     # Setting up stubs and configuration
     intercept_channel = helper.create_channel(url, x_api_key)
