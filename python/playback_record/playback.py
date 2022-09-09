@@ -1,3 +1,4 @@
+import argparse
 import getopt
 import grpc
 import os
@@ -13,6 +14,23 @@ from threading import Thread, Timer, Event
 
 exit_event = Event()
 
+playbacklist = [
+    {
+        "namespace": "custom_can",
+        "path": "recordings/candump_uploaded.log",
+        "mode": broker.traffic_api_pb2.Mode.PLAY,
+    },
+    {
+        "namespace": "ecu_A",
+        "path": "recordings/candump.log",
+        "mode": broker.traffic_api_pb2.Mode.PLAY,
+    },
+    {
+        "namespace": "ecu_C",
+        "path": "recordings/candump_.log",
+        "mode": broker.traffic_api_pb2.Mode.PLAY,
+    },
+]
 
 def read_signal(stub, signal):
     """Read signals
@@ -144,10 +162,10 @@ def create_playback_config(item):
     )
 
 
-def stop_playback():
+def stop_playback(url, x_api_key):
     """Stop ongoing playback"""
-    channel = grpc.insecure_channel(ip + port)
-    traffic_stub = broker.traffic_api_pb2_grpc.TrafficServiceStub(channel)
+    intercept_channel = helper.create_channel(url, x_api_key)
+    traffic_stub = broker.traffic_api_pb2_grpc.TrafficServiceStub(intercept_channel)
     for playback in playbacklist:
         playback["mode"] = broker.traffic_api_pb2.Mode.STOP
 
@@ -159,58 +177,44 @@ def stop_playback():
     print("Stop traffic status is ", status)
 
 
-def exit_handler(signum, frame):
-    """Custom handler for exit of script
-
-    Parameters
-    ----------
-    signum : int
-        Signal number defined in pythons standard signal library
-    frame : frame
-        Object instance of class, stack frame
-
-    """
+def exit_handler(url, x_api_key):
     exit_event.set()
     time.sleep(0.5)
-    stop_playback()
+    stop_playback(url, x_api_key)
 
 
-def run(argv):
-    """Main function, checking arguments passed to script, setting up stubs, configuration and starting Threads.
+def main(argv):
+    parser = argparse.ArgumentParser(description="Provide address to Beambroker")
+    parser.add_argument(
+        "-url",
+        "--url",
+        type=str,
+        help="URL of the Beamy Broker",
+        required=False,
+        default="http://127.0.0.1:50051",
+    )
+    parser.add_argument(
+        "-x_api_key",
+        "--x_api_key",
+        type=str,
+        help="required api key for https sessions",
+        required=False,
+        default="offline",
+    )
+    args = parser.parse_args()
 
-    Parameters
-    ----------
-    argv : list
-        Arguments passed when starting script
+    run(args.url, args.x_api_key)
 
-    """
-    global ip
-    global port
-    global playbacklist
-    # Checks argument passed to script, playback.py will use below ip-address if no argument is passed to the script
-    ip = "127.0.0.1"
-    # Keep this port
-    port = ":50051"
-    try:
-        opts, args = getopt.getopt(argv, "h", ["ip="])
-    except getopt.GetoptError:
-        print("Usage: playback.py --ip <ip_address>")
-        sys.exit(2)
-    for opt, arg in opts:
-        if opt == "-h":
-            print("Usage: playback.py --ip <ip_address>")
-            sys.exit(2)
-        elif opt == "--ip":
-            ip = arg
 
+def run(url, x_api_key):
     # To do a clean exit of the script on CTRL+C
-    signal.signal(signal.SIGINT, exit_handler)
+    signal.signal(signal.SIGINT, lambda signum, frame: exit_handler(url, x_api_key))
 
     # Setting up stubs and configuration
-    channel = grpc.insecure_channel(ip + port)
-    network_stub = broker.network_api_pb2_grpc.NetworkServiceStub(channel)
-    traffic_stub = broker.traffic_api_pb2_grpc.TrafficServiceStub(channel)
-    system_stub = broker.system_api_pb2_grpc.SystemServiceStub(channel)
+    intercept_channel = helper.create_channel(url, x_api_key)
+    network_stub = broker.network_api_pb2_grpc.NetworkServiceStub(intercept_channel)
+    traffic_stub = broker.traffic_api_pb2_grpc.TrafficServiceStub(intercept_channel)
+    system_stub = broker.system_api_pb2_grpc.SystemServiceStub(intercept_channel)
     # check_license(system_stub)
 
     helper.upload_folder(system_stub, "configuration_custom_udp")
@@ -260,23 +264,6 @@ def run(argv):
     )
     print("record traffic result is ", status_record)
 
-    playbacklist = [
-        {
-            "namespace": "custom_can",
-            "path": "recordings/candump_uploaded.log",
-            "mode": broker.traffic_api_pb2.Mode.PLAY,
-        },
-        {
-            "namespace": "ecu_A",
-            "path": "recordings/candump.log",
-            "mode": broker.traffic_api_pb2.Mode.PLAY,
-        },
-        {
-            "namespace": "ecu_C",
-            "path": "recordings/candump_.log",
-            "mode": broker.traffic_api_pb2.Mode.PLAY,
-        },
-    ]
     # expect candump_.log does not exist, thus error string will be returned
     status = traffic_stub.PlayTraffic(
         broker.traffic_api_pb2.PlaybackInfos(
@@ -317,5 +304,5 @@ def run(argv):
 
 
 if __name__ == "__main__":
-    run(sys.argv[1:])
+    main(sys.argv[1:])
 
