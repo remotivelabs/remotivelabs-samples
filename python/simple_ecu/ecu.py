@@ -36,7 +36,7 @@ def read_signals(stub, signal):
     try:
         read_info = broker.network_api_pb2.SignalIds(signalId=[signal])
         return stub.ReadSignals(read_info)
-    except broker._channel._Rendezvous as err:
+    except grpc._channel._Rendezvous as err:
         print(err)
 
 
@@ -104,7 +104,7 @@ def read_on_timer(stub, signals, pause):
             response = stub.ReadSignals(read_info)
             for signal in response.signal:
                 print(f"ecu_B, (read) {signal.id.name} is {get_value(signal)}")
-        except broker._channel._Rendezvous as err:
+        except grpc._channel._Rendezvous as err:
             print(err)
         time.sleep(pause)
 
