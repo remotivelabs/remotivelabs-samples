@@ -22,7 +22,6 @@
   ],
   "reflectors": [
     {
-      "application": "reflector_ab",
       "reflect": [
         {
           "_comment": [
