@@ -41,7 +41,7 @@ def read_signals(stub, signal):
 
 
 def ecu_A(stub):
-    """Publishes a value, read other value (published by ecu_B)
+    """Publishes a value with set frequncy in database or default to 1000ms, read other value (published by ecu_B)
 
     Parameters
     ----------
@@ -53,7 +53,9 @@ def ecu_A(stub):
     namespace = "ecu_A"
     clientId = broker.common_pb2.ClientId(id="id_ecu_A")
     counter_frame = signal_creator.frame_by_signal("counter", namespace)
-    pause = 0.001*signal_creator.get_meta(counter_frame.name, namespace).getCycleTime(1000.0)
+    pause = 0.001 * signal_creator.get_meta(
+        counter_frame.name, counter_frame.namespace.name
+    ).getCycleTime(1000.0)
     while True:
 
         print("\necu_A, seed is ", increasing_counter)
@@ -223,9 +225,7 @@ def run(url, x_api_key):
     # ecu a, this is where we publish, and
     ecu_A_thread = Thread(
         target=ecu_A,
-        args=(
-            network_stub,
-        ),
+        args=(network_stub,),
     )
     ecu_A_thread.start()
 
