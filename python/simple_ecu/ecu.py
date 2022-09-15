@@ -198,7 +198,7 @@ def run(url, x_api_key):
     # ecu b, we do this with lambda refering to double_and_publish.
     ecu_b_client_id = broker.common_pb2.ClientId(id="id_ecu_B")
 
-    ecu_B_sub_thread = Thread(
+    Thread(
         target=helper.act_on_signal,
         args=(
             ecu_b_client_id,
@@ -217,17 +217,15 @@ def run(url, x_api_key):
             ),
             lambda subscripton: (q.put(("id_ecu_B", subscripton))),
         ),
-    )
-    ecu_B_sub_thread.start()
+    ).start()
     # wait for subscription to settle
     ecu, subscription = q.get()
 
     # ecu a, this is where we publish, and
-    ecu_A_thread = Thread(
+    Thread(
         target=ecu_A,
         args=(network_stub,),
-    )
-    ecu_A_thread.start()
+    ).start()
 
     # ecu b, bonus, periodically, read using timer.
     signals = [
@@ -235,8 +233,7 @@ def run(url, x_api_key):
         # add any number of signals from any namespace
         # signal_creator.signal("TestFr04", "ecu_B"),
     ]
-    ecu_read_on_timer = Thread(target=read_on_timer, args=(network_stub, signals, 1))
-    ecu_read_on_timer.start()
+    Thread(target=read_on_timer, args=(network_stub, signals, 1)).start()
 
     # once we are done we could cancel subscription
     # subscription.cancel()
