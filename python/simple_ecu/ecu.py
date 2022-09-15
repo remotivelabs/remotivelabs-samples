@@ -52,7 +52,8 @@ def ecu_A(stub):
     increasing_counter = 0
     namespace = "ecu_A"
     clientId = broker.common_pb2.ClientId(id="id_ecu_A")
-    pause = 0.001*signal_creator.get_meta("TestFr06", namespace).getCycleTime(1000.0)
+    counter_frame = signal_creator.frame_by_signal("counter", namespace)
+    pause = 0.001*signal_creator.get_meta(counter_frame.name, namespace).getCycleTime(1000.0)
     while True:
 
         print("\necu_A, seed is ", increasing_counter)
