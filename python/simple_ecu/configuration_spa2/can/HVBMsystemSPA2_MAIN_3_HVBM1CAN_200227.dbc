@@ -1,0 +1,1606 @@
+// *************************************************************************** *
+// *                                                                           *
+// *                      Mentor Graphics Corporation                          *
+// *                          All rights reserved                              *
+// *                                                                           *
+// *************************************************************************** *
+// *                                                                           *
+// * Description:         CANDB File                                           *
+// * Generated at:        2020-02-27 07:09                                     *
+// * System:              HVBMsystemSPA2_MAIN_3                                *
+// * Network:             HVBM1CAN                                             *
+// *                                                                           *
+// *************************************************************************** *
+// *                                                                           *
+// *             THIS CONFIGURATION MIGHT CONTAIN SOME ERRORS                  *
+// *              IF THE INPUT MODEL WAS NOT PROPERLY FORMED!                  *
+// *                    Do Not Use this File directly!                         *
+// *                                                                           *
+// *************************************************************************** *
+
+
+VERSION "HVBM1CAN"
+
+NS_:
+
+BS_:
+
+BU_:  HVBM HVBMdp
+
+BO_ 32 HvbmdpHvbm1canFrame01_10: 8 HVBMdp
+ SG_ HvOnMaiReq : 1|2@0+ (1,0) [0|3] "" HVBM
+ SG_ HvOnMaiReq_UB : 2|1@0+ (1,0) [0|1] "" HVBM
+ SG_ HvRlyChrgnReqDc1 : 4|2@0+ (1,0) [0|3] "" HVBM
+ SG_ HvRlyChrgnReqDc1_UB : 5|1@0+ (1,0) [0|1] "" HVBM
+ SG_ HvSysDeactvtIsoRMonrReq : 7|2@0+ (1,0) [0|3] "" HVBM
+ SG_ HvSysDeactvtIsoRMonrReq_UB : 15|1@0+ (1,0) [0|1] "" HVBM
+
+BO_ 64 HvbmdpHvbm1canFrame02_40: 8 HVBMdp
+ SG_ VehSpdLgtSafe_UB : 6|1@0+ (1,0) [0|1] "" HVBM
+ SG_ VehSpdLgtSafeVehSpdLgt : 22|15@0+ (0.00391,0.0) [0.0|125.0027] "m/s" HVBM
+ SG_ VehSpdLgtSafeVehSpdLgtChks : 15|8@0+ (1.0,0.0) [0.0|255.0] "Unitless" HVBM
+ SG_ VehSpdLgtSafeVehSpdLgtCntr : 3|4@0+ (1.0,0.0) [0.0|15.0] "Unitless" HVBM
+ SG_ VehSpdLgtSafeVehSpdLgtQf : 5|2@0+ (1,0) [0|3] "" HVBM
+
+BO_ 96 HvbmdpHvbm1canFrame03_70: 8 HVBMdp
+ SG_ VehModMngtGlbSafe1_UB : 7|1@0+ (1,0) [0|1] "" HVBM
+ SG_ VehModMngtGlbSafe1CarModSts1 : 2|3@0+ (1,0) [0|7] "" HVBM
+ SG_ VehModMngtGlbSafe1CarModSubtypWdCarModSubtyp : 6|3@0+ (1.0,0.0) [0.0|7.0] "Unitless" HVBM
+ SG_ VehModMngtGlbSafe1Chks : 15|8@0+ (1.0,0.0) [0.0|255.0] "Unitless" HVBM
+ SG_ VehModMngtGlbSafe1Cntr : 23|4@0+ (1.0,0.0) [0.0|15.0] "Unitless" HVBM
+ SG_ VehModMngtGlbSafe1EgyLvlElecMai : 19|4@0+ (1.0,0.0) [0.0|15.0] "Unitless" HVBM
+ SG_ VehModMngtGlbSafe1EgyLvlElecSubtyp : 31|4@0+ (1.0,0.0) [0.0|15.0] "Unitless" HVBM
+ SG_ VehModMngtGlbSafe1FltEgyCnsWdSts : 3|1@0+ (1,0) [0|1] "" HVBM
+ SG_ VehModMngtGlbSafe1PwrLvlElecMai : 27|4@0+ (1.0,0.0) [0.0|15.0] "Unitless" HVBM
+ SG_ VehModMngtGlbSafe1PwrLvlElecSubtyp : 39|4@0+ (1.0,0.0) [0.0|15.0] "Unitless" HVBM
+ SG_ VehModMngtGlbSafe1UsgModSts : 35|4@0+ (1,0) [0|15] "" HVBM
+
+BO_ 256 HvbmdpHvbm1canFrame04_100: 8 HVBMdp
+ SG_ DrvModReq : 21|4@0+ (1,0) [0|15] "" HVBM
+ SG_ DrvModReq_UB : 22|1@0+ (1,0) [0|1] "" HVBM
+ SG_ EngT_UB : 7|1@0+ (1,0) [0|1] "" HVBM
+ SG_ EngTEngT : 31|8@0+ (1.0,-50.0) [-50.0|200.0] "degC" HVBM
+ SG_ EngTQf : 17|2@0+ (1,0) [0|3] "" HVBM
+ SG_ PrpsnSysActv : 5|1@0+ (1,0) [0|1] "" HVBM
+ SG_ PrpsnSysActv_UB : 6|1@0+ (1,0) [0|1] "" HVBM
+ SG_ TiLeForHvBattPreCdng : 3|12@0+ (10.0,-1.0) [-1.0|40949.0] "Unitless" HVBM
+ SG_ TiLeForHvBattPreCdng_UB : 4|1@0+ (1,0) [0|1] "" HVBM
+
+BO_ 288 HvbmdpHvbm1canFrame05_150: 8 HVBMdp
+ SG_ ChrgnTyp : 7|8@0+ (1,0) [0|255] "" HVBM
+ SG_ ChrgnTyp_UB : 15|1@0+ (1,0) [0|1] "" HVBM
+
+BO_ 320 HvbmdpHvbm1canFrame06_200: 8 HVBMdp
+ SG_ CarTiGlb : 7|32@0+ (0.1,0.0) [0.0|429496729.5] "s" HVBM
+ SG_ CarTiGlb_UB : 39|1@0+ (1,0) [0|1] "" HVBM
+ SG_ MonrCycCmpl : 37|1@0+ (1,0) [0|1] "" HVBM
+ SG_ MonrCycCmpl_UB : 38|1@0+ (1,0) [0|1] "" HVBM
+
+BO_ 368 HvbmdpHvbm1canFrame07_300: 8 HVBMdp
+ SG_ OnBdChrgrHndlSts : 6|3@0+ (1,0) [0|7] "" HVBM
+ SG_ OnBdChrgrHndlSts_UB : 7|1@0+ (1,0) [0|1] "" HVBM
+ SG_ PwrEgyMgrAvl1 : 2|11@0+ (100.0,0.0) [0.0|204700.0] "W" HVBM
+ SG_ PwrEgyMgrAvl1_UB : 3|1@0+ (1,0) [0|1] "" HVBM
+
+BO_ 880 HvbmdpHvbm1canFrame08_500: 8 HVBMdp
+ SG_ EngAmbTCalcd : 0|9@0+ (0.5,-60.0) [-60.0|195.5] "Unitless" HVBM
+ SG_ EngAmbTCalcd_UB : 1|1@0+ (1,0) [0|1] "" HVBM
+
+BO_ 1024 HvbmdpHvbm1canFrame09_600: 8 HVBMdp
+ SG_ CmptmtCoolgSts : 37|4@0+ (1,0) [0|15] "" HVBM
+ SG_ CmptmtCoolgSts_UB : 7|1@0+ (1,0) [0|1] "" HVBM
+ SG_ HvBattClimaEgyAllwd : 49|10@0+ (20.0,0.0) [0.0|20460.0] "Wh" HVBM
+ SG_ HvBattClimaEgyAllwd_UB : 6|1@0+ (1,0) [0|1] "" HVBM
+ SG_ HvBattCoolgPwrAllwd : 33|10@0+ (20.0,0.0) [0.0|20460.0] "W" HVBM
+ SG_ HvBattCoolgPwrAllwd_UB : 5|1@0+ (1,0) [0|1] "" HVBM
+ SG_ HvBattPwrCnsElecPred1_UB : 4|1@0+ (1,0) [0|1] "" HVBM
+ SG_ HvBattPwrCnsElecPred1HvBattPwrCnsElecPredAvg : 3|12@0+ (0.25,-511.0) [-511.0|511.0] "kW" HVBM
+ SG_ HvBattPwrCnsElecPred1HvBattPwrCnsElecPredStd : 17|10@0+ (0.1,0.0) [0.0|62.5] "Unitless" HVBM
+
+BO_ 1029 HvbmdpHvbm1canFrame10_600: 8 HVBMdp
+ SG_ HvBattCircCoolgPfmnc : 52|3@0+ (1.0,0.0) [0.0|7.0] "Unitless" HVBM
+ SG_ HvBattCircCoolgPfmnc_UB : 53|1@0+ (1,0) [0|1] "" HVBM
+ SG_ HvBattHeatgPwrAllwd : 49|10@0+ (20.0,0.0) [0.0|20460.0] "W" HVBM
+ SG_ HvBattHeatgPwrAllwd_UB : 20|1@0+ (1,0) [0|1] "" HVBM
+ SG_ HvBattPwrCnsElecPredEco1_UB : 15|1@0+ (1,0) [0|1] "" HVBM
+ SG_ HvBattPwrCnsElecPredEco1HvBattPwrCnsElecPredAvg : 19|12@0+ (0.25,-511.0) [-511.0|511.0] "kW" HVBM
+ SG_ HvBattPwrCnsElecPredEco1HvBattPwrCnsElecPredStd : 33|10@0+ (0.1,0.0) [0.0|62.5] "Unitless" HVBM
+ SG_ TelmChrgnLvl : 14|7@0+ (1.0,0.0) [0.0|100.0] "%" HVBM
+ SG_ TelmChrgnLvl_UB : 7|1@0+ (1,0) [0|1] "" HVBM
+ SG_ ThermStFromCoorr : 5|6@0+ (1,0) [0|63] "" HVBM
+ SG_ ThermStFromCoorr_UB : 6|1@0+ (1,0) [0|1] "" HVBM
+
+BO_ 1034 HvbmdpHvbm1canFrame11_600: 8 HVBMdp
+ SG_ ChrgnPwrAvlAtChrgnLocn : 55|8@0+ (1.0,0.0) [0.0|255.0] "kW" HVBM
+ SG_ ChrgnPwrAvlAtChrgnLocn_UB : 63|1@0+ (1,0) [0|1] "" HVBM
+ SG_ EgyPredAtLocn : 23|8@0+ (1.0,0.0) [0.0|255.0] "kWh" HVBM
+ SG_ EgyPredAtLocn_UB : 5|1@0+ (1,0) [0|1] "" HVBM
+ SG_ EgyToChrgAtChrgnLocn : 31|8@0+ (1.0,0.0) [0.0|255.0] "kWh" HVBM
+ SG_ EgyToChrgAtChrgnLocn_UB : 6|1@0+ (1,0) [0|1] "" HVBM
+ SG_ HvBattActFlow : 3|12@0+ (0.01,0.0) [0.0|40.95] "L / min" HVBM
+ SG_ HvBattActFlow_UB : 4|1@0+ (1,0) [0|1] "" HVBM
+ SG_ TiToChrgnLocn : 39|16@0+ (1.0,0.0) [0.0|65535.0] "s" HVBM
+ SG_ TiToChrgnLocn_UB : 7|1@0+ (1,0) [0|1] "" HVBM
+
+BO_ 1102 HvbmdpHvbm1canFrame12_600: 8 HVBMdp
+ SG_ BkpOfDstTrvld : 4|21@0+ (1.0,0.0) [0.0|2000000.0] "km" HVBM
+ SG_ BkpOfDstTrvld_UB : 5|1@0+ (1,0) [0|1] "" HVBM
+ SG_ TiToLocn : 31|16@0+ (1.0,0.0) [0.0|65535.0] "s" HVBM
+ SG_ TiToLocn_UB : 6|1@0+ (1,0) [0|1] "" HVBM
+ SG_ VehBattU_UB : 7|1@0+ (1,0) [0|1] "" HVBM
+ SG_ VehBattUSysU : 55|8@0+ (0.1,0.0) [0.0|25.0] "Volt" HVBM
+ SG_ VehBattUSysUQf : 41|2@0+ (1,0) [0|3] "" HVBM
+
+BO_ 21 HvbmdpHvbm1canFrameSpont13_10: 8 HVBMdp
+ SG_ CrashSts2 : 1|2@0+ (1,0) [0|3] "" HVBM
+ SG_ CrashSts2_UB : 2|1@0+ (1,0) [0|1] "" HVBM
+
+BO_ 1296 HvbmdpNmFrame: 8 HVBMdp
+
+BO_ 2047 HvbmdpToAllUdsDiagRequestFrame: 8 HVBMdp
+
+BO_ 1875 HvbmdpToHvbmUdsDiagRequestFrame: 8 HVBMdp
+
+BO_ 387 HvbmHvbm1canFrame01_450: 8 HVBM
+ SG_ BattTMax : 7|8@0+ (1.0,-40.0) [-40.0|210.0] "degC" HVBMdp
+ SG_ BattTMax_UB : 15|1@0+ (1,0) [0|1] "" HVBMdp
+ SG_ BattTMaxPackId : 10|3@0+ (1.0,1.0) [1.0|8.0] "Unitless" HVBMdp
+ SG_ BattTMaxPackId_UB : 11|1@0+ (1,0) [0|1] "" HVBMdp
+ SG_ BattTMaxProbeId : 23|8@0+ (1.0,0.0) [1.0|251.0] "Unitless" HVBMdp
+ SG_ BattTMaxProbeId_UB : 31|1@0+ (1,0) [0|1] "" HVBMdp
+ SG_ BattTMin : 39|8@0+ (1.0,-40.0) [-40.0|210.0] "degC" HVBMdp
+ SG_ BattTMin_UB : 30|1@0+ (1,0) [0|1] "" HVBMdp
+ SG_ BattTMinPackId : 14|3@0+ (1.0,1.0) [1.0|8.0] "Unitless" HVBMdp
+ SG_ BattTMinPackId_UB : 29|1@0+ (1,0) [0|1] "" HVBMdp
+ SG_ BattTMinProbeId : 47|8@0+ (1.0,0.0) [1.0|251.0] "Unitless" HVBMdp
+ SG_ BattTMinProbeId_UB : 28|1@0+ (1,0) [0|1] "" HVBMdp
+ SG_ BattUMax : 51|12@0+ (0.001,1.0) [1.0|5.095] "Volt" HVBMdp
+ SG_ BattUMax_UB : 52|1@0+ (1,0) [0|1] "" HVBMdp
+ SG_ BattUMaxPackId : 26|3@0+ (1.0,1.0) [1.0|8.0] "Unitless" HVBMdp
+ SG_ BattUMaxPackId_UB : 27|1@0+ (1,0) [0|1] "" HVBMdp
+
+BO_ 390 HvbmHvbm1canFrame02_450: 8 HVBM
+ SG_ BattUMaxCellId : 7|8@0+ (1.0,0.0) [1.0|251.0] "Unitless" HVBMdp
+ SG_ BattUMaxCellId_UB : 15|1@0+ (1,0) [0|1] "" HVBMdp
+ SG_ BattUMin : 11|12@0+ (0.001,1.0) [1.0|5.095] "Volt" HVBMdp
+ SG_ BattUMin_UB : 12|1@0+ (1,0) [0|1] "" HVBMdp
+ SG_ BattUMinCellId : 31|8@0+ (1.0,0.0) [1.0|251.0] "Unitless" HVBMdp
+ SG_ BattUMinCellId_UB : 13|1@0+ (1,0) [0|1] "" HVBMdp
+ SG_ BattUMinPackId : 39|3@0+ (1.0,1.0) [1.0|8.0] "Unitless" HVBMdp
+ SG_ BattUMinPackId_UB : 14|1@0+ (1,0) [0|1] "" HVBMdp
+ SG_ ChrgnSt : 35|2@0+ (1,0) [0|3] "" HVBMdp
+ SG_ ChrgnSt_UB : 36|1@0+ (1,0) [0|1] "" HVBMdp
+ SG_ NrOfCells : 33|10@0+ (1.0,0.0) [0.0|1023.0] "Unitless" HVBMdp
+ SG_ NrOfCells_UB : 55|1@0+ (1,0) [0|1] "" HVBMdp
+ SG_ NrOfPacks : 53|3@0+ (1.0,0.0) [0.0|7.0] "Unitless" HVBMdp
+ SG_ NrOfPacks_UB : 54|1@0+ (1,0) [0|1] "" HVBMdp
+ SG_ NrOfProbes : 63|8@0+ (1.0,0.0) [0.0|255.0] "Unitless" HVBMdp
+ SG_ NrOfProbes_UB : 50|1@0+ (1,0) [0|1] "" HVBMdp
+
+BO_ 1104 HvbmHvbm1canFrame03_600: 8 HVBM
+ SG_ CooltTFromHvBatt : 2|11@0+ (0.1,-40.0) [-40.0|140.0] "degC" HVBMdp
+ SG_ CooltTFromHvBatt_UB : 3|1@0+ (1,0) [0|1] "" HVBMdp
+ SG_ HvBattAtChrgnLocn_UB : 4|1@0+ (1,0) [0|1] "" HVBMdp
+ SG_ HvBattAtChrgnLocnChrgnPwr : 23|8@0+ (1.0,0.0) [0.0|255.0] "kW" HVBMdp
+ SG_ HvBattAtChrgnLocnChrgnTiEstimn : 31|8@0+ (5.0,0.0) [0.0|1275.0] "Minutes" HVBMdp
+ SG_ HvBattAtChrgnLocnEgyDelta : 39|8@0+ (1.0,0.0) [0.0|255.0] "kWh" HVBMdp
+ SG_ HvBattChrgnSts : 43|1@0+ (1,0) [0|1] "" HVBMdp
+ SG_ HvBattChrgnSts_UB : 44|1@0+ (1,0) [0|1] "" HVBMdp
+ SG_ HvBattClimaEgyReq : 41|10@0+ (20.0,0.0) [0.0|20460.0] "Wh" HVBMdp
+ SG_ HvBattClimaEgyReq_UB : 42|1@0+ (1,0) [0|1] "" HVBMdp
+ SG_ HvBattClimaPrioReq : 7|3@0+ (1,0) [0|7] "" HVBMdp
+ SG_ HvBattClimaPrioReq_UB : 45|1@0+ (1,0) [0|1] "" HVBMdp
+ SG_ StsForCooltTInHvBatt : 47|2@0+ (1,0) [0|3] "" HVBMdp
+ SG_ StsForCooltTInHvBatt_UB : 63|1@0+ (1,0) [0|1] "" HVBMdp
+
+BO_ 393 HvbmHvbm1canFrame04_450: 8 HVBM
+ SG_ HvBattCellU01_UB : 4|1@0+ (1,0) [0|1] "" HVBMdp
+ SG_ HvBattCellU01CellU1 : 3|12@0+ (0.001,1.0) [1.0|5.095] "Volt" HVBMdp
+ SG_ HvBattCellU01CellU2 : 23|12@0+ (0.001,1.0) [1.0|5.095] "Volt" HVBMdp
+ SG_ HvBattCellU01CellU3 : 27|12@0+ (0.001,1.0) [1.0|5.095] "Volt" HVBMdp
+ SG_ HvBattCellU01CellU4 : 47|12@0+ (0.001,1.0) [1.0|5.095] "Volt" HVBMdp
+ SG_ HvBattCellU01CellU5 : 51|12@0+ (0.001,1.0) [1.0|5.095] "Volt" HVBMdp
+
+BO_ 395 HvbmHvbm1canFrame05_450: 8 HVBM
+ SG_ HvBattCellU02_UB : 4|1@0+ (1,0) [0|1] "" HVBMdp
+ SG_ HvBattCellU02CellU1 : 3|12@0+ (0.001,1.0) [1.0|5.095] "Volt" HVBMdp
+ SG_ HvBattCellU02CellU2 : 23|12@0+ (0.001,1.0) [1.0|5.095] "Volt" HVBMdp
+ SG_ HvBattCellU02CellU3 : 27|12@0+ (0.001,1.0) [1.0|5.095] "Volt" HVBMdp
+ SG_ HvBattCellU02CellU4 : 47|12@0+ (0.001,1.0) [1.0|5.095] "Volt" HVBMdp
+ SG_ HvBattCellU02CellU5 : 51|12@0+ (0.001,1.0) [1.0|5.095] "Volt" HVBMdp
+
+BO_ 398 HvbmHvbm1canFrame06_450: 8 HVBM
+ SG_ HvBattCellU03_UB : 4|1@0+ (1,0) [0|1] "" HVBMdp
+ SG_ HvBattCellU03CellU1 : 3|12@0+ (0.001,1.0) [1.0|5.095] "Volt" HVBMdp
+ SG_ HvBattCellU03CellU2 : 23|12@0+ (0.001,1.0) [1.0|5.095] "Volt" HVBMdp
+ SG_ HvBattCellU03CellU3 : 27|12@0+ (0.001,1.0) [1.0|5.095] "Volt" HVBMdp
+ SG_ HvBattCellU03CellU4 : 47|12@0+ (0.001,1.0) [1.0|5.095] "Volt" HVBMdp
+ SG_ HvBattCellU03CellU5 : 51|12@0+ (0.001,1.0) [1.0|5.095] "Volt" HVBMdp
+
+BO_ 400 HvbmHvbm1canFrame07_450: 8 HVBM
+ SG_ HvBattCellU04_UB : 4|1@0+ (1,0) [0|1] "" HVBMdp
+ SG_ HvBattCellU04CellU1 : 3|12@0+ (0.001,1.0) [1.0|5.095] "Volt" HVBMdp
+ SG_ HvBattCellU04CellU2 : 23|12@0+ (0.001,1.0) [1.0|5.095] "Volt" HVBMdp
+ SG_ HvBattCellU04CellU3 : 27|12@0+ (0.001,1.0) [1.0|5.095] "Volt" HVBMdp
+ SG_ HvBattCellU04CellU4 : 47|12@0+ (0.001,1.0) [1.0|5.095] "Volt" HVBMdp
+ SG_ HvBattCellU04CellU5 : 51|12@0+ (0.001,1.0) [1.0|5.095] "Volt" HVBMdp
+
+BO_ 403 HvbmHvbm1canFrame08_450: 8 HVBM
+ SG_ HvBattCellU05_UB : 4|1@0+ (1,0) [0|1] "" HVBMdp
+ SG_ HvBattCellU05CellU1 : 3|12@0+ (0.001,1.0) [1.0|5.095] "Volt" HVBMdp
+ SG_ HvBattCellU05CellU2 : 23|12@0+ (0.001,1.0) [1.0|5.095] "Volt" HVBMdp
+ SG_ HvBattCellU05CellU3 : 27|12@0+ (0.001,1.0) [1.0|5.095] "Volt" HVBMdp
+ SG_ HvBattCellU05CellU4 : 47|12@0+ (0.001,1.0) [1.0|5.095] "Volt" HVBMdp
+ SG_ HvBattCellU05CellU5 : 51|12@0+ (0.001,1.0) [1.0|5.095] "Volt" HVBMdp
+
+BO_ 406 HvbmHvbm1canFrame09_450: 8 HVBM
+ SG_ HvBattCellU06_UB : 4|1@0+ (1,0) [0|1] "" HVBMdp
+ SG_ HvBattCellU06CellU1 : 3|12@0+ (0.001,1.0) [1.0|5.095] "Volt" HVBMdp
+ SG_ HvBattCellU06CellU2 : 23|12@0+ (0.001,1.0) [1.0|5.095] "Volt" HVBMdp
+ SG_ HvBattCellU06CellU3 : 27|12@0+ (0.001,1.0) [1.0|5.095] "Volt" HVBMdp
+ SG_ HvBattCellU06CellU4 : 47|12@0+ (0.001,1.0) [1.0|5.095] "Volt" HVBMdp
+ SG_ HvBattCellU06CellU5 : 51|12@0+ (0.001,1.0) [1.0|5.095] "Volt" HVBMdp
+
+BO_ 409 HvbmHvbm1canFrame10_450: 8 HVBM
+ SG_ HvBattCellU07_UB : 4|1@0+ (1,0) [0|1] "" HVBMdp
+ SG_ HvBattCellU07CellU1 : 3|12@0+ (0.001,1.0) [1.0|5.095] "Volt" HVBMdp
+ SG_ HvBattCellU07CellU2 : 23|12@0+ (0.001,1.0) [1.0|5.095] "Volt" HVBMdp
+ SG_ HvBattCellU07CellU3 : 27|12@0+ (0.001,1.0) [1.0|5.095] "Volt" HVBMdp
+ SG_ HvBattCellU07CellU4 : 47|12@0+ (0.001,1.0) [1.0|5.095] "Volt" HVBMdp
+ SG_ HvBattCellU07CellU5 : 51|12@0+ (0.001,1.0) [1.0|5.095] "Volt" HVBMdp
+
+BO_ 411 HvbmHvbm1canFrame11_450: 8 HVBM
+ SG_ HvBattCellU08_UB : 4|1@0+ (1,0) [0|1] "" HVBMdp
+ SG_ HvBattCellU08CellU1 : 3|12@0+ (0.001,1.0) [1.0|5.095] "Volt" HVBMdp
+ SG_ HvBattCellU08CellU2 : 23|12@0+ (0.001,1.0) [1.0|5.095] "Volt" HVBMdp
+ SG_ HvBattCellU08CellU3 : 27|12@0+ (0.001,1.0) [1.0|5.095] "Volt" HVBMdp
+ SG_ HvBattCellU08CellU4 : 47|12@0+ (0.001,1.0) [1.0|5.095] "Volt" HVBMdp
+ SG_ HvBattCellU08CellU5 : 51|12@0+ (0.001,1.0) [1.0|5.095] "Volt" HVBMdp
+
+BO_ 414 HvbmHvbm1canFrame12_450: 8 HVBM
+ SG_ HvBattCellU09_UB : 4|1@0+ (1,0) [0|1] "" HVBMdp
+ SG_ HvBattCellU09CellU1 : 3|12@0+ (0.001,1.0) [1.0|5.095] "Volt" HVBMdp
+ SG_ HvBattCellU09CellU2 : 23|12@0+ (0.001,1.0) [1.0|5.095] "Volt" HVBMdp
+ SG_ HvBattCellU09CellU3 : 27|12@0+ (0.001,1.0) [1.0|5.095] "Volt" HVBMdp
+ SG_ HvBattCellU09CellU4 : 47|12@0+ (0.001,1.0) [1.0|5.095] "Volt" HVBMdp
+ SG_ HvBattCellU09CellU5 : 51|12@0+ (0.001,1.0) [1.0|5.095] "Volt" HVBMdp
+
+BO_ 512 HvbmHvbm1canFrame13_450: 8 HVBM
+ SG_ HvBattCellU10_UB : 4|1@0+ (1,0) [0|1] "" HVBMdp
+ SG_ HvBattCellU10CellU1 : 3|12@0+ (0.001,1.0) [1.0|5.095] "Volt" HVBMdp
+ SG_ HvBattCellU10CellU2 : 23|12@0+ (0.001,1.0) [1.0|5.095] "Volt" HVBMdp
+ SG_ HvBattCellU10CellU3 : 27|12@0+ (0.001,1.0) [1.0|5.095] "Volt" HVBMdp
+ SG_ HvBattCellU10CellU4 : 47|12@0+ (0.001,1.0) [1.0|5.095] "Volt" HVBMdp
+ SG_ HvBattCellU10CellU5 : 51|12@0+ (0.001,1.0) [1.0|5.095] "Volt" HVBMdp
+
+BO_ 515 HvbmHvbm1canFrame14_450: 8 HVBM
+ SG_ HvBattCellU11_UB : 4|1@0+ (1,0) [0|1] "" HVBMdp
+ SG_ HvBattCellU11CellU1 : 3|12@0+ (0.001,1.0) [1.0|5.095] "Volt" HVBMdp
+ SG_ HvBattCellU11CellU2 : 23|12@0+ (0.001,1.0) [1.0|5.095] "Volt" HVBMdp
+ SG_ HvBattCellU11CellU3 : 27|12@0+ (0.001,1.0) [1.0|5.095] "Volt" HVBMdp
+ SG_ HvBattCellU11CellU4 : 47|12@0+ (0.001,1.0) [1.0|5.095] "Volt" HVBMdp
+ SG_ HvBattCellU11CellU5 : 51|12@0+ (0.001,1.0) [1.0|5.095] "Volt" HVBMdp
+
+BO_ 518 HvbmHvbm1canFrame15_450: 8 HVBM
+ SG_ HvBattCellU12_UB : 4|1@0+ (1,0) [0|1] "" HVBMdp
+ SG_ HvBattCellU12CellU1 : 3|12@0+ (0.001,1.0) [1.0|5.095] "Volt" HVBMdp
+ SG_ HvBattCellU12CellU2 : 23|12@0+ (0.001,1.0) [1.0|5.095] "Volt" HVBMdp
+ SG_ HvBattCellU12CellU3 : 27|12@0+ (0.001,1.0) [1.0|5.095] "Volt" HVBMdp
+ SG_ HvBattCellU12CellU4 : 47|12@0+ (0.001,1.0) [1.0|5.095] "Volt" HVBMdp
+ SG_ HvBattCellU12CellU5 : 51|12@0+ (0.001,1.0) [1.0|5.095] "Volt" HVBMdp
+
+BO_ 521 HvbmHvbm1canFrame16_450: 8 HVBM
+ SG_ HvBattCellU13_UB : 4|1@0+ (1,0) [0|1] "" HVBMdp
+ SG_ HvBattCellU13CellU1 : 3|12@0+ (0.001,1.0) [1.0|5.095] "Volt" HVBMdp
+ SG_ HvBattCellU13CellU2 : 23|12@0+ (0.001,1.0) [1.0|5.095] "Volt" HVBMdp
+ SG_ HvBattCellU13CellU3 : 27|12@0+ (0.001,1.0) [1.0|5.095] "Volt" HVBMdp
+ SG_ HvBattCellU13CellU4 : 47|12@0+ (0.001,1.0) [1.0|5.095] "Volt" HVBMdp
+ SG_ HvBattCellU13CellU5 : 51|12@0+ (0.001,1.0) [1.0|5.095] "Volt" HVBMdp
+
+BO_ 523 HvbmHvbm1canFrame17_450: 8 HVBM
+ SG_ HvBattCellU14_UB : 4|1@0+ (1,0) [0|1] "" HVBMdp
+ SG_ HvBattCellU14CellU1 : 3|12@0+ (0.001,1.0) [1.0|5.095] "Volt" HVBMdp
+ SG_ HvBattCellU14CellU2 : 23|12@0+ (0.001,1.0) [1.0|5.095] "Volt" HVBMdp
+ SG_ HvBattCellU14CellU3 : 27|12@0+ (0.001,1.0) [1.0|5.095] "Volt" HVBMdp
+ SG_ HvBattCellU14CellU4 : 47|12@0+ (0.001,1.0) [1.0|5.095] "Volt" HVBMdp
+ SG_ HvBattCellU14CellU5 : 51|12@0+ (0.001,1.0) [1.0|5.095] "Volt" HVBMdp
+
+BO_ 526 HvbmHvbm1canFrame18_450: 8 HVBM
+ SG_ HvBattCellU15_UB : 4|1@0+ (1,0) [0|1] "" HVBMdp
+ SG_ HvBattCellU15CellU1 : 3|12@0+ (0.001,1.0) [1.0|5.095] "Volt" HVBMdp
+ SG_ HvBattCellU15CellU2 : 23|12@0+ (0.001,1.0) [1.0|5.095] "Volt" HVBMdp
+ SG_ HvBattCellU15CellU3 : 27|12@0+ (0.001,1.0) [1.0|5.095] "Volt" HVBMdp
+ SG_ HvBattCellU15CellU4 : 47|12@0+ (0.001,1.0) [1.0|5.095] "Volt" HVBMdp
+ SG_ HvBattCellU15CellU5 : 51|12@0+ (0.001,1.0) [1.0|5.095] "Volt" HVBMdp
+
+BO_ 528 HvbmHvbm1canFrame19_450: 8 HVBM
+ SG_ HvBattCellU16_UB : 4|1@0+ (1,0) [0|1] "" HVBMdp
+ SG_ HvBattCellU16CellU1 : 3|12@0+ (0.001,1.0) [1.0|5.095] "Volt" HVBMdp
+ SG_ HvBattCellU16CellU2 : 23|12@0+ (0.001,1.0) [1.0|5.095] "Volt" HVBMdp
+ SG_ HvBattCellU16CellU3 : 27|12@0+ (0.001,1.0) [1.0|5.095] "Volt" HVBMdp
+ SG_ HvBattCellU16CellU4 : 47|12@0+ (0.001,1.0) [1.0|5.095] "Volt" HVBMdp
+ SG_ HvBattCellU16CellU5 : 51|12@0+ (0.001,1.0) [1.0|5.095] "Volt" HVBMdp
+
+BO_ 531 HvbmHvbm1canFrame20_450: 8 HVBM
+ SG_ HvBattCellU17_UB : 4|1@0+ (1,0) [0|1] "" HVBMdp
+ SG_ HvBattCellU17CellU1 : 3|12@0+ (0.001,1.0) [1.0|5.095] "Volt" HVBMdp
+ SG_ HvBattCellU17CellU2 : 23|12@0+ (0.001,1.0) [1.0|5.095] "Volt" HVBMdp
+ SG_ HvBattCellU17CellU3 : 27|12@0+ (0.001,1.0) [1.0|5.095] "Volt" HVBMdp
+ SG_ HvBattCellU17CellU4 : 47|12@0+ (0.001,1.0) [1.0|5.095] "Volt" HVBMdp
+ SG_ HvBattCellU17CellU5 : 51|12@0+ (0.001,1.0) [1.0|5.095] "Volt" HVBMdp
+
+BO_ 534 HvbmHvbm1canFrame21_450: 8 HVBM
+ SG_ HvBattCellU18_UB : 4|1@0+ (1,0) [0|1] "" HVBMdp
+ SG_ HvBattCellU18CellU1 : 3|12@0+ (0.001,1.0) [1.0|5.095] "Volt" HVBMdp
+ SG_ HvBattCellU18CellU2 : 23|12@0+ (0.001,1.0) [1.0|5.095] "Volt" HVBMdp
+ SG_ HvBattCellU18CellU3 : 27|12@0+ (0.001,1.0) [1.0|5.095] "Volt" HVBMdp
+ SG_ HvBattCellU18CellU4 : 47|12@0+ (0.001,1.0) [1.0|5.095] "Volt" HVBMdp
+ SG_ HvBattCellU18CellU5 : 51|12@0+ (0.001,1.0) [1.0|5.095] "Volt" HVBMdp
+
+BO_ 537 HvbmHvbm1canFrame22_450: 8 HVBM
+ SG_ HvBattCellU19_UB : 4|1@0+ (1,0) [0|1] "" HVBMdp
+ SG_ HvBattCellU19CellU1 : 3|12@0+ (0.001,1.0) [1.0|5.095] "Volt" HVBMdp
+ SG_ HvBattCellU19CellU2 : 23|12@0+ (0.001,1.0) [1.0|5.095] "Volt" HVBMdp
+ SG_ HvBattCellU19CellU3 : 27|12@0+ (0.001,1.0) [1.0|5.095] "Volt" HVBMdp
+ SG_ HvBattCellU19CellU4 : 47|12@0+ (0.001,1.0) [1.0|5.095] "Volt" HVBMdp
+ SG_ HvBattCellU19CellU5 : 51|12@0+ (0.001,1.0) [1.0|5.095] "Volt" HVBMdp
+
+BO_ 539 HvbmHvbm1canFrame23_450: 8 HVBM
+ SG_ HvBattCellU20_UB : 4|1@0+ (1,0) [0|1] "" HVBMdp
+ SG_ HvBattCellU20CellU1 : 3|12@0+ (0.001,1.0) [1.0|5.095] "Volt" HVBMdp
+ SG_ HvBattCellU20CellU2 : 23|12@0+ (0.001,1.0) [1.0|5.095] "Volt" HVBMdp
+ SG_ HvBattCellU20CellU3 : 27|12@0+ (0.001,1.0) [1.0|5.095] "Volt" HVBMdp
+ SG_ HvBattCellU20CellU4 : 47|12@0+ (0.001,1.0) [1.0|5.095] "Volt" HVBMdp
+ SG_ HvBattCellU20CellU5 : 51|12@0+ (0.001,1.0) [1.0|5.095] "Volt" HVBMdp
+
+BO_ 542 HvbmHvbm1canFrame24_450: 8 HVBM
+ SG_ HvBattCellU21_UB : 4|1@0+ (1,0) [0|1] "" HVBMdp
+ SG_ HvBattCellU21CellU1 : 3|12@0+ (0.001,1.0) [1.0|5.095] "Volt" HVBMdp
+ SG_ HvBattCellU21CellU2 : 23|12@0+ (0.001,1.0) [1.0|5.095] "Volt" HVBMdp
+ SG_ HvBattCellU21CellU3 : 27|12@0+ (0.001,1.0) [1.0|5.095] "Volt" HVBMdp
+ SG_ HvBattCellU21CellU4 : 47|12@0+ (0.001,1.0) [1.0|5.095] "Volt" HVBMdp
+ SG_ HvBattCellU21CellU5 : 51|12@0+ (0.001,1.0) [1.0|5.095] "Volt" HVBMdp
+
+BO_ 544 HvbmHvbm1canFrame25_450: 8 HVBM
+ SG_ HvBattCellU22_UB : 4|1@0+ (1,0) [0|1] "" HVBMdp
+ SG_ HvBattCellU22CellU1 : 3|12@0+ (0.001,1.0) [1.0|5.095] "Volt" HVBMdp
+ SG_ HvBattCellU22CellU2 : 23|12@0+ (0.001,1.0) [1.0|5.095] "Volt" HVBMdp
+ SG_ HvBattCellU22CellU3 : 27|12@0+ (0.001,1.0) [1.0|5.095] "Volt" HVBMdp
+ SG_ HvBattCellU22CellU4 : 47|12@0+ (0.001,1.0) [1.0|5.095] "Volt" HVBMdp
+ SG_ HvBattCellU22CellU5 : 51|12@0+ (0.001,1.0) [1.0|5.095] "Volt" HVBMdp
+
+BO_ 547 HvbmHvbm1canFrame26_450: 8 HVBM
+ SG_ HvBattCellU23_UB : 4|1@0+ (1,0) [0|1] "" HVBMdp
+ SG_ HvBattCellU23CellU1 : 3|12@0+ (0.001,1.0) [1.0|5.095] "Volt" HVBMdp
+ SG_ HvBattCellU23CellU2 : 23|12@0+ (0.001,1.0) [1.0|5.095] "Volt" HVBMdp
+ SG_ HvBattCellU23CellU3 : 27|12@0+ (0.001,1.0) [1.0|5.095] "Volt" HVBMdp
+ SG_ HvBattCellU23CellU4 : 47|12@0+ (0.001,1.0) [1.0|5.095] "Volt" HVBMdp
+ SG_ HvBattCellU23CellU5 : 51|12@0+ (0.001,1.0) [1.0|5.095] "Volt" HVBMdp
+
+BO_ 550 HvbmHvbm1canFrame27_450: 8 HVBM
+ SG_ HvBattCellU24_UB : 4|1@0+ (1,0) [0|1] "" HVBMdp
+ SG_ HvBattCellU24CellU1 : 3|12@0+ (0.001,1.0) [1.0|5.095] "Volt" HVBMdp
+ SG_ HvBattCellU24CellU2 : 23|12@0+ (0.001,1.0) [1.0|5.095] "Volt" HVBMdp
+ SG_ HvBattCellU24CellU3 : 27|12@0+ (0.001,1.0) [1.0|5.095] "Volt" HVBMdp
+ SG_ HvBattCellU24CellU4 : 47|12@0+ (0.001,1.0) [1.0|5.095] "Volt" HVBMdp
+ SG_ HvBattCellU24CellU5 : 51|12@0+ (0.001,1.0) [1.0|5.095] "Volt" HVBMdp
+
+BO_ 553 HvbmHvbm1canFrame28_450: 8 HVBM
+ SG_ HvBattCellUMax : 0|9@0+ (0.01,0.0) [0.0|5.11] "Volt" HVBMdp
+ SG_ HvBattCellUMax_UB : 1|1@0+ (1,0) [0|1] "" HVBMdp
+ SG_ HvBattCellUMaxId : 16|9@0+ (1.0,0.0) [0.0|511.0] "Unitless" HVBMdp
+ SG_ HvBattCellUMaxId_UB : 2|1@0+ (1,0) [0|1] "" HVBMdp
+ SG_ HvBattCellUMin : 32|9@0+ (0.01,0.0) [0.0|5.11] "Volt" HVBMdp
+ SG_ HvBattCellUMin_UB : 3|1@0+ (1,0) [0|1] "" HVBMdp
+ SG_ HvBattCfgRms : 6|3@0+ (1.0,1.0) [1.0|8.0] "Unitless" HVBMdp
+ SG_ HvBattCfgRms_UB : 7|1@0+ (1,0) [0|1] "" HVBMdp
+ SG_ HvBattPlatform : 19|3@0+ (1.0,0.0) [0.0|7.0] "Unitless" HVBMdp
+ SG_ HvBattPlatform_UB : 20|1@0+ (1,0) [0|1] "" HVBMdp
+ SG_ HvBattTMaxCellProbeId : 54|7@0+ (1.0,0.0) [0.0|127.0] "Unitless" HVBMdp
+ SG_ HvBattTMaxCellProbeId_UB : 55|1@0+ (1,0) [0|1] "" HVBMdp
+ SG_ HvBattTMinCellProbeId : 39|7@0+ (1.0,0.0) [0.0|127.0] "Unitless" HVBMdp
+ SG_ HvBattTMinCellProbeId_UB : 21|1@0+ (1,0) [0|1] "" HVBMdp
+
+BO_ 272 HvbmHvbm1canFrame29_100: 8 HVBM
+ SG_ HvBattChrgnEgyAct : 3|12@0+ (50.0,-500.0) [-500.0|120000.0] "Wh" HVBMdp
+ SG_ HvBattChrgnEgyAct_UB : 4|1@0+ (1,0) [0|1] "" HVBMdp
+ SG_ HvBattDchaEgyAct : 19|12@0+ (50.0,-500.0) [-500.0|120000.0] "Wh" HVBMdp
+ SG_ HvBattDchaEgyAct_UB : 5|1@0+ (1,0) [0|1] "" HVBMdp
+ SG_ HvSysChrgnUDcMeasdByVeh : 37|14@0+ (0.1,0.0) [0.0|1638.3000000000002] "Volt" HVBMdp
+ SG_ HvSysChrgnUDcMeasdByVeh_UB : 6|1@0+ (1,0) [0|1] "" HVBMdp
+
+BO_ 384 HvbmHvbm1canFrame30_400: 8 HVBM
+ SG_ HvBattChrgnLvlForDisp : 1|10@0+ (0.1,0.0) [0.0|102.30000000000001] "%" HVBMdp
+ SG_ HvBattChrgnLvlForDisp_UB : 2|1@0+ (1,0) [0|1] "" HVBMdp
+
+BO_ 1109 HvbmHvbm1canFrame31_600: 8 HVBM
+ SG_ HvBattClimaPwrAct : 2|11@0+ (20.0,-20470.0) [-20010.0|20010.0] "W" HVBMdp
+ SG_ HvBattClimaPwrAct_UB : 3|1@0+ (1,0) [0|1] "" HVBMdp
+ SG_ HvBattCoolgEgyLimAllwd : 17|10@0+ (20.0,0.0) [0.0|20460.0] "Wh" HVBMdp
+ SG_ HvBattCoolgEgyLimAllwd_UB : 4|1@0+ (1,0) [0|1] "" HVBMdp
+ SG_ HvBattCoolgPwrLimAllwd : 33|10@0+ (20.0,0.0) [0.0|20460.0] "W" HVBMdp
+ SG_ HvBattCoolgPwrLimAllwd_UB : 5|1@0+ (1,0) [0|1] "" HVBMdp
+ SG_ HvBattCoolgPwrReq : 49|10@0+ (20.0,0.0) [0.0|20460.0] "W" HVBMdp
+ SG_ HvBattCoolgPwrReq_UB : 6|1@0+ (1,0) [0|1] "" HVBMdp
+
+BO_ 1114 HvbmHvbm1canFrame32_600: 8 HVBM
+ SG_ HvBattCoolgMgrThermPredEco_UB : 3|1@0+ (1,0) [0|1] "" HVBMdp
+ SG_ HvBattCoolgMgrThermPredEcoPwrLvlInct : 2|11@0- (10.0,0.0) [-10000.0|10000.0] "W" HVBMdp
+ SG_ HvBattCoolgMgrThermPredEcoPwrPrsnt : 18|11@0- (10.0,0.0) [-10000.0|10000.0] "W" HVBMdp
+ SG_ HvBattCoolgMgrThermPredEcoTiPrsnt : 35|12@0+ (10.0,-1.0) [-1.0|40949.0] "Unitless" HVBMdp
+ SG_ HvBattCoolgMgrThermPredEcoTiTranPha : 51|12@0+ (10.0,-1.0) [-1.0|40949.0] "Unitless" HVBMdp
+
+BO_ 1118 HvbmHvbm1canFrame33_600: 8 HVBM
+ SG_ HvBattCoolgPwrCoolgMgrThermPred_UB : 4|1@0+ (1,0) [0|1] "" HVBMdp
+ SG_ HvBattCoolgPwrCoolgMgrThermPredHvBattCoolgPwrForTiTranPha : 3|12@0+ (10.0,-1.0) [-1.0|40949.0] "Unitless" HVBMdp
+ SG_ HvBattCoolgPwrCoolgMgrThermPredHvBattCoolgPwrThermForPwrLvlInct : 18|11@0- (10.0,0.0) [-10000.0|10000.0] "W" HVBMdp
+ SG_ HvBattCoolgPwrCoolgMgrThermPredHvBattCoolgPwrThermForTiPrsnt : 35|12@0+ (10.0,-1.0) [-1.0|40949.0] "Unitless" HVBMdp
+ SG_ HvBattCoolgPwrCoolgMgrThermPredHvBattCoolgPwrThermPrsnt : 50|11@0- (10.0,0.0) [-10000.0|10000.0] "W" HVBMdp
+
+BO_ 1120 HvbmHvbm1canFrame34_600: 8 HVBM
+ SG_ HvBattCoolgPwrHeatgMgrThermPred_UB : 4|1@0+ (1,0) [0|1] "" HVBMdp
+ SG_ HvBattCoolgPwrHeatgMgrThermPredHvBattHeatgPwrForTiTranPha : 3|12@0+ (10.0,-1.0) [-1.0|40949.0] "Unitless" HVBMdp
+ SG_ HvBattCoolgPwrHeatgMgrThermPredHvBattHeatgPwrThermForPwrLvlInct : 18|11@0- (10.0,0.0) [-10000.0|10000.0] "W" HVBMdp
+ SG_ HvBattCoolgPwrHeatgMgrThermPredHvBattHeatgPwrThermForTiPrsnt : 35|12@0+ (10.0,-1.0) [-1.0|40949.0] "Unitless" HVBMdp
+ SG_ HvBattCoolgPwrHeatgMgrThermPredHvBattHeatgPwrThermPrsnt : 50|11@0- (10.0,0.0) [-10000.0|10000.0] "W" HVBMdp
+
+BO_ 1125 HvbmHvbm1canFrame35_600: 8 HVBM
+ SG_ HvBattCooltTOutl : 2|11@0+ (0.1,-40.0) [-40.0|140.0] "degC" HVBMdp
+ SG_ HvBattCooltTOutl_UB : 3|1@0+ (1,0) [0|1] "" HVBMdp
+ SG_ HvBattHeatgEgyLimAllwd : 17|10@0+ (20.0,0.0) [0.0|20460.0] "Wh" HVBMdp
+ SG_ HvBattHeatgEgyLimAllwd_UB : 4|1@0+ (1,0) [0|1] "" HVBMdp
+ SG_ HvBattHeatgPwrLimAllwd : 33|10@0+ (20.0,0.0) [0.0|20460.0] "W" HVBMdp
+ SG_ HvBattHeatgPwrLimAllwd_UB : 5|1@0+ (1,0) [0|1] "" HVBMdp
+ SG_ HvBattHeatgPwrReq : 49|10@0+ (20.0,0.0) [0.0|20460.0] "W" HVBMdp
+ SG_ HvBattHeatgPwrReq_UB : 6|1@0+ (1,0) [0|1] "" HVBMdp
+
+BO_ 371 HvbmHvbm1canFrame36_300: 8 HVBM
+ SG_ HvBattEgyAvlChrg1 : 4|13@0+ (20.0,0.0) [0.0|163820.0] "Wh" HVBMdp
+ SG_ HvBattEgyAvlChrg1_UB : 5|1@0+ (1,0) [0|1] "" HVBMdp
+ SG_ HvBattEgyAvlDcha1 : 20|13@0+ (20.0,0.0) [0.0|163820.0] "Wh" HVBMdp
+ SG_ HvBattEgyAvlDcha1_UB : 6|1@0+ (1,0) [0|1] "" HVBMdp
+ SG_ HvBattEgyAvlDcha2 : 35|12@0+ (50.0,-500.0) [-500.0|120000.0] "Wh" HVBMdp
+ SG_ HvBattEgyAvlDcha2_UB : 7|1@0+ (1,0) [0|1] "" HVBMdp
+ SG_ HvBattEgyAvlDchaEco : 51|12@0+ (50.0,-500.0) [-500.0|120000.0] "Wh" HVBMdp
+ SG_ HvBattEgyAvlDchaEco_UB : 21|1@0+ (1,0) [0|1] "" HVBMdp
+
+BO_ 1130 HvbmHvbm1canFrame38_600: 8 HVBM
+ SG_ HvBattHeatgMgrThermPredEco_UB : 3|1@0+ (1,0) [0|1] "" HVBMdp
+ SG_ HvBattHeatgMgrThermPredEcoPwrLvlInct : 2|11@0- (10.0,0.0) [-10000.0|10000.0] "W" HVBMdp
+ SG_ HvBattHeatgMgrThermPredEcoPwrPrsnt : 18|11@0- (10.0,0.0) [-10000.0|10000.0] "W" HVBMdp
+ SG_ HvBattHeatgMgrThermPredEcoTiPrsnt : 35|12@0+ (10.0,-1.0) [-1.0|40949.0] "Unitless" HVBMdp
+ SG_ HvBattHeatgMgrThermPredEcoTiTranPha : 51|12@0+ (10.0,-1.0) [-1.0|40949.0] "Unitless" HVBMdp
+ SG_ HvSysCrashFb : 5|2@0+ (1,0) [0|3] "" HVBMdp
+ SG_ HvSysCrashFb_UB : 6|1@0+ (1,0) [0|1] "" HVBMdp
+
+BO_ 35 HvbmHvbm1canFrame39_10: 8 HVBM
+ SG_ HvBattIDc1 : 6|15@0+ (0.1,-1638.0) [-1638.0|1638.7000000000003] "A" HVBMdp
+ SG_ HvBattIDc1_UB : 7|1@0+ (1,0) [0|1] "" HVBMdp
+ SG_ HvBattUDc : 18|11@0+ (0.25,0.0) [0.0|511.0] "Volt" HVBMdp
+ SG_ HvBattUDc_UB : 19|1@0+ (1,0) [0|1] "" HVBMdp
+ SG_ HvSysRlySts : 22|2@0+ (1,0) [0|3] "" HVBMdp
+ SG_ HvSysRlySts_UB : 23|1@0+ (1,0) [0|1] "" HVBMdp
+
+BO_ 83 HvbmHvbm1canFrame43_50: 8 HVBM
+ SG_ HvBattILim1 : 4|13@0+ (0.1,0.0) [0.0|819.1] "A" HVBMdp
+ SG_ HvBattILim1_UB : 5|1@0+ (1,0) [0|1] "" HVBMdp
+ SG_ HvBattLimnIndcn : 23|16@0+ (1.0,0.0) [0.0|65535.0] "Unitless" HVBMdp
+ SG_ HvBattLimnIndcn_UB : 6|1@0+ (1,0) [0|1] "" HVBMdp
+ SG_ HvBattPwr : 51|12@0+ (0.25,-511.0) [-511.0|511.0] "kW" HVBMdp
+ SG_ HvBattPwr_UB : 52|1@0+ (1,0) [0|1] "" HVBMdp
+ SG_ HvSysIsoRMonrSts : 54|2@0+ (1,0) [0|3] "" HVBMdp
+ SG_ HvSysIsoRMonrSts_UB : 55|1@0+ (1,0) [0|1] "" HVBMdp
+ SG_ HvSysLimnIndcn : 39|16@0+ (1.0,0.0) [0.0|65535.0] "Unitless" HVBMdp
+ SG_ HvSysLimnIndcn_UB : 7|1@0+ (1,0) [0|1] "" HVBMdp
+
+BO_ 1134 HvbmHvbm1canFrame44_600: 8 HVBM
+ SG_ HvBattMinFlowReq : 0|9@0+ (0.1,0.0) [0.0|51.1] "L / min" HVBMdp
+ SG_ HvBattMinFlowReq_UB : 1|1@0+ (1,0) [0|1] "" HVBMdp
+ SG_ HvBattPwrChrgnEstimnAvg : 18|11@0+ (0.25,0.0) [0.0|511.75] "kW" HVBMdp
+ SG_ HvBattPwrChrgnEstimnAvg_UB : 2|1@0+ (1,0) [0|1] "" HVBMdp
+ SG_ HvSysIsoEve : 3|1@0+ (1,0) [0|1] "" HVBMdp
+ SG_ HvSysIsoEve_UB : 4|1@0+ (1,0) [0|1] "" HVBMdp
+
+BO_ 563 HvbmHvbm1canFrame45_450: 8 HVBM
+ SG_ HvBattProbeT1_UB : 63|1@0+ (1,0) [0|1] "" HVBMdp
+ SG_ HvBattProbeT1ProbeT01 : 7|8@0+ (1.0,-40.0) [-40.0|210.0] "degC" HVBMdp
+ SG_ HvBattProbeT1ProbeT02 : 15|8@0+ (1.0,-40.0) [-40.0|210.0] "degC" HVBMdp
+ SG_ HvBattProbeT1ProbeT03 : 23|8@0+ (1.0,-40.0) [-40.0|210.0] "degC" HVBMdp
+ SG_ HvBattProbeT1ProbeT04 : 31|8@0+ (1.0,-40.0) [-40.0|210.0] "degC" HVBMdp
+ SG_ HvBattProbeT1ProbeT05 : 39|8@0+ (1.0,-40.0) [-40.0|210.0] "degC" HVBMdp
+ SG_ HvBattProbeT1ProbeT06 : 47|8@0+ (1.0,-40.0) [-40.0|210.0] "degC" HVBMdp
+ SG_ HvBattProbeT1ProbeT07 : 55|8@0+ (1.0,-40.0) [-40.0|210.0] "degC" HVBMdp
+
+BO_ 566 HvbmHvbm1canFrame46_450: 8 HVBM
+ SG_ HvBattProbeT2_UB : 63|1@0+ (1,0) [0|1] "" HVBMdp
+ SG_ HvBattProbeT2ProbeT01 : 7|8@0+ (1.0,-40.0) [-40.0|210.0] "degC" HVBMdp
+ SG_ HvBattProbeT2ProbeT02 : 15|8@0+ (1.0,-40.0) [-40.0|210.0] "degC" HVBMdp
+ SG_ HvBattProbeT2ProbeT03 : 23|8@0+ (1.0,-40.0) [-40.0|210.0] "degC" HVBMdp
+ SG_ HvBattProbeT2ProbeT04 : 31|8@0+ (1.0,-40.0) [-40.0|210.0] "degC" HVBMdp
+ SG_ HvBattProbeT2ProbeT05 : 39|8@0+ (1.0,-40.0) [-40.0|210.0] "degC" HVBMdp
+ SG_ HvBattProbeT2ProbeT06 : 47|8@0+ (1.0,-40.0) [-40.0|210.0] "degC" HVBMdp
+ SG_ HvBattProbeT2ProbeT07 : 55|8@0+ (1.0,-40.0) [-40.0|210.0] "degC" HVBMdp
+
+BO_ 569 HvbmHvbm1canFrame47_450: 8 HVBM
+ SG_ HvBattProbeT3_UB : 63|1@0+ (1,0) [0|1] "" HVBMdp
+ SG_ HvBattProbeT3ProbeT01 : 7|8@0+ (1.0,-40.0) [-40.0|210.0] "degC" HVBMdp
+ SG_ HvBattProbeT3ProbeT02 : 15|8@0+ (1.0,-40.0) [-40.0|210.0] "degC" HVBMdp
+ SG_ HvBattProbeT3ProbeT03 : 23|8@0+ (1.0,-40.0) [-40.0|210.0] "degC" HVBMdp
+ SG_ HvBattProbeT3ProbeT04 : 31|8@0+ (1.0,-40.0) [-40.0|210.0] "degC" HVBMdp
+ SG_ HvBattProbeT3ProbeT05 : 39|8@0+ (1.0,-40.0) [-40.0|210.0] "degC" HVBMdp
+ SG_ HvBattProbeT3ProbeT06 : 47|8@0+ (1.0,-40.0) [-40.0|210.0] "degC" HVBMdp
+ SG_ HvBattProbeT3ProbeT07 : 55|8@0+ (1.0,-40.0) [-40.0|210.0] "degC" HVBMdp
+
+BO_ 571 HvbmHvbm1canFrame48_450: 8 HVBM
+ SG_ HvBattProbeT4_UB : 63|1@0+ (1,0) [0|1] "" HVBMdp
+ SG_ HvBattProbeT4ProbeT01 : 7|8@0+ (1.0,-40.0) [-40.0|210.0] "degC" HVBMdp
+ SG_ HvBattProbeT4ProbeT02 : 15|8@0+ (1.0,-40.0) [-40.0|210.0] "degC" HVBMdp
+ SG_ HvBattProbeT4ProbeT03 : 23|8@0+ (1.0,-40.0) [-40.0|210.0] "degC" HVBMdp
+ SG_ HvBattProbeT4ProbeT04 : 31|8@0+ (1.0,-40.0) [-40.0|210.0] "degC" HVBMdp
+ SG_ HvBattProbeT4ProbeT05 : 39|8@0+ (1.0,-40.0) [-40.0|210.0] "degC" HVBMdp
+ SG_ HvBattProbeT4ProbeT06 : 47|8@0+ (1.0,-40.0) [-40.0|210.0] "degC" HVBMdp
+ SG_ HvBattProbeT4ProbeT07 : 55|8@0+ (1.0,-40.0) [-40.0|210.0] "degC" HVBMdp
+
+BO_ 574 HvbmHvbm1canFrame49_450: 8 HVBM
+ SG_ HvBattProbeT5_UB : 63|1@0+ (1,0) [0|1] "" HVBMdp
+ SG_ HvBattProbeT5ProbeT01 : 7|8@0+ (1.0,-40.0) [-40.0|210.0] "degC" HVBMdp
+ SG_ HvBattProbeT5ProbeT02 : 15|8@0+ (1.0,-40.0) [-40.0|210.0] "degC" HVBMdp
+ SG_ HvBattProbeT5ProbeT03 : 23|8@0+ (1.0,-40.0) [-40.0|210.0] "degC" HVBMdp
+ SG_ HvBattProbeT5ProbeT04 : 31|8@0+ (1.0,-40.0) [-40.0|210.0] "degC" HVBMdp
+ SG_ HvBattProbeT5ProbeT05 : 39|8@0+ (1.0,-40.0) [-40.0|210.0] "degC" HVBMdp
+ SG_ HvBattProbeT5ProbeT06 : 47|8@0+ (1.0,-40.0) [-40.0|210.0] "degC" HVBMdp
+ SG_ HvBattProbeT5ProbeT07 : 55|8@0+ (1.0,-40.0) [-40.0|210.0] "degC" HVBMdp
+
+BO_ 576 HvbmHvbm1canFrame50_450: 8 HVBM
+ SG_ HvBattProbeT6_UB : 63|1@0+ (1,0) [0|1] "" HVBMdp
+ SG_ HvBattProbeT6ProbeT01 : 7|8@0+ (1.0,-40.0) [-40.0|210.0] "degC" HVBMdp
+ SG_ HvBattProbeT6ProbeT02 : 15|8@0+ (1.0,-40.0) [-40.0|210.0] "degC" HVBMdp
+ SG_ HvBattProbeT6ProbeT03 : 23|8@0+ (1.0,-40.0) [-40.0|210.0] "degC" HVBMdp
+ SG_ HvBattProbeT6ProbeT04 : 31|8@0+ (1.0,-40.0) [-40.0|210.0] "degC" HVBMdp
+ SG_ HvBattProbeT6ProbeT05 : 39|8@0+ (1.0,-40.0) [-40.0|210.0] "degC" HVBMdp
+ SG_ HvBattProbeT6ProbeT06 : 47|8@0+ (1.0,-40.0) [-40.0|210.0] "degC" HVBMdp
+ SG_ HvBattProbeT6ProbeT07 : 55|8@0+ (1.0,-40.0) [-40.0|210.0] "degC" HVBMdp
+
+BO_ 579 HvbmHvbm1canFrame51_450: 8 HVBM
+ SG_ HvBattProbeT7_UB : 63|1@0+ (1,0) [0|1] "" HVBMdp
+ SG_ HvBattProbeT7ProbeT01 : 7|8@0+ (1.0,-40.0) [-40.0|210.0] "degC" HVBMdp
+ SG_ HvBattProbeT7ProbeT02 : 15|8@0+ (1.0,-40.0) [-40.0|210.0] "degC" HVBMdp
+ SG_ HvBattProbeT7ProbeT03 : 23|8@0+ (1.0,-40.0) [-40.0|210.0] "degC" HVBMdp
+ SG_ HvBattProbeT7ProbeT04 : 31|8@0+ (1.0,-40.0) [-40.0|210.0] "degC" HVBMdp
+ SG_ HvBattProbeT7ProbeT05 : 39|8@0+ (1.0,-40.0) [-40.0|210.0] "degC" HVBMdp
+ SG_ HvBattProbeT7ProbeT06 : 47|8@0+ (1.0,-40.0) [-40.0|210.0] "degC" HVBMdp
+ SG_ HvBattProbeT7ProbeT07 : 55|8@0+ (1.0,-40.0) [-40.0|210.0] "degC" HVBMdp
+
+BO_ 582 HvbmHvbm1canFrame52_450: 8 HVBM
+ SG_ HvBattProbeT8_UB : 63|1@0+ (1,0) [0|1] "" HVBMdp
+ SG_ HvBattProbeT8ProbeT01 : 7|8@0+ (1.0,-40.0) [-40.0|210.0] "degC" HVBMdp
+ SG_ HvBattProbeT8ProbeT02 : 15|8@0+ (1.0,-40.0) [-40.0|210.0] "degC" HVBMdp
+ SG_ HvBattProbeT8ProbeT03 : 23|8@0+ (1.0,-40.0) [-40.0|210.0] "degC" HVBMdp
+ SG_ HvBattProbeT8ProbeT04 : 31|8@0+ (1.0,-40.0) [-40.0|210.0] "degC" HVBMdp
+ SG_ HvBattProbeT8ProbeT05 : 39|8@0+ (1.0,-40.0) [-40.0|210.0] "degC" HVBMdp
+ SG_ HvBattProbeT8ProbeT06 : 47|8@0+ (1.0,-40.0) [-40.0|210.0] "degC" HVBMdp
+ SG_ HvBattProbeT8ProbeT07 : 55|8@0+ (1.0,-40.0) [-40.0|210.0] "degC" HVBMdp
+ SG_ MonMod : 61|1@0+ (1,0) [0|1] "" HVBMdp
+ SG_ MonMod_UB : 62|1@0+ (1,0) [0|1] "" HVBMdp
+
+BO_ 48 HvbmHvbm1canFrame53_20: 8 HVBM
+ SG_ HvBattPwrLimChrg1 : 2|11@0+ (0.25,0.0) [0.0|511.75] "kW" HVBMdp
+ SG_ HvBattPwrLimChrg1_UB : 3|1@0+ (1,0) [0|1] "" HVBMdp
+ SG_ HvBattPwrLimChrgSlowAgi : 18|11@0+ (0.25,0.0) [0.0|511.75] "kW" HVBMdp
+ SG_ HvBattPwrLimChrgSlowAgi_UB : 19|1@0+ (1,0) [0|1] "" HVBMdp
+ SG_ HvBattPwrLimDcha1 : 34|11@0+ (0.25,0.0) [0.0|511.75] "kW" HVBMdp
+ SG_ HvBattPwrLimDcha1_UB : 35|1@0+ (1,0) [0|1] "" HVBMdp
+ SG_ HvBattPwrLimDchaSlowAgi : 50|11@0+ (0.25,0.0) [0.0|511.75] "kW" HVBMdp
+ SG_ HvBattPwrLimDchaSlowAgi_UB : 51|1@0+ (1,0) [0|1] "" HVBMdp
+ SG_ HvSysSts : 5|2@0+ (1,0) [0|3] "" HVBMdp
+ SG_ HvSysSts_UB : 6|1@0+ (1,0) [0|1] "" HVBMdp
+
+BO_ 51 HvbmHvbm1canFrame54_20: 8 HVBM
+ SG_ HvBattPwrLimDchaSoft : 2|11@0+ (0.25,0.0) [0.0|511.75] "kW" HVBMdp
+ SG_ HvBattPwrLimDchaSoft_UB : 3|1@0+ (1,0) [0|1] "" HVBMdp
+ SG_ HvBattUDynMaxLim : 18|11@0+ (0.25,0.0) [0.0|511.0] "Volt" HVBMdp
+ SG_ HvBattUDynMaxLim_UB : 4|1@0+ (1,0) [0|1] "" HVBMdp
+ SG_ HvBattUDynMinLim : 34|11@0+ (0.25,0.0) [0.0|511.0] "Volt" HVBMdp
+ SG_ HvBattUDynMinLim_UB : 5|1@0+ (1,0) [0|1] "" HVBMdp
+ SG_ HvSysDcRlySts1 : 20|2@0+ (1,0) [0|3] "" HVBMdp
+ SG_ HvSysDcRlySts1_UB : 6|1@0+ (1,0) [0|1] "" HVBMdp
+
+BO_ 1136 HvbmHvbm1canFrame55_600: 8 HVBM
+ SG_ HvBattT_UB : 5|1@0+ (1,0) [0|1] "" HVBMdp
+ SG_ HvBattTAvg : 4|13@0- (0.1,0.0) [-256.0|255.9] "degC" HVBMdp
+ SG_ HvBattTMax : 20|13@0- (0.1,0.0) [-256.0|255.9] "degC" HVBMdp
+ SG_ HvBattTMin : 36|13@0- (0.1,0.0) [-256.0|255.9] "degC" HVBMdp
+
+BO_ 585 HvbmHvbm1canFrame56_450: 8 HVBM
+ SG_ HvBattURms : 21|14@0+ (0.1,0.0) [0.0|1638.3000000000002] "Volt" HVBMdp
+ SG_ HvBattURms_UB : 37|1@0+ (1,0) [0|1] "" HVBMdp
+ SG_ SysR : 7|16@0+ (1.0,0.0) [0.0|60000.0] "kOhm" HVBMdp
+ SG_ SysR_UB : 23|1@0+ (1,0) [0|1] "" HVBMdp
+ SG_ VehStRms : 39|2@0+ (1,0) [0|3] "" HVBMdp
+ SG_ VehStRms_UB : 22|1@0+ (1,0) [0|1] "" HVBMdp
+
+BO_ 1305 HvbmNmFrame: 8 HVBM
+
+BO_ 1619 HvbmToHvbmdpUdsDiagResponseFrame: 8 HVBM
+
+
+// Node Comments
+CM_ BU_ HVBM "High Voltage Battery Module";
+CM_ BU_ HVBMdp "Device Proxy for High Voltage Battery Module";
+
+// Signal Comments
+CM_ SG_ 32 HvOnMaiReq "Command to high voltage battery controller to open, close, or retain the high voltage contactor position. 0=Open; 1=Closed; 2=Retain (= keep current state, shall be set by default during ECU startup)";
+CM_ SG_ 32 HvRlyChrgnReqDc1 "Signal used for controlling one DC-contactor unit (positive and negative).";
+CM_ SG_ 32 HvSysDeactvtIsoRMonrReq "Request for deactivation of the isolation monitoring device in BECM";
+CM_ SG_ 64 VehSpdLgtSafeVehSpdLgt "Vehicle speed longitudinal";
+CM_ SG_ 64 VehSpdLgtSafeVehSpdLgtChks "Checksum for vehicle speed longitudinal";
+CM_ SG_ 64 VehSpdLgtSafeVehSpdLgtCntr "Counter for vehicle speed longitudinal checksum calculation";
+CM_ SG_ 64 VehSpdLgtSafeVehSpdLgtQf "Qf for vehicle speed longitudinal";
+CM_ SG_ 96 VehModMngtGlbSafe1CarModSts1 "Main CarMode Data";
+CM_ SG_ 96 VehModMngtGlbSafe1CarModSubtypWdCarModSubtyp "CarMode Sub Data";
+CM_ SG_ 96 VehModMngtGlbSafe1Chks "End to End Checksum";
+CM_ SG_ 96 VehModMngtGlbSafe1Cntr "End to End Counter";
+CM_ SG_ 96 VehModMngtGlbSafe1EgyLvlElecMai "Main Data for ElEnergyLevel";
+CM_ SG_ 96 VehModMngtGlbSafe1EgyLvlElecSubtyp "Sub Data ElEnergyLevel";
+CM_ SG_ 96 VehModMngtGlbSafe1FltEgyCnsWdSts "Energy Consumption Fault";
+CM_ SG_ 96 VehModMngtGlbSafe1PwrLvlElecMai "Main Data for ElPowerLevel";
+CM_ SG_ 96 VehModMngtGlbSafe1PwrLvlElecSubtyp "Sub Data for ElPowerLevel";
+CM_ SG_ 256 DrvModReq "Distributes the desired Drive Mode chosen by the user to all nodes which determine the charactaristics of the vehicle
+";
+CM_ SG_ 256 EngTEngT "Engine coolant temperature";
+CM_ SG_ 256 EngTQf "Engine coolant temperature Qf flag";
+CM_ SG_ 256 TiLeForHvBattPreCdng "Time left of battery preconditionnig";
+CM_ SG_ 288 ChrgnTyp "The selected charging type";
+CM_ SG_ 320 CarTiGlb "Presents a tiime value that shall be used by all ECUs to time-stamp diagnsotic trouble codes (DTC) according to the requirements for Global DTC snapshot data.";
+CM_ SG_ 320 MonrCycCmpl "OBD Warm Up Cycle Complete.
+0= Not Complete
+1= Complete
+";
+CM_ SG_ 368 OnBdChrgrHndlSts "Status of the Onboard Charger connection to the grid. ";
+CM_ SG_ 368 PwrEgyMgrAvl1 "Power available for the HVEPM from the charging system. The energy may be supplied from any applicable source .";
+CM_ SG_ 880 EngAmbTCalcd "Ambient Temparature calculated by ECM using engine temperature sensors.";
+CM_ SG_ 1024 CmptmtCoolgSts "Status of AC system. ";
+CM_ SG_ 1024 HvBattPwrCnsElecPred1HvBattPwrCnsElecPredAvg "Prediction of power usage. Both discharge and charge. Standard deviation value.";
+CM_ SG_ 1024 HvBattPwrCnsElecPred1HvBattPwrCnsElecPredStd "Prediction of power usage, both discharge and charge. Standard deviation value.";
+CM_ SG_ 1029 HvBattCircCoolgPfmnc "0 = Uncertain 
+1 = Ok 
+2 = NotOk 
+3 = Limited performance
+4 = Spare
+5 = Spare
+6 = Spare
+7 = Spare";
+CM_ SG_ 1029 HvBattPwrCnsElecPredEco1HvBattPwrCnsElecPredAvg "Prediction of power usage. Both discharge and charge. Standard deviation value.";
+CM_ SG_ 1029 HvBattPwrCnsElecPredEco1HvBattPwrCnsElecPredStd "Prediction of power usage, both discharge and charge. Standard deviation value.";
+CM_ SG_ 1034 ChrgnPwrAvlAtChrgnLocn "Power avilable at charging station to charge the battery";
+CM_ SG_ 1034 EgyPredAtLocn "Energy predicted when destination is reached";
+CM_ SG_ 1034 EgyToChrgAtChrgnLocn "Estimated energy in kWh to be charged at charging station";
+CM_ SG_ 1034 TiToChrgnLocn "Estimated time to charging station";
+CM_ SG_ 1102 BkpOfDstTrvld "Indicated odometer (total driven distance) value in km.";
+CM_ SG_ 1102 TiToLocn "Estimated time to destination";
+CM_ SG_ 1102 VehBattUSysU "System Voltage";
+CM_ SG_ 1102 VehBattUSysUQf "System voltaeg quality factor";
+CM_ SG_ 21 CrashSts2 "Information if a crash has been detected by SRS.";
+CM_ SG_ 1104 CooltTFromHvBatt "The Filter Coolant Temperature at Battery inlet.";
+CM_ SG_ 1104 HvBattAtChrgnLocnChrgnPwr "Charging power at charging station to charge the battery";
+CM_ SG_ 1104 HvBattAtChrgnLocnChrgnTiEstimn "Estimated charging time in minutes";
+CM_ SG_ 1104 HvBattAtChrgnLocnEgyDelta "Energy delta ";
+CM_ SG_ 1104 HvBattChrgnSts "Hv Battery charging request as part of the HVEPM energy prioritization";
+CM_ SG_ 553 HvBattCellUMax "Highest voltage currently measured in any cell of the HV battery";
+CM_ SG_ 553 HvBattCellUMaxId "Number of the HV-battery cell which currently has the highest measured voltage. ";
+CM_ SG_ 553 HvBattCellUMin "Lowest voltage currently measured in any cell of the HV battery";
+CM_ SG_ 553 HvBattCfgRms "Hv Battery configuration that informs about number of cells per logical cell ";
+CM_ SG_ 553 HvBattTMaxCellProbeId "Number of the HV-battery cell which currently has the highest measured temperature. ";
+CM_ SG_ 553 HvBattTMinCellProbeId "Number of the HV-battery cell which currently has the lowest measured temperature. ";
+CM_ SG_ 272 HvSysChrgnUDcMeasdByVeh "Measurement of the voltage applied by the EVSE of the currently used DC-charging type. ";
+CM_ SG_ 1114 HvBattCoolgMgrThermPredEcoPwrLvlInct "Cooling power (thermal) for next power level";
+CM_ SG_ 1114 HvBattCoolgMgrThermPredEcoPwrPrsnt "Cooling power (thermal) for current cooling need";
+CM_ SG_ 1114 HvBattCoolgMgrThermPredEcoTiPrsnt "How long the current power is held";
+CM_ SG_ 1114 HvBattCoolgMgrThermPredEcoTiTranPha "Transition phase from current power to next stationary power level";
+CM_ SG_ 1118 HvBattCoolgPwrCoolgMgrThermPredHvBattCoolgPwrForTiTranPha "Transition phase from current power to next stationary power level";
+CM_ SG_ 1118 HvBattCoolgPwrCoolgMgrThermPredHvBattCoolgPwrThermForPwrLvlInct "Cooling power (thermal) for next power level";
+CM_ SG_ 1118 HvBattCoolgPwrCoolgMgrThermPredHvBattCoolgPwrThermForTiPrsnt "How long the current power is held";
+CM_ SG_ 1118 HvBattCoolgPwrCoolgMgrThermPredHvBattCoolgPwrThermPrsnt "Cooling power (thermal) for current cooling need";
+CM_ SG_ 1120 HvBattCoolgPwrHeatgMgrThermPredHvBattHeatgPwrForTiTranPha "Transition phase from current power to next stationary power level";
+CM_ SG_ 1120 HvBattCoolgPwrHeatgMgrThermPredHvBattHeatgPwrThermForPwrLvlInct "Heating power (thermal) for next power level";
+CM_ SG_ 1120 HvBattCoolgPwrHeatgMgrThermPredHvBattHeatgPwrThermForTiPrsnt "How long the current power is held";
+CM_ SG_ 1120 HvBattCoolgPwrHeatgMgrThermPredHvBattHeatgPwrThermPrsnt "Heating power (thermal) for current heating need";
+CM_ SG_ 1125 HvBattCooltTOutl "Estimated Coolant temperature out of battery ";
+CM_ SG_ 371 HvBattEgyAvlChrg1 "Usable charge energy up to SOC max limit.";
+CM_ SG_ 371 HvBattEgyAvlDcha1 "Usable discharge energy down to SOC low limit";
+CM_ SG_ 1130 HvBattHeatgMgrThermPredEcoPwrLvlInct "Heating power (thermal) for next power level";
+CM_ SG_ 1130 HvBattHeatgMgrThermPredEcoPwrPrsnt "Heating power (thermal) for current heating need";
+CM_ SG_ 1130 HvBattHeatgMgrThermPredEcoTiPrsnt "How long the current power is held";
+CM_ SG_ 1130 HvBattHeatgMgrThermPredEcoTiTranPha "Transition phase from current power to next stationary power level";
+CM_ SG_ 1130 HvSysCrashFb "Isolation resistance status after crash: Idle, Ok, Evaluating, Nok.";
+CM_ SG_ 35 HvBattIDc1 "Hv Battery current. Positive current is discharging the battery.";
+CM_ SG_ 35 HvBattUDc "Actual Hv Battery pack voltage (measuered before contactors, i.e. always giving pack voltage).";
+CM_ SG_ 35 HvSysRlySts "Actual state of the contactors.
+Open: MAIN or NEG opend (Hv circuit open).
+Closd: Both MAIN and NEG closed (Hv circuit closed).
+KeepSt: Init value/value when state not known.
+OpenAndReqActvDcha: Hv circuit open and request for Hv system discharge.";
+CM_ SG_ 83 HvBattILim1 "Maximum current limit for Hv Battery plug-in charging. Is also used for controlling the charging sequence.";
+CM_ SG_ 83 HvBattLimnIndcn "Propulsion related LOS (Limited Operation Strategy) information from Hv Battery.";
+CM_ SG_ 83 HvSysIsoRMonrSts "Status of the isolation monitoring device in BECM";
+CM_ SG_ 83 HvSysLimnIndcn "Propulsion related LOS (Limited Operation Strategy) information from Hv System.";
+CM_ SG_ 48 HvBattPwrLimChrg1 "Amount of power that the Hv Battery can receive (i.e. max charge power limit).";
+CM_ SG_ 48 HvBattPwrLimDcha1 "Amount of power that the Hv Battery can provide (i.e. max discharge power limit).";
+CM_ SG_ 48 HvSysSts "Hv System Status during integrity test. Informs vehicle that longer Hv System start up time is necessary to perform Extended Integrity Test due to Hv System fault or safety issue.";
+CM_ SG_ 51 HvBattPwrLimDchaSoft "Long time horizon discharge power limit for drivability";
+CM_ SG_ 51 HvBattUDynMaxLim "The pack voltage high limit of the Hv Battery, dynamically based on cell voltage distribution. At pack voltages above this limit, there is risk for contactor openeing due to too high cell voltage. ";
+CM_ SG_ 51 HvBattUDynMinLim "The pack voltage low limit of the Hv Battery, dynamically based on cell voltage distribution. At pack voltages below this limit, there is risk for contactor openeing due to too low cell voltage.";
+CM_ SG_ 51 HvSysDcRlySts1 "Status of Dc charging contactor pair 1";
+CM_ SG_ 1136 HvBattTAvg "High Voltage Battery Average Cell Temperature";
+CM_ SG_ 1136 HvBattTMax "High Voltage Battery Max Cell Temperature";
+CM_ SG_ 1136 HvBattTMin "High Voltage Battery Min Cell Temperature";
+
+// Attribute definitions
+BA_DEF_  "Baudrate" INT 1000 1000000; // [bps]
+BA_DEF_ BO_ "GenMsgSendType" ENUM "cyclic", "spontaneous", "not-used", "not-used", "not-used", "cyclicAndSpontaneous", "not-used", "cyclicIfActive", "NoMsgSendType"; // [us]
+BA_DEF_ BO_ "GenMsgCycleTime" INT 0 65536; // [ms]
+BA_DEF_ BO_ "GenMsgStartDelayTime" INT 0 65536; // [ms]
+BA_DEF_ BO_ "GenMsgDelayTime" INT 0 65536; // [ms]
+BA_DEF_ SG_ "GenSigSendType" ENUM "Cyclic","OnWrite","OnWriteWithRepetition","OnChange","OnChangeWithRepetition","IfActive","IfActiveWithRepetition","NoSigSendType";
+BA_DEF_ SG_ "GenSigStartValue" HEX 0 80000000;
+BA_DEF_ BU_ "NmAsrNodeIdentifier" INT 0 255;
+BA_DEF_ BU_ "NmAsrNode" ENUM "No","Yes";
+BA_DEF_ BO_ "GenMsgNrOfRepetition" INT 0 100000;
+BA_DEF_ BO_ "GenMsgCycleTimeFast" FLOAT 0 300000;
+BA_DEF_  "DBName" STRING;
+BA_DEF_  "BusType" STRING;
+BA_DEF_  "ProtocolType" STRING;
+BA_DEF_ BO_ "GenMsgILSupport" ENUM "No","Yes";
+BA_DEF_ BO_ "NmAsrMessage" ENUM "No","Yes";
+BA_DEF_  "NmAsrBaseAddress" HEX 0 536870911;
+BA_DEF_  "NmAsrMessageCount" INT 0 255;
+BA_DEF_ BU_ "NodeLayerModules" STRING;
+BA_DEF_ BU_ "ILused" ENUM "No","Yes";
+BA_DEF_ SG_ "GenSigFuncType" ENUM "NoFunction","n/a","n/a","n/a","n/a","n/a","n/a","n/a","n/a","n/a","n/a","n/a","n/a","n/a","n/a","CHK","CNTR","n/a","n/a","n/a","CNTR_AR_01","CRC_AR_01_BOTH","CRC_AR_01_ALT","CRC_AR_01_LOW","CRC_AR_01_NIBBLE","CNTR_AR_04","CRC_AR_04A","CNTR_AR_05","CRC_AR_05";
+BA_DEF_ SG_ "GenSigDataID" STRING;
+BA_DEF_ SG_ "SigGroup" STRING;
+
+BA_DEF_DEF_ "GenSigStartValue" 0;
+BA_DEF_DEF_ "GenSigSendType" "NoSigSendType";
+BA_DEF_DEF_ "NmAsrNodeIdentifier" 0;
+BA_DEF_DEF_ "NmAsrNode" "No";
+BA_DEF_DEF_ "GenMsgNrOfRepetition" 0;
+BA_DEF_DEF_ "DBName" "";
+BA_DEF_DEF_ "BusType" "";
+BA_DEF_DEF_ "ProtocolType" "";
+BA_DEF_DEF_ "GenMsgCycleTime" 0;
+BA_DEF_DEF_ "GenMsgDelayTime" 0;
+BA_DEF_DEF_ "GenMsgStartDelayTime" 0;
+BA_DEF_DEF_ "GenMsgSendType" "NoMsgSendType";
+BA_DEF_DEF_ "GenMsgILSupport" "Yes";
+BA_DEF_DEF_ "NmAsrMessage" "No";
+BA_DEF_DEF_ "NmAsrBaseAddress" 1280;
+BA_DEF_DEF_ "NmAsrMessageCount" 64;
+BA_DEF_DEF_ "NodeLayerModules" "CANoeILNLSPA.dll";
+BA_DEF_DEF_ "ILused" "Yes";
+BA_DEF_DEF_ "GenSigFuncType" "NoFunction";
+BA_DEF_DEF_ "GenSigDataID" "";
+BA_DEF_DEF_ "SigGroup" "";
+
+
+BA_ "DBName" "HVBM1CAN";
+BA_ "BusType" "CAN";
+BA_ "ProtocolType" "CAN";
+BA_ "Baudrate" 500000;
+// ECU: HVBM
+BA_ "NmAsrNodeIdentifier" BU_ HVBM 25;
+BA_ "NmAsrNode" BU_ HVBM 1;
+BA_ "NodeLayerModules" BU_ HVBM "CANoeILNLSPA.dll,AsrNM33.dll";
+BA_ "ILused" BU_ HVBM 1;
+// ECU: HVBMdp
+BA_ "NmAsrNodeIdentifier" BU_ HVBMdp 16;
+BA_ "NmAsrNode" BU_ HVBMdp 1;
+BA_ "NodeLayerModules" BU_ HVBMdp "CANoeILNLSPA.dll,AsrNM33.dll";
+BA_ "ILused" BU_ HVBMdp 1;
+// Frame: HvbmdpHvbm1canFrame01_10
+BA_ "GenMsgSendType" BO_ 32 0;
+BA_ "GenMsgCycleTime" BO_ 32 10.000;
+BA_ "GenMsgStartDelayTime" BO_ 32 0.000;
+BA_ "GenMsgILSupport" BO_ 32 1;
+BA_ "NmAsrMessage" BO_ 32 0;
+BA_ "GenSigStartValue" SG_ 32 HvOnMaiReq 0;
+BA_ "GenSigStartValue" SG_ 32 HvRlyChrgnReqDc1 0;
+BA_ "GenSigStartValue" SG_ 32 HvSysDeactvtIsoRMonrReq 1;
+// Frame: HvbmdpHvbm1canFrame02_40
+BA_ "GenMsgSendType" BO_ 64 0;
+BA_ "GenMsgCycleTime" BO_ 64 40.000;
+BA_ "GenMsgStartDelayTime" BO_ 64 0.000;
+BA_ "GenMsgILSupport" BO_ 64 1;
+BA_ "NmAsrMessage" BO_ 64 0;
+BA_ "GenSigStartValue" SG_ 64 VehSpdLgtSafeVehSpdLgt 0;
+BA_ "GenSigStartValue" SG_ 64 VehSpdLgtSafeVehSpdLgtChks 0;
+BA_ "GenSigStartValue" SG_ 64 VehSpdLgtSafeVehSpdLgtCntr 0;
+BA_ "GenSigStartValue" SG_ 64 VehSpdLgtSafeVehSpdLgtQf 0;
+// Frame: HvbmdpHvbm1canFrame03_70
+BA_ "GenMsgSendType" BO_ 96 0;
+BA_ "GenMsgCycleTime" BO_ 96 70.000;
+BA_ "GenMsgStartDelayTime" BO_ 96 0.000;
+BA_ "GenMsgILSupport" BO_ 96 1;
+BA_ "NmAsrMessage" BO_ 96 0;
+BA_ "GenSigStartValue" SG_ 96 VehModMngtGlbSafe1CarModSts1 0;
+BA_ "GenSigStartValue" SG_ 96 VehModMngtGlbSafe1CarModSubtypWdCarModSubtyp 0;
+BA_ "GenSigStartValue" SG_ 96 VehModMngtGlbSafe1Chks 0;
+BA_ "GenSigStartValue" SG_ 96 VehModMngtGlbSafe1Cntr 0;
+BA_ "GenSigStartValue" SG_ 96 VehModMngtGlbSafe1EgyLvlElecMai 0;
+BA_ "GenSigStartValue" SG_ 96 VehModMngtGlbSafe1EgyLvlElecSubtyp 0;
+BA_ "GenSigStartValue" SG_ 96 VehModMngtGlbSafe1FltEgyCnsWdSts 0;
+BA_ "GenSigStartValue" SG_ 96 VehModMngtGlbSafe1PwrLvlElecMai 0;
+BA_ "GenSigStartValue" SG_ 96 VehModMngtGlbSafe1PwrLvlElecSubtyp 0;
+BA_ "GenSigStartValue" SG_ 96 VehModMngtGlbSafe1UsgModSts 1;
+// Frame: HvbmdpHvbm1canFrame04_100
+BA_ "GenMsgSendType" BO_ 256 0;
+BA_ "GenMsgCycleTime" BO_ 256 100.000;
+BA_ "GenMsgStartDelayTime" BO_ 256 0.000;
+BA_ "GenMsgILSupport" BO_ 256 1;
+BA_ "NmAsrMessage" BO_ 256 0;
+BA_ "GenSigStartValue" SG_ 256 DrvModReq 0;
+BA_ "GenSigStartValue" SG_ 256 EngTEngT 50;
+BA_ "GenSigStartValue" SG_ 256 EngTQf 3;
+BA_ "GenSigStartValue" SG_ 256 PrpsnSysActv 0;
+BA_ "GenSigStartValue" SG_ 256 TiLeForHvBattPreCdng 0.1;
+// Frame: HvbmdpHvbm1canFrame05_150
+BA_ "GenMsgSendType" BO_ 288 0;
+BA_ "GenMsgCycleTime" BO_ 288 150.000;
+BA_ "GenMsgStartDelayTime" BO_ 288 0.000;
+BA_ "GenMsgILSupport" BO_ 288 1;
+BA_ "NmAsrMessage" BO_ 288 0;
+BA_ "GenSigStartValue" SG_ 288 ChrgnTyp 0;
+// Frame: HvbmdpHvbm1canFrame06_200
+BA_ "GenMsgSendType" BO_ 320 0;
+BA_ "GenMsgCycleTime" BO_ 320 200.000;
+BA_ "GenMsgStartDelayTime" BO_ 320 0.000;
+BA_ "GenMsgILSupport" BO_ 320 1;
+BA_ "NmAsrMessage" BO_ 320 0;
+BA_ "GenSigStartValue" SG_ 320 CarTiGlb 0;
+BA_ "GenSigStartValue" SG_ 320 MonrCycCmpl 0;
+// Frame: HvbmdpHvbm1canFrame07_300
+BA_ "GenMsgSendType" BO_ 368 0;
+BA_ "GenMsgCycleTime" BO_ 368 300.000;
+BA_ "GenMsgStartDelayTime" BO_ 368 0.000;
+BA_ "GenMsgILSupport" BO_ 368 1;
+BA_ "NmAsrMessage" BO_ 368 0;
+BA_ "GenSigStartValue" SG_ 368 OnBdChrgrHndlSts 0;
+BA_ "GenSigStartValue" SG_ 368 PwrEgyMgrAvl1 0;
+// Frame: HvbmdpHvbm1canFrame08_500
+BA_ "GenMsgSendType" BO_ 880 0;
+BA_ "GenMsgCycleTime" BO_ 880 500.000;
+BA_ "GenMsgStartDelayTime" BO_ 880 0.000;
+BA_ "GenMsgILSupport" BO_ 880 1;
+BA_ "NmAsrMessage" BO_ 880 0;
+BA_ "GenSigStartValue" SG_ 880 EngAmbTCalcd 120;
+// Frame: HvbmdpHvbm1canFrame09_600
+BA_ "GenMsgSendType" BO_ 1024 0;
+BA_ "GenMsgCycleTime" BO_ 1024 600.000;
+BA_ "GenMsgStartDelayTime" BO_ 1024 0.000;
+BA_ "GenMsgILSupport" BO_ 1024 1;
+BA_ "NmAsrMessage" BO_ 1024 0;
+BA_ "GenSigStartValue" SG_ 1024 CmptmtCoolgSts 0;
+BA_ "GenSigStartValue" SG_ 1024 HvBattClimaEgyAllwd 0;
+BA_ "GenSigStartValue" SG_ 1024 HvBattCoolgPwrAllwd 0;
+BA_ "GenSigStartValue" SG_ 1024 HvBattPwrCnsElecPred1HvBattPwrCnsElecPredAvg 2044;
+BA_ "GenSigStartValue" SG_ 1024 HvBattPwrCnsElecPred1HvBattPwrCnsElecPredStd 0;
+// Frame: HvbmdpHvbm1canFrame10_600
+BA_ "GenMsgSendType" BO_ 1029 0;
+BA_ "GenMsgCycleTime" BO_ 1029 600.000;
+BA_ "GenMsgStartDelayTime" BO_ 1029 0.000;
+BA_ "GenMsgILSupport" BO_ 1029 1;
+BA_ "NmAsrMessage" BO_ 1029 0;
+BA_ "GenSigStartValue" SG_ 1029 HvBattCircCoolgPfmnc 0;
+BA_ "GenSigStartValue" SG_ 1029 HvBattHeatgPwrAllwd 0;
+BA_ "GenSigStartValue" SG_ 1029 HvBattPwrCnsElecPredEco1HvBattPwrCnsElecPredAvg 2044;
+BA_ "GenSigStartValue" SG_ 1029 HvBattPwrCnsElecPredEco1HvBattPwrCnsElecPredStd 0;
+BA_ "GenSigStartValue" SG_ 1029 TelmChrgnLvl 100;
+BA_ "GenSigStartValue" SG_ 1029 ThermStFromCoorr 0;
+// Frame: HvbmdpHvbm1canFrame11_600
+BA_ "GenMsgSendType" BO_ 1034 0;
+BA_ "GenMsgCycleTime" BO_ 1034 600.000;
+BA_ "GenMsgStartDelayTime" BO_ 1034 0.000;
+BA_ "GenMsgILSupport" BO_ 1034 1;
+BA_ "NmAsrMessage" BO_ 1034 0;
+BA_ "GenSigStartValue" SG_ 1034 ChrgnPwrAvlAtChrgnLocn 0;
+BA_ "GenSigStartValue" SG_ 1034 EgyPredAtLocn 0;
+BA_ "GenSigStartValue" SG_ 1034 EgyToChrgAtChrgnLocn 0;
+BA_ "GenSigStartValue" SG_ 1034 HvBattActFlow 0;
+BA_ "GenSigStartValue" SG_ 1034 TiToChrgnLocn 0;
+// Frame: HvbmdpHvbm1canFrame12_600
+BA_ "GenMsgSendType" BO_ 1102 0;
+BA_ "GenMsgCycleTime" BO_ 1102 600.000;
+BA_ "GenMsgStartDelayTime" BO_ 1102 0.000;
+BA_ "GenMsgILSupport" BO_ 1102 1;
+BA_ "NmAsrMessage" BO_ 1102 0;
+BA_ "GenSigStartValue" SG_ 1102 BkpOfDstTrvld 0;
+BA_ "GenSigStartValue" SG_ 1102 TiToLocn 0;
+BA_ "GenSigStartValue" SG_ 1102 VehBattUSysU 0;
+BA_ "GenSigStartValue" SG_ 1102 VehBattUSysUQf 1;
+// Frame: HvbmdpHvbm1canFrameSpont13_10
+BA_ "GenMsgSendType" BO_ 21 1;
+BA_ "GenMsgDelayTime" BO_ 21 10.000;
+BA_ "GenMsgILSupport" BO_ 21 1;
+BA_ "NmAsrMessage" BO_ 21 0;
+BA_ "GenSigStartValue" SG_ 21 CrashSts2 1;
+BA_ "GenSigSendType" SG_ 21 CrashSts2 1;
+// Frame: HvbmdpNmFrame
+BA_ "GenMsgSendType" BO_ 1296 1;
+BA_ "GenMsgDelayTime" BO_ 1296 20.000;
+BA_ "GenMsgILSupport" BO_ 1296 0;
+BA_ "NmAsrMessage" BO_ 1296 1;
+// Frame: HvbmdpToAllUdsDiagRequestFrame
+BA_ "GenMsgSendType" BO_ 2047 1;
+BA_ "GenMsgDelayTime" BO_ 2047 5.000;
+BA_ "GenMsgILSupport" BO_ 2047 1;
+BA_ "NmAsrMessage" BO_ 2047 0;
+// Frame: HvbmdpToHvbmUdsDiagRequestFrame
+BA_ "GenMsgSendType" BO_ 1875 1;
+BA_ "GenMsgDelayTime" BO_ 1875 5.000;
+BA_ "GenMsgILSupport" BO_ 1875 1;
+BA_ "NmAsrMessage" BO_ 1875 0;
+// Frame: HvbmHvbm1canFrame01_450
+BA_ "GenMsgSendType" BO_ 387 0;
+BA_ "GenMsgCycleTime" BO_ 387 450.000;
+BA_ "GenMsgStartDelayTime" BO_ 387 0.000;
+BA_ "GenMsgILSupport" BO_ 387 1;
+BA_ "NmAsrMessage" BO_ 387 0;
+BA_ "GenSigStartValue" SG_ 387 BattTMax 40;
+BA_ "GenSigStartValue" SG_ 387 BattTMaxPackId 0;
+BA_ "GenSigStartValue" SG_ 387 BattTMaxProbeId 1;
+BA_ "GenSigStartValue" SG_ 387 BattTMin 40;
+BA_ "GenSigStartValue" SG_ 387 BattTMinPackId 0;
+BA_ "GenSigStartValue" SG_ 387 BattTMinProbeId 1;
+BA_ "GenSigStartValue" SG_ 387 BattUMax 0;
+BA_ "GenSigStartValue" SG_ 387 BattUMaxPackId 0;
+// Frame: HvbmHvbm1canFrame02_450
+BA_ "GenMsgSendType" BO_ 390 0;
+BA_ "GenMsgCycleTime" BO_ 390 450.000;
+BA_ "GenMsgStartDelayTime" BO_ 390 0.000;
+BA_ "GenMsgILSupport" BO_ 390 1;
+BA_ "NmAsrMessage" BO_ 390 0;
+BA_ "GenSigStartValue" SG_ 390 BattUMaxCellId 1;
+BA_ "GenSigStartValue" SG_ 390 BattUMin 0;
+BA_ "GenSigStartValue" SG_ 390 BattUMinCellId 1;
+BA_ "GenSigStartValue" SG_ 390 BattUMinPackId 0;
+BA_ "GenSigStartValue" SG_ 390 ChrgnSt 2;
+BA_ "GenSigStartValue" SG_ 390 NrOfCells 0;
+BA_ "GenSigStartValue" SG_ 390 NrOfPacks 1;
+BA_ "GenSigStartValue" SG_ 390 NrOfProbes 0;
+// Frame: HvbmHvbm1canFrame03_600
+BA_ "GenMsgSendType" BO_ 1104 0;
+BA_ "GenMsgCycleTime" BO_ 1104 600.000;
+BA_ "GenMsgStartDelayTime" BO_ 1104 0.000;
+BA_ "GenMsgILSupport" BO_ 1104 1;
+BA_ "NmAsrMessage" BO_ 1104 0;
+BA_ "GenSigStartValue" SG_ 1104 CooltTFromHvBatt 0;
+BA_ "GenSigStartValue" SG_ 1104 HvBattAtChrgnLocnChrgnPwr 0;
+BA_ "GenSigStartValue" SG_ 1104 HvBattAtChrgnLocnChrgnTiEstimn 0;
+BA_ "GenSigStartValue" SG_ 1104 HvBattAtChrgnLocnEgyDelta 0;
+BA_ "GenSigStartValue" SG_ 1104 HvBattChrgnSts 0;
+BA_ "GenSigStartValue" SG_ 1104 HvBattClimaEgyReq 0;
+BA_ "GenSigStartValue" SG_ 1104 HvBattClimaPrioReq 0;
+BA_ "GenSigStartValue" SG_ 1104 StsForCooltTInHvBatt 0;
+// Frame: HvbmHvbm1canFrame04_450
+BA_ "GenMsgSendType" BO_ 393 0;
+BA_ "GenMsgCycleTime" BO_ 393 450.000;
+BA_ "GenMsgStartDelayTime" BO_ 393 0.000;
+BA_ "GenMsgILSupport" BO_ 393 1;
+BA_ "NmAsrMessage" BO_ 393 0;
+BA_ "GenSigStartValue" SG_ 393 HvBattCellU01CellU1 0;
+BA_ "GenSigStartValue" SG_ 393 HvBattCellU01CellU2 0;
+BA_ "GenSigStartValue" SG_ 393 HvBattCellU01CellU3 0;
+BA_ "GenSigStartValue" SG_ 393 HvBattCellU01CellU4 0;
+BA_ "GenSigStartValue" SG_ 393 HvBattCellU01CellU5 0;
+// Frame: HvbmHvbm1canFrame05_450
+BA_ "GenMsgSendType" BO_ 395 0;
+BA_ "GenMsgCycleTime" BO_ 395 450.000;
+BA_ "GenMsgStartDelayTime" BO_ 395 0.000;
+BA_ "GenMsgILSupport" BO_ 395 1;
+BA_ "NmAsrMessage" BO_ 395 0;
+BA_ "GenSigStartValue" SG_ 395 HvBattCellU02CellU1 0;
+BA_ "GenSigStartValue" SG_ 395 HvBattCellU02CellU2 0;
+BA_ "GenSigStartValue" SG_ 395 HvBattCellU02CellU3 0;
+BA_ "GenSigStartValue" SG_ 395 HvBattCellU02CellU4 0;
+BA_ "GenSigStartValue" SG_ 395 HvBattCellU02CellU5 0;
+// Frame: HvbmHvbm1canFrame06_450
+BA_ "GenMsgSendType" BO_ 398 0;
+BA_ "GenMsgCycleTime" BO_ 398 450.000;
+BA_ "GenMsgStartDelayTime" BO_ 398 0.000;
+BA_ "GenMsgILSupport" BO_ 398 1;
+BA_ "NmAsrMessage" BO_ 398 0;
+BA_ "GenSigStartValue" SG_ 398 HvBattCellU03CellU1 0;
+BA_ "GenSigStartValue" SG_ 398 HvBattCellU03CellU2 0;
+BA_ "GenSigStartValue" SG_ 398 HvBattCellU03CellU3 0;
+BA_ "GenSigStartValue" SG_ 398 HvBattCellU03CellU4 0;
+BA_ "GenSigStartValue" SG_ 398 HvBattCellU03CellU5 0;
+// Frame: HvbmHvbm1canFrame07_450
+BA_ "GenMsgSendType" BO_ 400 0;
+BA_ "GenMsgCycleTime" BO_ 400 450.000;
+BA_ "GenMsgStartDelayTime" BO_ 400 0.000;
+BA_ "GenMsgILSupport" BO_ 400 1;
+BA_ "NmAsrMessage" BO_ 400 0;
+BA_ "GenSigStartValue" SG_ 400 HvBattCellU04CellU1 0;
+BA_ "GenSigStartValue" SG_ 400 HvBattCellU04CellU2 0;
+BA_ "GenSigStartValue" SG_ 400 HvBattCellU04CellU3 0;
+BA_ "GenSigStartValue" SG_ 400 HvBattCellU04CellU4 0;
+BA_ "GenSigStartValue" SG_ 400 HvBattCellU04CellU5 0;
+// Frame: HvbmHvbm1canFrame08_450
+BA_ "GenMsgSendType" BO_ 403 0;
+BA_ "GenMsgCycleTime" BO_ 403 450.000;
+BA_ "GenMsgStartDelayTime" BO_ 403 0.000;
+BA_ "GenMsgILSupport" BO_ 403 1;
+BA_ "NmAsrMessage" BO_ 403 0;
+BA_ "GenSigStartValue" SG_ 403 HvBattCellU05CellU1 0;
+BA_ "GenSigStartValue" SG_ 403 HvBattCellU05CellU2 0;
+BA_ "GenSigStartValue" SG_ 403 HvBattCellU05CellU3 0;
+BA_ "GenSigStartValue" SG_ 403 HvBattCellU05CellU4 0;
+BA_ "GenSigStartValue" SG_ 403 HvBattCellU05CellU5 0;
+// Frame: HvbmHvbm1canFrame09_450
+BA_ "GenMsgSendType" BO_ 406 0;
+BA_ "GenMsgCycleTime" BO_ 406 450.000;
+BA_ "GenMsgStartDelayTime" BO_ 406 0.000;
+BA_ "GenMsgILSupport" BO_ 406 1;
+BA_ "NmAsrMessage" BO_ 406 0;
+BA_ "GenSigStartValue" SG_ 406 HvBattCellU06CellU1 0;
+BA_ "GenSigStartValue" SG_ 406 HvBattCellU06CellU2 0;
+BA_ "GenSigStartValue" SG_ 406 HvBattCellU06CellU3 0;
+BA_ "GenSigStartValue" SG_ 406 HvBattCellU06CellU4 0;
+BA_ "GenSigStartValue" SG_ 406 HvBattCellU06CellU5 0;
+// Frame: HvbmHvbm1canFrame10_450
+BA_ "GenMsgSendType" BO_ 409 0;
+BA_ "GenMsgCycleTime" BO_ 409 450.000;
+BA_ "GenMsgStartDelayTime" BO_ 409 0.000;
+BA_ "GenMsgILSupport" BO_ 409 1;
+BA_ "NmAsrMessage" BO_ 409 0;
+BA_ "GenSigStartValue" SG_ 409 HvBattCellU07CellU1 0;
+BA_ "GenSigStartValue" SG_ 409 HvBattCellU07CellU2 0;
+BA_ "GenSigStartValue" SG_ 409 HvBattCellU07CellU3 0;
+BA_ "GenSigStartValue" SG_ 409 HvBattCellU07CellU4 0;
+BA_ "GenSigStartValue" SG_ 409 HvBattCellU07CellU5 0;
+// Frame: HvbmHvbm1canFrame11_450
+BA_ "GenMsgSendType" BO_ 411 0;
+BA_ "GenMsgCycleTime" BO_ 411 450.000;
+BA_ "GenMsgStartDelayTime" BO_ 411 0.000;
+BA_ "GenMsgILSupport" BO_ 411 1;
+BA_ "NmAsrMessage" BO_ 411 0;
+BA_ "GenSigStartValue" SG_ 411 HvBattCellU08CellU1 0;
+BA_ "GenSigStartValue" SG_ 411 HvBattCellU08CellU2 0;
+BA_ "GenSigStartValue" SG_ 411 HvBattCellU08CellU3 0;
+BA_ "GenSigStartValue" SG_ 411 HvBattCellU08CellU4 0;
+BA_ "GenSigStartValue" SG_ 411 HvBattCellU08CellU5 0;
+// Frame: HvbmHvbm1canFrame12_450
+BA_ "GenMsgSendType" BO_ 414 0;
+BA_ "GenMsgCycleTime" BO_ 414 450.000;
+BA_ "GenMsgStartDelayTime" BO_ 414 0.000;
+BA_ "GenMsgILSupport" BO_ 414 1;
+BA_ "NmAsrMessage" BO_ 414 0;
+BA_ "GenSigStartValue" SG_ 414 HvBattCellU09CellU1 0;
+BA_ "GenSigStartValue" SG_ 414 HvBattCellU09CellU2 0;
+BA_ "GenSigStartValue" SG_ 414 HvBattCellU09CellU3 0;
+BA_ "GenSigStartValue" SG_ 414 HvBattCellU09CellU4 0;
+BA_ "GenSigStartValue" SG_ 414 HvBattCellU09CellU5 0;
+// Frame: HvbmHvbm1canFrame13_450
+BA_ "GenMsgSendType" BO_ 512 0;
+BA_ "GenMsgCycleTime" BO_ 512 450.000;
+BA_ "GenMsgStartDelayTime" BO_ 512 0.000;
+BA_ "GenMsgILSupport" BO_ 512 1;
+BA_ "NmAsrMessage" BO_ 512 0;
+BA_ "GenSigStartValue" SG_ 512 HvBattCellU10CellU1 0;
+BA_ "GenSigStartValue" SG_ 512 HvBattCellU10CellU2 0;
+BA_ "GenSigStartValue" SG_ 512 HvBattCellU10CellU3 0;
+BA_ "GenSigStartValue" SG_ 512 HvBattCellU10CellU4 0;
+BA_ "GenSigStartValue" SG_ 512 HvBattCellU10CellU5 0;
+// Frame: HvbmHvbm1canFrame14_450
+BA_ "GenMsgSendType" BO_ 515 0;
+BA_ "GenMsgCycleTime" BO_ 515 450.000;
+BA_ "GenMsgStartDelayTime" BO_ 515 0.000;
+BA_ "GenMsgILSupport" BO_ 515 1;
+BA_ "NmAsrMessage" BO_ 515 0;
+BA_ "GenSigStartValue" SG_ 515 HvBattCellU11CellU1 0;
+BA_ "GenSigStartValue" SG_ 515 HvBattCellU11CellU2 0;
+BA_ "GenSigStartValue" SG_ 515 HvBattCellU11CellU3 0;
+BA_ "GenSigStartValue" SG_ 515 HvBattCellU11CellU4 0;
+BA_ "GenSigStartValue" SG_ 515 HvBattCellU11CellU5 0;
+// Frame: HvbmHvbm1canFrame15_450
+BA_ "GenMsgSendType" BO_ 518 0;
+BA_ "GenMsgCycleTime" BO_ 518 450.000;
+BA_ "GenMsgStartDelayTime" BO_ 518 0.000;
+BA_ "GenMsgILSupport" BO_ 518 1;
+BA_ "NmAsrMessage" BO_ 518 0;
+BA_ "GenSigStartValue" SG_ 518 HvBattCellU12CellU1 0;
+BA_ "GenSigStartValue" SG_ 518 HvBattCellU12CellU2 0;
+BA_ "GenSigStartValue" SG_ 518 HvBattCellU12CellU3 0;
+BA_ "GenSigStartValue" SG_ 518 HvBattCellU12CellU4 0;
+BA_ "GenSigStartValue" SG_ 518 HvBattCellU12CellU5 0;
+// Frame: HvbmHvbm1canFrame16_450
+BA_ "GenMsgSendType" BO_ 521 0;
+BA_ "GenMsgCycleTime" BO_ 521 450.000;
+BA_ "GenMsgStartDelayTime" BO_ 521 0.000;
+BA_ "GenMsgILSupport" BO_ 521 1;
+BA_ "NmAsrMessage" BO_ 521 0;
+BA_ "GenSigStartValue" SG_ 521 HvBattCellU13CellU1 0;
+BA_ "GenSigStartValue" SG_ 521 HvBattCellU13CellU2 0;
+BA_ "GenSigStartValue" SG_ 521 HvBattCellU13CellU3 0;
+BA_ "GenSigStartValue" SG_ 521 HvBattCellU13CellU4 0;
+BA_ "GenSigStartValue" SG_ 521 HvBattCellU13CellU5 0;
+// Frame: HvbmHvbm1canFrame17_450
+BA_ "GenMsgSendType" BO_ 523 0;
+BA_ "GenMsgCycleTime" BO_ 523 450.000;
+BA_ "GenMsgStartDelayTime" BO_ 523 0.000;
+BA_ "GenMsgILSupport" BO_ 523 1;
+BA_ "NmAsrMessage" BO_ 523 0;
+BA_ "GenSigStartValue" SG_ 523 HvBattCellU14CellU1 0;
+BA_ "GenSigStartValue" SG_ 523 HvBattCellU14CellU2 0;
+BA_ "GenSigStartValue" SG_ 523 HvBattCellU14CellU3 0;
+BA_ "GenSigStartValue" SG_ 523 HvBattCellU14CellU4 0;
+BA_ "GenSigStartValue" SG_ 523 HvBattCellU14CellU5 0;
+// Frame: HvbmHvbm1canFrame18_450
+BA_ "GenMsgSendType" BO_ 526 0;
+BA_ "GenMsgCycleTime" BO_ 526 450.000;
+BA_ "GenMsgStartDelayTime" BO_ 526 0.000;
+BA_ "GenMsgILSupport" BO_ 526 1;
+BA_ "NmAsrMessage" BO_ 526 0;
+BA_ "GenSigStartValue" SG_ 526 HvBattCellU15CellU1 0;
+BA_ "GenSigStartValue" SG_ 526 HvBattCellU15CellU2 0;
+BA_ "GenSigStartValue" SG_ 526 HvBattCellU15CellU3 0;
+BA_ "GenSigStartValue" SG_ 526 HvBattCellU15CellU4 0;
+BA_ "GenSigStartValue" SG_ 526 HvBattCellU15CellU5 0;
+// Frame: HvbmHvbm1canFrame19_450
+BA_ "GenMsgSendType" BO_ 528 0;
+BA_ "GenMsgCycleTime" BO_ 528 450.000;
+BA_ "GenMsgStartDelayTime" BO_ 528 0.000;
+BA_ "GenMsgILSupport" BO_ 528 1;
+BA_ "NmAsrMessage" BO_ 528 0;
+BA_ "GenSigStartValue" SG_ 528 HvBattCellU16CellU1 0;
+BA_ "GenSigStartValue" SG_ 528 HvBattCellU16CellU2 0;
+BA_ "GenSigStartValue" SG_ 528 HvBattCellU16CellU3 0;
+BA_ "GenSigStartValue" SG_ 528 HvBattCellU16CellU4 0;
+BA_ "GenSigStartValue" SG_ 528 HvBattCellU16CellU5 0;
+// Frame: HvbmHvbm1canFrame20_450
+BA_ "GenMsgSendType" BO_ 531 0;
+BA_ "GenMsgCycleTime" BO_ 531 450.000;
+BA_ "GenMsgStartDelayTime" BO_ 531 0.000;
+BA_ "GenMsgILSupport" BO_ 531 1;
+BA_ "NmAsrMessage" BO_ 531 0;
+BA_ "GenSigStartValue" SG_ 531 HvBattCellU17CellU1 0;
+BA_ "GenSigStartValue" SG_ 531 HvBattCellU17CellU2 0;
+BA_ "GenSigStartValue" SG_ 531 HvBattCellU17CellU3 0;
+BA_ "GenSigStartValue" SG_ 531 HvBattCellU17CellU4 0;
+BA_ "GenSigStartValue" SG_ 531 HvBattCellU17CellU5 0;
+// Frame: HvbmHvbm1canFrame21_450
+BA_ "GenMsgSendType" BO_ 534 0;
+BA_ "GenMsgCycleTime" BO_ 534 450.000;
+BA_ "GenMsgStartDelayTime" BO_ 534 0.000;
+BA_ "GenMsgILSupport" BO_ 534 1;
+BA_ "NmAsrMessage" BO_ 534 0;
+BA_ "GenSigStartValue" SG_ 534 HvBattCellU18CellU1 0;
+BA_ "GenSigStartValue" SG_ 534 HvBattCellU18CellU2 0;
+BA_ "GenSigStartValue" SG_ 534 HvBattCellU18CellU3 0;
+BA_ "GenSigStartValue" SG_ 534 HvBattCellU18CellU4 0;
+BA_ "GenSigStartValue" SG_ 534 HvBattCellU18CellU5 0;
+// Frame: HvbmHvbm1canFrame22_450
+BA_ "GenMsgSendType" BO_ 537 0;
+BA_ "GenMsgCycleTime" BO_ 537 450.000;
+BA_ "GenMsgStartDelayTime" BO_ 537 0.000;
+BA_ "GenMsgILSupport" BO_ 537 1;
+BA_ "NmAsrMessage" BO_ 537 0;
+BA_ "GenSigStartValue" SG_ 537 HvBattCellU19CellU1 0;
+BA_ "GenSigStartValue" SG_ 537 HvBattCellU19CellU2 0;
+BA_ "GenSigStartValue" SG_ 537 HvBattCellU19CellU3 0;
+BA_ "GenSigStartValue" SG_ 537 HvBattCellU19CellU4 0;
+BA_ "GenSigStartValue" SG_ 537 HvBattCellU19CellU5 0;
+// Frame: HvbmHvbm1canFrame23_450
+BA_ "GenMsgSendType" BO_ 539 0;
+BA_ "GenMsgCycleTime" BO_ 539 450.000;
+BA_ "GenMsgStartDelayTime" BO_ 539 0.000;
+BA_ "GenMsgILSupport" BO_ 539 1;
+BA_ "NmAsrMessage" BO_ 539 0;
+BA_ "GenSigStartValue" SG_ 539 HvBattCellU20CellU1 0;
+BA_ "GenSigStartValue" SG_ 539 HvBattCellU20CellU2 0;
+BA_ "GenSigStartValue" SG_ 539 HvBattCellU20CellU3 0;
+BA_ "GenSigStartValue" SG_ 539 HvBattCellU20CellU4 0;
+BA_ "GenSigStartValue" SG_ 539 HvBattCellU20CellU5 0;
+// Frame: HvbmHvbm1canFrame24_450
+BA_ "GenMsgSendType" BO_ 542 0;
+BA_ "GenMsgCycleTime" BO_ 542 450.000;
+BA_ "GenMsgStartDelayTime" BO_ 542 0.000;
+BA_ "GenMsgILSupport" BO_ 542 1;
+BA_ "NmAsrMessage" BO_ 542 0;
+BA_ "GenSigStartValue" SG_ 542 HvBattCellU21CellU1 0;
+BA_ "GenSigStartValue" SG_ 542 HvBattCellU21CellU2 0;
+BA_ "GenSigStartValue" SG_ 542 HvBattCellU21CellU3 0;
+BA_ "GenSigStartValue" SG_ 542 HvBattCellU21CellU4 0;
+BA_ "GenSigStartValue" SG_ 542 HvBattCellU21CellU5 0;
+// Frame: HvbmHvbm1canFrame25_450
+BA_ "GenMsgSendType" BO_ 544 0;
+BA_ "GenMsgCycleTime" BO_ 544 450.000;
+BA_ "GenMsgStartDelayTime" BO_ 544 0.000;
+BA_ "GenMsgILSupport" BO_ 544 1;
+BA_ "NmAsrMessage" BO_ 544 0;
+BA_ "GenSigStartValue" SG_ 544 HvBattCellU22CellU1 0;
+BA_ "GenSigStartValue" SG_ 544 HvBattCellU22CellU2 0;
+BA_ "GenSigStartValue" SG_ 544 HvBattCellU22CellU3 0;
+BA_ "GenSigStartValue" SG_ 544 HvBattCellU22CellU4 0;
+BA_ "GenSigStartValue" SG_ 544 HvBattCellU22CellU5 0;
+// Frame: HvbmHvbm1canFrame26_450
+BA_ "GenMsgSendType" BO_ 547 0;
+BA_ "GenMsgCycleTime" BO_ 547 450.000;
+BA_ "GenMsgStartDelayTime" BO_ 547 0.000;
+BA_ "GenMsgILSupport" BO_ 547 1;
+BA_ "NmAsrMessage" BO_ 547 0;
+BA_ "GenSigStartValue" SG_ 547 HvBattCellU23CellU1 0;
+BA_ "GenSigStartValue" SG_ 547 HvBattCellU23CellU2 0;
+BA_ "GenSigStartValue" SG_ 547 HvBattCellU23CellU3 0;
+BA_ "GenSigStartValue" SG_ 547 HvBattCellU23CellU4 0;
+BA_ "GenSigStartValue" SG_ 547 HvBattCellU23CellU5 0;
+// Frame: HvbmHvbm1canFrame27_450
+BA_ "GenMsgSendType" BO_ 550 0;
+BA_ "GenMsgCycleTime" BO_ 550 450.000;
+BA_ "GenMsgStartDelayTime" BO_ 550 0.000;
+BA_ "GenMsgILSupport" BO_ 550 1;
+BA_ "NmAsrMessage" BO_ 550 0;
+BA_ "GenSigStartValue" SG_ 550 HvBattCellU24CellU1 0;
+BA_ "GenSigStartValue" SG_ 550 HvBattCellU24CellU2 0;
+BA_ "GenSigStartValue" SG_ 550 HvBattCellU24CellU3 0;
+BA_ "GenSigStartValue" SG_ 550 HvBattCellU24CellU4 0;
+BA_ "GenSigStartValue" SG_ 550 HvBattCellU24CellU5 0;
+// Frame: HvbmHvbm1canFrame28_450
+BA_ "GenMsgSendType" BO_ 553 0;
+BA_ "GenMsgCycleTime" BO_ 553 450.000;
+BA_ "GenMsgStartDelayTime" BO_ 553 0.000;
+BA_ "GenMsgILSupport" BO_ 553 1;
+BA_ "NmAsrMessage" BO_ 553 0;
+BA_ "GenSigStartValue" SG_ 553 HvBattCellUMax 0;
+BA_ "GenSigStartValue" SG_ 553 HvBattCellUMaxId 0;
+BA_ "GenSigStartValue" SG_ 553 HvBattCellUMin 0;
+BA_ "GenSigStartValue" SG_ 553 HvBattCfgRms 0;
+BA_ "GenSigStartValue" SG_ 553 HvBattPlatform 0;
+BA_ "GenSigStartValue" SG_ 553 HvBattTMaxCellProbeId 0;
+BA_ "GenSigStartValue" SG_ 553 HvBattTMinCellProbeId 0;
+// Frame: HvbmHvbm1canFrame29_100
+BA_ "GenMsgSendType" BO_ 272 0;
+BA_ "GenMsgCycleTime" BO_ 272 100.000;
+BA_ "GenMsgStartDelayTime" BO_ 272 0.000;
+BA_ "GenMsgILSupport" BO_ 272 1;
+BA_ "NmAsrMessage" BO_ 272 0;
+BA_ "GenSigStartValue" SG_ 272 HvBattChrgnEgyAct 10;
+BA_ "GenSigStartValue" SG_ 272 HvBattDchaEgyAct 10;
+BA_ "GenSigStartValue" SG_ 272 HvSysChrgnUDcMeasdByVeh 0;
+// Frame: HvbmHvbm1canFrame30_400
+BA_ "GenMsgSendType" BO_ 384 0;
+BA_ "GenMsgCycleTime" BO_ 384 400.000;
+BA_ "GenMsgStartDelayTime" BO_ 384 0.000;
+BA_ "GenMsgILSupport" BO_ 384 1;
+BA_ "NmAsrMessage" BO_ 384 0;
+BA_ "GenSigStartValue" SG_ 384 HvBattChrgnLvlForDisp 0;
+// Frame: HvbmHvbm1canFrame31_600
+BA_ "GenMsgSendType" BO_ 1109 0;
+BA_ "GenMsgCycleTime" BO_ 1109 600.000;
+BA_ "GenMsgStartDelayTime" BO_ 1109 0.000;
+BA_ "GenMsgILSupport" BO_ 1109 1;
+BA_ "NmAsrMessage" BO_ 1109 0;
+BA_ "GenSigStartValue" SG_ 1109 HvBattClimaPwrAct 1023.5;
+BA_ "GenSigStartValue" SG_ 1109 HvBattCoolgEgyLimAllwd 0;
+BA_ "GenSigStartValue" SG_ 1109 HvBattCoolgPwrLimAllwd 0;
+BA_ "GenSigStartValue" SG_ 1109 HvBattCoolgPwrReq 0;
+// Frame: HvbmHvbm1canFrame32_600
+BA_ "GenMsgSendType" BO_ 1114 0;
+BA_ "GenMsgCycleTime" BO_ 1114 600.000;
+BA_ "GenMsgStartDelayTime" BO_ 1114 0.000;
+BA_ "GenMsgILSupport" BO_ 1114 1;
+BA_ "NmAsrMessage" BO_ 1114 0;
+BA_ "GenSigStartValue" SG_ 1114 HvBattCoolgMgrThermPredEcoPwrLvlInct 0;
+BA_ "GenSigStartValue" SG_ 1114 HvBattCoolgMgrThermPredEcoPwrPrsnt 0;
+BA_ "GenSigStartValue" SG_ 1114 HvBattCoolgMgrThermPredEcoTiPrsnt 0;
+BA_ "GenSigStartValue" SG_ 1114 HvBattCoolgMgrThermPredEcoTiTranPha 0;
+// Frame: HvbmHvbm1canFrame33_600
+BA_ "GenMsgSendType" BO_ 1118 0;
+BA_ "GenMsgCycleTime" BO_ 1118 600.000;
+BA_ "GenMsgStartDelayTime" BO_ 1118 0.000;
+BA_ "GenMsgILSupport" BO_ 1118 1;
+BA_ "NmAsrMessage" BO_ 1118 0;
+BA_ "GenSigStartValue" SG_ 1118 HvBattCoolgPwrCoolgMgrThermPredHvBattCoolgPwrForTiTranPha 0.1;
+BA_ "GenSigStartValue" SG_ 1118 HvBattCoolgPwrCoolgMgrThermPredHvBattCoolgPwrThermForPwrLvlInct 0;
+BA_ "GenSigStartValue" SG_ 1118 HvBattCoolgPwrCoolgMgrThermPredHvBattCoolgPwrThermForTiPrsnt 0.1;
+BA_ "GenSigStartValue" SG_ 1118 HvBattCoolgPwrCoolgMgrThermPredHvBattCoolgPwrThermPrsnt 0;
+// Frame: HvbmHvbm1canFrame34_600
+BA_ "GenMsgSendType" BO_ 1120 0;
+BA_ "GenMsgCycleTime" BO_ 1120 600.000;
+BA_ "GenMsgStartDelayTime" BO_ 1120 0.000;
+BA_ "GenMsgILSupport" BO_ 1120 1;
+BA_ "NmAsrMessage" BO_ 1120 0;
+BA_ "GenSigStartValue" SG_ 1120 HvBattCoolgPwrHeatgMgrThermPredHvBattHeatgPwrForTiTranPha 0.1;
+BA_ "GenSigStartValue" SG_ 1120 HvBattCoolgPwrHeatgMgrThermPredHvBattHeatgPwrThermForPwrLvlInct 0;
+BA_ "GenSigStartValue" SG_ 1120 HvBattCoolgPwrHeatgMgrThermPredHvBattHeatgPwrThermForTiPrsnt 0.1;
+BA_ "GenSigStartValue" SG_ 1120 HvBattCoolgPwrHeatgMgrThermPredHvBattHeatgPwrThermPrsnt 0;
+// Frame: HvbmHvbm1canFrame35_600
+BA_ "GenMsgSendType" BO_ 1125 0;
+BA_ "GenMsgCycleTime" BO_ 1125 600.000;
+BA_ "GenMsgStartDelayTime" BO_ 1125 0.000;
+BA_ "GenMsgILSupport" BO_ 1125 1;
+BA_ "NmAsrMessage" BO_ 1125 0;
+BA_ "GenSigStartValue" SG_ 1125 HvBattCooltTOutl 0;
+BA_ "GenSigStartValue" SG_ 1125 HvBattHeatgEgyLimAllwd 0;
+BA_ "GenSigStartValue" SG_ 1125 HvBattHeatgPwrLimAllwd 0;
+BA_ "GenSigStartValue" SG_ 1125 HvBattHeatgPwrReq 0;
+// Frame: HvbmHvbm1canFrame36_300
+BA_ "GenMsgSendType" BO_ 371 0;
+BA_ "GenMsgCycleTime" BO_ 371 300.000;
+BA_ "GenMsgStartDelayTime" BO_ 371 0.000;
+BA_ "GenMsgILSupport" BO_ 371 1;
+BA_ "NmAsrMessage" BO_ 371 0;
+BA_ "GenSigStartValue" SG_ 371 HvBattEgyAvlChrg1 0;
+BA_ "GenSigStartValue" SG_ 371 HvBattEgyAvlDcha1 0;
+BA_ "GenSigStartValue" SG_ 371 HvBattEgyAvlDcha2 10;
+BA_ "GenSigStartValue" SG_ 371 HvBattEgyAvlDchaEco 10;
+// Frame: HvbmHvbm1canFrame38_600
+BA_ "GenMsgSendType" BO_ 1130 0;
+BA_ "GenMsgCycleTime" BO_ 1130 600.000;
+BA_ "GenMsgStartDelayTime" BO_ 1130 0.000;
+BA_ "GenMsgILSupport" BO_ 1130 1;
+BA_ "NmAsrMessage" BO_ 1130 0;
+BA_ "GenSigStartValue" SG_ 1130 HvBattHeatgMgrThermPredEcoPwrLvlInct 0;
+BA_ "GenSigStartValue" SG_ 1130 HvBattHeatgMgrThermPredEcoPwrPrsnt 0;
+BA_ "GenSigStartValue" SG_ 1130 HvBattHeatgMgrThermPredEcoTiPrsnt 0;
+BA_ "GenSigStartValue" SG_ 1130 HvBattHeatgMgrThermPredEcoTiTranPha 0;
+BA_ "GenSigStartValue" SG_ 1130 HvSysCrashFb 0;
+// Frame: HvbmHvbm1canFrame39_10
+BA_ "GenMsgSendType" BO_ 35 0;
+BA_ "GenMsgCycleTime" BO_ 35 10.000;
+BA_ "GenMsgStartDelayTime" BO_ 35 0.000;
+BA_ "GenMsgILSupport" BO_ 35 1;
+BA_ "NmAsrMessage" BO_ 35 0;
+BA_ "GenSigStartValue" SG_ 35 HvBattIDc1 16380;
+BA_ "GenSigStartValue" SG_ 35 HvBattUDc 0;
+BA_ "GenSigStartValue" SG_ 35 HvSysRlySts 2;
+// Frame: HvbmHvbm1canFrame43_50
+BA_ "GenMsgSendType" BO_ 83 0;
+BA_ "GenMsgCycleTime" BO_ 83 50.000;
+BA_ "GenMsgStartDelayTime" BO_ 83 0.000;
+BA_ "GenMsgILSupport" BO_ 83 1;
+BA_ "NmAsrMessage" BO_ 83 0;
+BA_ "GenSigStartValue" SG_ 83 HvBattILim1 0;
+BA_ "GenSigStartValue" SG_ 83 HvBattLimnIndcn 0;
+BA_ "GenSigStartValue" SG_ 83 HvBattPwr 2044;
+BA_ "GenSigStartValue" SG_ 83 HvSysIsoRMonrSts 0;
+BA_ "GenSigStartValue" SG_ 83 HvSysLimnIndcn 0;
+// Frame: HvbmHvbm1canFrame44_600
+BA_ "GenMsgSendType" BO_ 1134 0;
+BA_ "GenMsgCycleTime" BO_ 1134 600.000;
+BA_ "GenMsgStartDelayTime" BO_ 1134 0.000;
+BA_ "GenMsgILSupport" BO_ 1134 1;
+BA_ "NmAsrMessage" BO_ 1134 0;
+BA_ "GenSigStartValue" SG_ 1134 HvBattMinFlowReq 0;
+BA_ "GenSigStartValue" SG_ 1134 HvBattPwrChrgnEstimnAvg 0;
+BA_ "GenSigStartValue" SG_ 1134 HvSysIsoEve 0;
+// Frame: HvbmHvbm1canFrame45_450
+BA_ "GenMsgSendType" BO_ 563 0;
+BA_ "GenMsgCycleTime" BO_ 563 450.000;
+BA_ "GenMsgStartDelayTime" BO_ 563 0.000;
+BA_ "GenMsgILSupport" BO_ 563 1;
+BA_ "NmAsrMessage" BO_ 563 0;
+BA_ "GenSigStartValue" SG_ 563 HvBattProbeT1ProbeT01 40;
+BA_ "GenSigStartValue" SG_ 563 HvBattProbeT1ProbeT02 40;
+BA_ "GenSigStartValue" SG_ 563 HvBattProbeT1ProbeT03 40;
+BA_ "GenSigStartValue" SG_ 563 HvBattProbeT1ProbeT04 40;
+BA_ "GenSigStartValue" SG_ 563 HvBattProbeT1ProbeT05 40;
+BA_ "GenSigStartValue" SG_ 563 HvBattProbeT1ProbeT06 40;
+BA_ "GenSigStartValue" SG_ 563 HvBattProbeT1ProbeT07 40;
+// Frame: HvbmHvbm1canFrame46_450
+BA_ "GenMsgSendType" BO_ 566 0;
+BA_ "GenMsgCycleTime" BO_ 566 450.000;
+BA_ "GenMsgStartDelayTime" BO_ 566 0.000;
+BA_ "GenMsgILSupport" BO_ 566 1;
+BA_ "NmAsrMessage" BO_ 566 0;
+BA_ "GenSigStartValue" SG_ 566 HvBattProbeT2ProbeT01 40;
+BA_ "GenSigStartValue" SG_ 566 HvBattProbeT2ProbeT02 40;
+BA_ "GenSigStartValue" SG_ 566 HvBattProbeT2ProbeT03 40;
+BA_ "GenSigStartValue" SG_ 566 HvBattProbeT2ProbeT04 40;
+BA_ "GenSigStartValue" SG_ 566 HvBattProbeT2ProbeT05 40;
+BA_ "GenSigStartValue" SG_ 566 HvBattProbeT2ProbeT06 40;
+BA_ "GenSigStartValue" SG_ 566 HvBattProbeT2ProbeT07 40;
+// Frame: HvbmHvbm1canFrame47_450
+BA_ "GenMsgSendType" BO_ 569 0;
+BA_ "GenMsgCycleTime" BO_ 569 450.000;
+BA_ "GenMsgStartDelayTime" BO_ 569 0.000;
+BA_ "GenMsgILSupport" BO_ 569 1;
+BA_ "NmAsrMessage" BO_ 569 0;
+BA_ "GenSigStartValue" SG_ 569 HvBattProbeT3ProbeT01 40;
+BA_ "GenSigStartValue" SG_ 569 HvBattProbeT3ProbeT02 40;
+BA_ "GenSigStartValue" SG_ 569 HvBattProbeT3ProbeT03 40;
+BA_ "GenSigStartValue" SG_ 569 HvBattProbeT3ProbeT04 40;
+BA_ "GenSigStartValue" SG_ 569 HvBattProbeT3ProbeT05 40;
+BA_ "GenSigStartValue" SG_ 569 HvBattProbeT3ProbeT06 40;
+BA_ "GenSigStartValue" SG_ 569 HvBattProbeT3ProbeT07 40;
+// Frame: HvbmHvbm1canFrame48_450
+BA_ "GenMsgSendType" BO_ 571 0;
+BA_ "GenMsgCycleTime" BO_ 571 450.000;
+BA_ "GenMsgStartDelayTime" BO_ 571 0.000;
+BA_ "GenMsgILSupport" BO_ 571 1;
+BA_ "NmAsrMessage" BO_ 571 0;
+BA_ "GenSigStartValue" SG_ 571 HvBattProbeT4ProbeT01 40;
+BA_ "GenSigStartValue" SG_ 571 HvBattProbeT4ProbeT02 40;
+BA_ "GenSigStartValue" SG_ 571 HvBattProbeT4ProbeT03 40;
+BA_ "GenSigStartValue" SG_ 571 HvBattProbeT4ProbeT04 40;
+BA_ "GenSigStartValue" SG_ 571 HvBattProbeT4ProbeT05 40;
+BA_ "GenSigStartValue" SG_ 571 HvBattProbeT4ProbeT06 40;
+BA_ "GenSigStartValue" SG_ 571 HvBattProbeT4ProbeT07 40;
+// Frame: HvbmHvbm1canFrame49_450
+BA_ "GenMsgSendType" BO_ 574 0;
+BA_ "GenMsgCycleTime" BO_ 574 450.000;
+BA_ "GenMsgStartDelayTime" BO_ 574 0.000;
+BA_ "GenMsgILSupport" BO_ 574 1;
+BA_ "NmAsrMessage" BO_ 574 0;
+BA_ "GenSigStartValue" SG_ 574 HvBattProbeT5ProbeT01 40;
+BA_ "GenSigStartValue" SG_ 574 HvBattProbeT5ProbeT02 40;
+BA_ "GenSigStartValue" SG_ 574 HvBattProbeT5ProbeT03 40;
+BA_ "GenSigStartValue" SG_ 574 HvBattProbeT5ProbeT04 40;
+BA_ "GenSigStartValue" SG_ 574 HvBattProbeT5ProbeT05 40;
+BA_ "GenSigStartValue" SG_ 574 HvBattProbeT5ProbeT06 40;
+BA_ "GenSigStartValue" SG_ 574 HvBattProbeT5ProbeT07 40;
+// Frame: HvbmHvbm1canFrame50_450
+BA_ "GenMsgSendType" BO_ 576 0;
+BA_ "GenMsgCycleTime" BO_ 576 450.000;
+BA_ "GenMsgStartDelayTime" BO_ 576 0.000;
+BA_ "GenMsgILSupport" BO_ 576 1;
+BA_ "NmAsrMessage" BO_ 576 0;
+BA_ "GenSigStartValue" SG_ 576 HvBattProbeT6ProbeT01 40;
+BA_ "GenSigStartValue" SG_ 576 HvBattProbeT6ProbeT02 40;
+BA_ "GenSigStartValue" SG_ 576 HvBattProbeT6ProbeT03 40;
+BA_ "GenSigStartValue" SG_ 576 HvBattProbeT6ProbeT04 40;
+BA_ "GenSigStartValue" SG_ 576 HvBattProbeT6ProbeT05 40;
+BA_ "GenSigStartValue" SG_ 576 HvBattProbeT6ProbeT06 40;
+BA_ "GenSigStartValue" SG_ 576 HvBattProbeT6ProbeT07 40;
+// Frame: HvbmHvbm1canFrame51_450
+BA_ "GenMsgSendType" BO_ 579 0;
+BA_ "GenMsgCycleTime" BO_ 579 450.000;
+BA_ "GenMsgStartDelayTime" BO_ 579 0.000;
+BA_ "GenMsgILSupport" BO_ 579 1;
+BA_ "NmAsrMessage" BO_ 579 0;
+BA_ "GenSigStartValue" SG_ 579 HvBattProbeT7ProbeT01 40;
+BA_ "GenSigStartValue" SG_ 579 HvBattProbeT7ProbeT02 40;
+BA_ "GenSigStartValue" SG_ 579 HvBattProbeT7ProbeT03 40;
+BA_ "GenSigStartValue" SG_ 579 HvBattProbeT7ProbeT04 40;
+BA_ "GenSigStartValue" SG_ 579 HvBattProbeT7ProbeT05 40;
+BA_ "GenSigStartValue" SG_ 579 HvBattProbeT7ProbeT06 40;
+BA_ "GenSigStartValue" SG_ 579 HvBattProbeT7ProbeT07 40;
+// Frame: HvbmHvbm1canFrame52_450
+BA_ "GenMsgSendType" BO_ 582 0;
+BA_ "GenMsgCycleTime" BO_ 582 450.000;
+BA_ "GenMsgStartDelayTime" BO_ 582 0.000;
+BA_ "GenMsgILSupport" BO_ 582 1;
+BA_ "NmAsrMessage" BO_ 582 0;
+BA_ "GenSigStartValue" SG_ 582 HvBattProbeT8ProbeT01 40;
+BA_ "GenSigStartValue" SG_ 582 HvBattProbeT8ProbeT02 40;
+BA_ "GenSigStartValue" SG_ 582 HvBattProbeT8ProbeT03 40;
+BA_ "GenSigStartValue" SG_ 582 HvBattProbeT8ProbeT04 40;
+BA_ "GenSigStartValue" SG_ 582 HvBattProbeT8ProbeT05 40;
+BA_ "GenSigStartValue" SG_ 582 HvBattProbeT8ProbeT06 40;
+BA_ "GenSigStartValue" SG_ 582 HvBattProbeT8ProbeT07 40;
+BA_ "GenSigStartValue" SG_ 582 MonMod 0;
+// Frame: HvbmHvbm1canFrame53_20
+BA_ "GenMsgSendType" BO_ 48 0;
+BA_ "GenMsgCycleTime" BO_ 48 20.000;
+BA_ "GenMsgStartDelayTime" BO_ 48 0.000;
+BA_ "GenMsgILSupport" BO_ 48 1;
+BA_ "NmAsrMessage" BO_ 48 0;
+BA_ "GenSigStartValue" SG_ 48 HvBattPwrLimChrg1 0;
+BA_ "GenSigStartValue" SG_ 48 HvBattPwrLimChrgSlowAgi 0;
+BA_ "GenSigStartValue" SG_ 48 HvBattPwrLimDcha1 0;
+BA_ "GenSigStartValue" SG_ 48 HvBattPwrLimDchaSlowAgi 0;
+BA_ "GenSigStartValue" SG_ 48 HvSysSts 0;
+// Frame: HvbmHvbm1canFrame54_20
+BA_ "GenMsgSendType" BO_ 51 0;
+BA_ "GenMsgCycleTime" BO_ 51 20.000;
+BA_ "GenMsgStartDelayTime" BO_ 51 0.000;
+BA_ "GenMsgILSupport" BO_ 51 1;
+BA_ "NmAsrMessage" BO_ 51 0;
+BA_ "GenSigStartValue" SG_ 51 HvBattPwrLimDchaSoft 0;
+BA_ "GenSigStartValue" SG_ 51 HvBattUDynMaxLim 0;
+BA_ "GenSigStartValue" SG_ 51 HvBattUDynMinLim 0;
+BA_ "GenSigStartValue" SG_ 51 HvSysDcRlySts1 2;
+// Frame: HvbmHvbm1canFrame55_600
+BA_ "GenMsgSendType" BO_ 1136 0;
+BA_ "GenMsgCycleTime" BO_ 1136 600.000;
+BA_ "GenMsgStartDelayTime" BO_ 1136 0.000;
+BA_ "GenMsgILSupport" BO_ 1136 1;
+BA_ "NmAsrMessage" BO_ 1136 0;
+BA_ "GenSigStartValue" SG_ 1136 HvBattTAvg 200;
+BA_ "GenSigStartValue" SG_ 1136 HvBattTMax 200;
+BA_ "GenSigStartValue" SG_ 1136 HvBattTMin 200;
+// Frame: HvbmHvbm1canFrame56_450
+BA_ "GenMsgSendType" BO_ 585 0;
+BA_ "GenMsgCycleTime" BO_ 585 450.000;
+BA_ "GenMsgStartDelayTime" BO_ 585 0.000;
+BA_ "GenMsgILSupport" BO_ 585 1;
+BA_ "NmAsrMessage" BO_ 585 0;
+BA_ "GenSigStartValue" SG_ 585 HvBattURms 0;
+BA_ "GenSigStartValue" SG_ 585 SysR 0;
+BA_ "GenSigStartValue" SG_ 585 VehStRms 1;
+// Frame: HvbmNmFrame
+BA_ "GenMsgSendType" BO_ 1305 1;
+BA_ "GenMsgDelayTime" BO_ 1305 20.000;
+BA_ "GenMsgILSupport" BO_ 1305 0;
+BA_ "NmAsrMessage" BO_ 1305 1;
+// Frame: HvbmToHvbmdpUdsDiagResponseFrame
+BA_ "GenMsgSendType" BO_ 1619 1;
+BA_ "GenMsgDelayTime" BO_ 1619 5.000;
+BA_ "GenMsgILSupport" BO_ 1619 1;
+BA_ "NmAsrMessage" BO_ 1619 0;
+
+VAL_ 32 HvOnMaiReq 0 "HvActvnSts_Open" 1 "HvActvnSts_Clsd" 2 "HvActvnSts_KeepSt" 3 "HvActvnSts_OpenAndReqActvDcha";
+VAL_ 32 HvRlyChrgnReqDc1 0 "HvActvnSts1_Open" 1 "HvActvnSts1_Clsd" 2 "HvActvnSts1_KeepSt" 3 "HvActvnSts1_Fault";
+VAL_ 32 HvSysDeactvtIsoRMonrReq 0 "TrueFalseCrit1_NotVld1" 1 "TrueFalseCrit1_False" 2 "TrueFalseCrit1_True" 3 "TrueFalseCrit1_NotVld2";
+VAL_ 64 VehSpdLgtSafeVehSpdLgtQf 0 "GenQf1_UndefindDataAccur" 1 "GenQf1_TmpUndefdData" 2 "GenQf1_DataAccurNotWithinSpcn" 3 "GenQf1_AccurData";
+VAL_ 96 VehModMngtGlbSafe1CarModSts1 0 "CarModSts1_CarModNorm" 1 "CarModSts1_CarModTrnsp" 2 "CarModSts1_CarModFcy" 3 "CarModSts1_CarModCrash" 5 "CarModSts1_CarModDyno";
+VAL_ 96 VehModMngtGlbSafe1FltEgyCnsWdSts 0 "FltEgyCns1_NoFlt" 1 "FltEgyCns1_Flt";
+VAL_ 96 VehModMngtGlbSafe1UsgModSts 0 "UsgModSts1_UsgModAbdnd" 1 "UsgModSts1_UsgModInActv" 2 "UsgModSts1_UsgModCnvinc" 11 "UsgModSts1_UsgModActv" 13 "UsgModSts1_UsgModDrvg";
+VAL_ 256 DrvModReq 0 "DrvModReqType1_Undefd" 1 "DrvModReqType1_DrvMod1" 2 "DrvModReqType1_DrvMod2" 3 "DrvModReqType1_DrvMod3" 4 "DrvModReqType1_DrvMod4" 5 "DrvModReqType1_DrvMod5" 6 "DrvModReqType1_DrvMod6" 7 "DrvModReqType1_DrvMod7" 8 "DrvModReqType1_DrvMod8" 9 "DrvModReqType1_DrvMod9" 10 "DrvModReqType1_DrvMod10" 11 "DrvModReqType1_DrvMod11" 12 "DrvModReqType1_DrvMod12" 13 "DrvModReqType1_DrvMod13" 14 "DrvModReqType1_DrvMod14" 15 "DrvModReqType1_Err";
+VAL_ 256 EngTQf 0 "Qf1_DevOfDataUndefd" 1 "Qf1_DataTmpUndefdAndEvlnInProgs" 2 "Qf1_DevOfDataNotWithinRngAllwd" 3 "Qf1_DataCalcdWithDevDefd";
+VAL_ 256 PrpsnSysActv 0 "NotCmpl1_NotCmpl" 1 "NotCmpl1_Cmpl";
+VAL_ 288 ChrgnTyp 0 "ChrgnTyp_Disconnected" 1 "ChrgnTyp_AcChrgn" 2 "ChrgnTyp_ChaChrgn" 3 "ChrgnTyp_CcsChrgn" 4 "ChrgnTyp_GbtChrgn" 5 "ChrgnTyp_ThreePhaChrgn" 6 "ChrgnTyp_Indu" 255 "ChrgnTyp_Invld";
+VAL_ 320 MonrCycCmpl 0 "NotCmpl1_NotCmpl" 1 "NotCmpl1_Cmpl";
+VAL_ 368 OnBdChrgrHndlSts 0 "OnBdChrgrHndlSts_Disconnected" 1 "OnBdChrgrHndlSts_ConnectedWithoutPower" 2 "OnBdChrgrHndlSts_PowerAvailableButNotActivated" 3 "OnBdChrgrHndlSts_ConnectedWithPower" 4 "OnBdChrgrHndlSts_Init" 5 "OnBdChrgrHndlSts_Fault";
+VAL_ 1024 CmptmtCoolgSts 0 "CmptmtCoolgSts_OffNoReq" 1 "CmptmtCoolgSts_OffByEvaprTLo" 2 "CmptmtCoolgSts_OffByPLo" 3 "CmptmtCoolgSts_OffByAmbTOutOfRng" 4 "CmptmtCoolgSts_OffBySysFailr" 5 "CmptmtCoolgSts_OffByLoadCut" 6 "CmptmtCoolgSts_OnWithBattCoolg" 7 "CmptmtCoolgSts_On";
+VAL_ 1029 ThermStFromCoorr 0 "ThermSt_State0" 1 "ThermSt_State1" 2 "ThermSt_State2" 3 "ThermSt_State3" 4 "ThermSt_State4" 5 "ThermSt_State5" 6 "ThermSt_State6" 7 "ThermSt_State7" 8 "ThermSt_State8" 9 "ThermSt_State9" 10 "ThermSt_State10" 11 "ThermSt_State11" 12 "ThermSt_State12" 13 "ThermSt_State13" 14 "ThermSt_State14" 15 "ThermSt_State15" 16 "ThermSt_State16" 17 "ThermSt_State17" 18 "ThermSt_State18" 19 "ThermSt_State19" 20 "ThermSt_State20" 21 "ThermSt_State21" 22 "ThermSt_State22" 23 "ThermSt_State23" 24 "ThermSt_State24" 25 "ThermSt_State25" 26 "ThermSt_State26" 27 "ThermSt_State27" 28 "ThermSt_State28" 29 "ThermSt_State29" 30 "ThermSt_State30" 31 "ThermSt_State31" 32 "ThermSt_State32";
+VAL_ 1102 VehBattUSysUQf 0 "GenQf1_UndefindDataAccur" 1 "GenQf1_TmpUndefdData" 2 "GenQf1_DataAccurNotWithinSpcn" 3 "GenQf1_AccurData";
+VAL_ 21 CrashSts2 0 "CrashSts3_Resd1" 1 "CrashSts3_NoCrash" 2 "CrashSts3_Crash" 3 "CrashSts3_Resd2";
+VAL_ 390 ChrgnSt 0 "ChrgStRms_ChrgnPrkd" 1 "ChrgStRms_ChrgnDvrg" 2 "ChrgStRms_NoChrgn" 3 "ChrgStRms_ChrgnCmpl";
+VAL_ 1104 HvBattChrgnSts 0 "ClimaSts_Start" 1 "ClimaSts_Finish";
+VAL_ 1104 HvBattClimaPrioReq 0 "LvlOfPrioTyp_Off" 1 "LvlOfPrioTyp_LvlOfPrio1" 2 "LvlOfPrioTyp_LvlOfPrio2" 3 "LvlOfPrioTyp_LvlOfPrio3" 4 "LvlOfPrioTyp_LvlOfPrio4" 5 "LvlOfPrioTyp_LvlOfPrio5" 6 "LvlOfPrioTyp_LvlOfPrio6" 7 "LvlOfPrioTyp_LvlOfPrio7";
+VAL_ 1104 StsForCooltTInHvBatt 0 "DiagThermSts_Uncertain" 1 "DiagThermSts_Ok" 2 "DiagThermSts_NotOk" 3 "DiagThermSts_LimitedPerformance";
+VAL_ 1130 HvSysCrashFb 0 "CrashFb_Idle" 1 "CrashFb_Evln" 2 "CrashFb_Nok" 3 "CrashFb_Ok";
+VAL_ 35 HvSysRlySts 0 "HvActvnSts_Open" 1 "HvActvnSts_Clsd" 2 "HvActvnSts_KeepSt" 3 "HvActvnSts_OpenAndReqActvDcha";
+VAL_ 83 HvSysIsoRMonrSts 0 "TrueFalseCrit1_NotVld1" 1 "TrueFalseCrit1_False" 2 "TrueFalseCrit1_True" 3 "TrueFalseCrit1_NotVld2";
+VAL_ 1134 HvSysIsoEve 0 "Boolean_FALSE" 1 "Boolean_TRUE";
+VAL_ 582 MonMod 0 "Boolean_FALSE" 1 "Boolean_TRUE";
+VAL_ 48 HvSysSts 0 "HvSysSts_Inin" 1 "HvSysSts_Test" 2 "HvSysSts_Rdy";
+VAL_ 51 HvSysDcRlySts1 0 "HvActvnSts1_Open" 1 "HvActvnSts1_Clsd" 2 "HvActvnSts1_KeepSt" 3 "HvActvnSts1_Fault";
+VAL_ 585 VehStRms 1 "VehStRms_StartUp" 2 "VehStRms_ShutDown" 3 "VehStRms_Others";
+SIG_GROUP_ 256 EngT 1 : EngTEngT EngTQf;
+SIG_GROUP_ 1104 HvBattAtChrgnLocn 1 : HvBattAtChrgnLocnChrgnPwr HvBattAtChrgnLocnChrgnTiEstimn HvBattAtChrgnLocnEgyDelta;
+SIG_GROUP_ 393 HvBattCellU01 1 : HvBattCellU01CellU1 HvBattCellU01CellU2 HvBattCellU01CellU3 HvBattCellU01CellU4 HvBattCellU01CellU5;
+SIG_GROUP_ 395 HvBattCellU02 1 : HvBattCellU02CellU1 HvBattCellU02CellU2 HvBattCellU02CellU3 HvBattCellU02CellU4 HvBattCellU02CellU5;
+SIG_GROUP_ 398 HvBattCellU03 1 : HvBattCellU03CellU1 HvBattCellU03CellU2 HvBattCellU03CellU3 HvBattCellU03CellU4 HvBattCellU03CellU5;
+SIG_GROUP_ 400 HvBattCellU04 1 : HvBattCellU04CellU1 HvBattCellU04CellU2 HvBattCellU04CellU3 HvBattCellU04CellU4 HvBattCellU04CellU5;
+SIG_GROUP_ 403 HvBattCellU05 1 : HvBattCellU05CellU1 HvBattCellU05CellU2 HvBattCellU05CellU3 HvBattCellU05CellU4 HvBattCellU05CellU5;
+SIG_GROUP_ 406 HvBattCellU06 1 : HvBattCellU06CellU1 HvBattCellU06CellU2 HvBattCellU06CellU3 HvBattCellU06CellU4 HvBattCellU06CellU5;
+SIG_GROUP_ 409 HvBattCellU07 1 : HvBattCellU07CellU1 HvBattCellU07CellU2 HvBattCellU07CellU3 HvBattCellU07CellU4 HvBattCellU07CellU5;
+SIG_GROUP_ 411 HvBattCellU08 1 : HvBattCellU08CellU1 HvBattCellU08CellU2 HvBattCellU08CellU3 HvBattCellU08CellU4 HvBattCellU08CellU5;
+SIG_GROUP_ 414 HvBattCellU09 1 : HvBattCellU09CellU1 HvBattCellU09CellU2 HvBattCellU09CellU3 HvBattCellU09CellU4 HvBattCellU09CellU5;
+SIG_GROUP_ 512 HvBattCellU10 1 : HvBattCellU10CellU1 HvBattCellU10CellU2 HvBattCellU10CellU3 HvBattCellU10CellU4 HvBattCellU10CellU5;
+SIG_GROUP_ 515 HvBattCellU11 1 : HvBattCellU11CellU1 HvBattCellU11CellU2 HvBattCellU11CellU3 HvBattCellU11CellU4 HvBattCellU11CellU5;
+SIG_GROUP_ 518 HvBattCellU12 1 : HvBattCellU12CellU1 HvBattCellU12CellU2 HvBattCellU12CellU3 HvBattCellU12CellU4 HvBattCellU12CellU5;
+SIG_GROUP_ 521 HvBattCellU13 1 : HvBattCellU13CellU1 HvBattCellU13CellU2 HvBattCellU13CellU3 HvBattCellU13CellU4 HvBattCellU13CellU5;
+SIG_GROUP_ 523 HvBattCellU14 1 : HvBattCellU14CellU1 HvBattCellU14CellU2 HvBattCellU14CellU3 HvBattCellU14CellU4 HvBattCellU14CellU5;
+SIG_GROUP_ 526 HvBattCellU15 1 : HvBattCellU15CellU1 HvBattCellU15CellU2 HvBattCellU15CellU3 HvBattCellU15CellU4 HvBattCellU15CellU5;
+SIG_GROUP_ 528 HvBattCellU16 1 : HvBattCellU16CellU1 HvBattCellU16CellU2 HvBattCellU16CellU3 HvBattCellU16CellU4 HvBattCellU16CellU5;
+SIG_GROUP_ 531 HvBattCellU17 1 : HvBattCellU17CellU1 HvBattCellU17CellU2 HvBattCellU17CellU3 HvBattCellU17CellU4 HvBattCellU17CellU5;
+SIG_GROUP_ 534 HvBattCellU18 1 : HvBattCellU18CellU1 HvBattCellU18CellU2 HvBattCellU18CellU3 HvBattCellU18CellU4 HvBattCellU18CellU5;
+SIG_GROUP_ 537 HvBattCellU19 1 : HvBattCellU19CellU1 HvBattCellU19CellU2 HvBattCellU19CellU3 HvBattCellU19CellU4 HvBattCellU19CellU5;
+SIG_GROUP_ 539 HvBattCellU20 1 : HvBattCellU20CellU1 HvBattCellU20CellU2 HvBattCellU20CellU3 HvBattCellU20CellU4 HvBattCellU20CellU5;
+SIG_GROUP_ 542 HvBattCellU21 1 : HvBattCellU21CellU1 HvBattCellU21CellU2 HvBattCellU21CellU3 HvBattCellU21CellU4 HvBattCellU21CellU5;
+SIG_GROUP_ 544 HvBattCellU22 1 : HvBattCellU22CellU1 HvBattCellU22CellU2 HvBattCellU22CellU3 HvBattCellU22CellU4 HvBattCellU22CellU5;
+SIG_GROUP_ 547 HvBattCellU23 1 : HvBattCellU23CellU1 HvBattCellU23CellU2 HvBattCellU23CellU3 HvBattCellU23CellU4 HvBattCellU23CellU5;
+SIG_GROUP_ 550 HvBattCellU24 1 : HvBattCellU24CellU1 HvBattCellU24CellU2 HvBattCellU24CellU3 HvBattCellU24CellU4 HvBattCellU24CellU5;
+SIG_GROUP_ 1114 HvBattCoolgMgrThermPredEco 1 : HvBattCoolgMgrThermPredEcoPwrLvlInct HvBattCoolgMgrThermPredEcoPwrPrsnt HvBattCoolgMgrThermPredEcoTiPrsnt HvBattCoolgMgrThermPredEcoTiTranPha;
+SIG_GROUP_ 1118 HvBattCoolgPwrCoolgMgrThermPred 1 : HvBattCoolgPwrCoolgMgrThermPredHvBattCoolgPwrForTiTranPha HvBattCoolgPwrCoolgMgrThermPredHvBattCoolgPwrThermForPwrLvlInct HvBattCoolgPwrCoolgMgrThermPredHvBattCoolgPwrThermForTiPrsnt HvBattCoolgPwrCoolgMgrThermPredHvBattCoolgPwrThermPrsnt;
+SIG_GROUP_ 1120 HvBattCoolgPwrHeatgMgrThermPred 1 : HvBattCoolgPwrHeatgMgrThermPredHvBattHeatgPwrForTiTranPha HvBattCoolgPwrHeatgMgrThermPredHvBattHeatgPwrThermForPwrLvlInct HvBattCoolgPwrHeatgMgrThermPredHvBattHeatgPwrThermForTiPrsnt HvBattCoolgPwrHeatgMgrThermPredHvBattHeatgPwrThermPrsnt;
+SIG_GROUP_ 1130 HvBattHeatgMgrThermPredEco 1 : HvBattHeatgMgrThermPredEcoPwrLvlInct HvBattHeatgMgrThermPredEcoPwrPrsnt HvBattHeatgMgrThermPredEcoTiPrsnt HvBattHeatgMgrThermPredEcoTiTranPha;
+SIG_GROUP_ 563 HvBattProbeT1 1 : HvBattProbeT1ProbeT01 HvBattProbeT1ProbeT02 HvBattProbeT1ProbeT03 HvBattProbeT1ProbeT04 HvBattProbeT1ProbeT05 HvBattProbeT1ProbeT06 HvBattProbeT1ProbeT07;
+SIG_GROUP_ 566 HvBattProbeT2 1 : HvBattProbeT2ProbeT01 HvBattProbeT2ProbeT02 HvBattProbeT2ProbeT03 HvBattProbeT2ProbeT04 HvBattProbeT2ProbeT05 HvBattProbeT2ProbeT06 HvBattProbeT2ProbeT07;
+SIG_GROUP_ 569 HvBattProbeT3 1 : HvBattProbeT3ProbeT01 HvBattProbeT3ProbeT02 HvBattProbeT3ProbeT03 HvBattProbeT3ProbeT04 HvBattProbeT3ProbeT05 HvBattProbeT3ProbeT06 HvBattProbeT3ProbeT07;
+SIG_GROUP_ 571 HvBattProbeT4 1 : HvBattProbeT4ProbeT01 HvBattProbeT4ProbeT02 HvBattProbeT4ProbeT03 HvBattProbeT4ProbeT04 HvBattProbeT4ProbeT05 HvBattProbeT4ProbeT06 HvBattProbeT4ProbeT07;
+SIG_GROUP_ 574 HvBattProbeT5 1 : HvBattProbeT5ProbeT01 HvBattProbeT5ProbeT02 HvBattProbeT5ProbeT03 HvBattProbeT5ProbeT04 HvBattProbeT5ProbeT05 HvBattProbeT5ProbeT06 HvBattProbeT5ProbeT07;
+SIG_GROUP_ 576 HvBattProbeT6 1 : HvBattProbeT6ProbeT01 HvBattProbeT6ProbeT02 HvBattProbeT6ProbeT03 HvBattProbeT6ProbeT04 HvBattProbeT6ProbeT05 HvBattProbeT6ProbeT06 HvBattProbeT6ProbeT07;
+SIG_GROUP_ 579 HvBattProbeT7 1 : HvBattProbeT7ProbeT01 HvBattProbeT7ProbeT02 HvBattProbeT7ProbeT03 HvBattProbeT7ProbeT04 HvBattProbeT7ProbeT05 HvBattProbeT7ProbeT06 HvBattProbeT7ProbeT07;
+SIG_GROUP_ 582 HvBattProbeT8 1 : HvBattProbeT8ProbeT01 HvBattProbeT8ProbeT02 HvBattProbeT8ProbeT03 HvBattProbeT8ProbeT04 HvBattProbeT8ProbeT05 HvBattProbeT8ProbeT06 HvBattProbeT8ProbeT07;
+SIG_GROUP_ 1024 HvBattPwrCnsElecPred1 1 : HvBattPwrCnsElecPred1HvBattPwrCnsElecPredAvg HvBattPwrCnsElecPred1HvBattPwrCnsElecPredStd;
+SIG_GROUP_ 1029 HvBattPwrCnsElecPredEco1 1 : HvBattPwrCnsElecPredEco1HvBattPwrCnsElecPredAvg HvBattPwrCnsElecPredEco1HvBattPwrCnsElecPredStd;
+SIG_GROUP_ 1136 HvBattT 1 : HvBattTAvg HvBattTMax HvBattTMin;
+SIG_GROUP_ 1102 VehBattU 1 : VehBattUSysU VehBattUSysUQf;
+SIG_GROUP_ 96 VehModMngtGlbSafe1 1 : VehModMngtGlbSafe1CarModSts1 VehModMngtGlbSafe1CarModSubtypWdCarModSubtyp VehModMngtGlbSafe1Chks VehModMngtGlbSafe1Cntr VehModMngtGlbSafe1EgyLvlElecMai VehModMngtGlbSafe1EgyLvlElecSubtyp VehModMngtGlbSafe1FltEgyCnsWdSts VehModMngtGlbSafe1PwrLvlElecMai VehModMngtGlbSafe1PwrLvlElecSubtyp VehModMngtGlbSafe1UsgModSts;
+SIG_GROUP_ 64 VehSpdLgtSafe 1 : VehSpdLgtSafeVehSpdLgt VehSpdLgtSafeVehSpdLgtChks VehSpdLgtSafeVehSpdLgtCntr VehSpdLgtSafeVehSpdLgtQf;
+
+

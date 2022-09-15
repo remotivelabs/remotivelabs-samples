@@ -16,30 +16,6 @@ from threading import Thread, Timer
 signal_creator = None
 q = queue.Queue()
 
-
-def read_signals(stub, signal):
-    """Read signals
-
-    Parameters
-    ----------
-    stub : NetworkServiceStub
-        Object instance of class
-    signal : SignalId
-        Object instance of class
-
-    Returns
-    -------
-    Signals
-        Object instance of class
-
-    """
-    try:
-        read_info = broker.network_api_pb2.SignalIds(signalId=[signal])
-        return stub.ReadSignals(read_info)
-    except grpc._channel._Rendezvous as err:
-        print(err)
-
-
 def ecu_A(stub, pause):
     """Publishes a value, read other value (published by ecu_B)
 
@@ -74,39 +50,7 @@ def ecu_A(stub, pause):
         )
 
         time.sleep(pause)
-
-        # Read the other value 'counter_times_2' and output result
-
-        read_signal_response = read_signals(
-            stub, signal_creator.signal("counter_times_2", namespace)
-        )
-        for signal in read_signal_response.signal:
-            print(f"ecu_A, (result) {signal.id.name} is {get_value(signal)}")
         increasing_counter = (increasing_counter + 1) % 4
-
-
-def read_on_timer(stub, signals, pause):
-    """Simple reading with timer
-
-    Parameters
-    ----------
-    stub : NetworkServiceStub
-        Object instance of class
-    signals : SignalId
-        Object instance of class
-    pause : int
-        Amount of time to pause, in seconds
-
-    """
-    while True:
-        read_info = broker.network_api_pb2.SignalIds(signalId=signals)
-        try:
-            response = stub.ReadSignals(read_info)
-            for signal in response.signal:
-                print(f"ecu_B, (read) {signal.id.name} is {get_value(signal)}")
-        except grpc._channel._Rendezvous as err:
-            print(err)
-        time.sleep(pause)
 
 
 def get_value(signal):
@@ -145,24 +89,9 @@ def main(argv):
     run(args.url, args.x_api_key)
 
 
-def double_and_publish(network_stub, client_id, trigger, signals):
+def printer(signals):
     for signal in signals:
         print(f"ecu_B, (subscribe) {signal.id.name} {get_value(signal)}")
-        if signal.id == trigger:
-            helper.publish_signals(
-                client_id,
-                network_stub,
-                [
-                    signal_creator.signal_with_payload(
-                        "counter_times_2", "ecu_B", ("integer", get_value(signal) * 2)
-                    ),
-                    # add any number of signals/frames here
-                    # signal_creator.signal_with_payload(
-                    #     "TestFr04", "ecu_B", ("raw", binascii.unhexlify("0a0b0c0d")), False
-                    # )
-                ],
-            )
-
 
 def run(url, x_api_key):
     """Main function, checking arguments passed to script, setting up stubs, configuration and starting Threads."""
@@ -174,6 +103,7 @@ def run(url, x_api_key):
     helper.check_license(system_stub)
 
     helper.upload_folder(system_stub, "configuration_udp")
+    # helper.upload_folder(system_stub, "spa2")
     # upload_folder(system_stub, "configuration_lin")
     # upload_folder(system_stub, "configuration_can")
     # upload_folder(system_stub, "configuration_canfd")
@@ -196,7 +126,7 @@ def run(url, x_api_key):
     # ecu b, we do this with lambda refering to double_and_publish.
     ecu_b_client_id = broker.common_pb2.ClientId(id="id_ecu_B")
 
-    ecu_B_sub_thread = Thread(
+    Thread(
         target=helper.act_on_signal,
         args=(
             ecu_b_client_id,
@@ -206,29 +136,24 @@ def run(url, x_api_key):
                 # here you can add any signal from any namespace
                 # signal_creator.signal("TestFr04", "ecu_B"),
             ],
-            True,  # True: only report when signal changes
-            lambda signals: double_and_publish(
-                network_stub,
-                ecu_b_client_id,
-                signal_creator.signal("counter", "ecu_B"),
+            False,  # True: only report when signal changes
+            lambda signals: printer(
                 signals,
             ),
             lambda subscripton: (q.put(("id_ecu_B", subscripton))),
         ),
-    )
-    ecu_B_sub_thread.start()
+    ).start()
     # wait for subscription to settle
     ecu, subscription = q.get()
 
     # ecu a, this is where we publish, and
-    ecu_A_thread = Thread(
+    Thread(
         target=ecu_A,
         args=(
             network_stub,
             1,
         ),
-    )
-    ecu_A_thread.start()
+    ).start()
 
     # ecu b, bonus, periodically, read using timer.
     signals = [
@@ -236,8 +161,6 @@ def run(url, x_api_key):
         # add any number of signals from any namespace
         # signal_creator.signal("TestFr04", "ecu_B"),
     ]
-    ecu_read_on_timer = Thread(target=read_on_timer, args=(network_stub, signals, 1))
-    ecu_read_on_timer.start()
 
     # once we are done we could cancel subscription
     # subscription.cancel()

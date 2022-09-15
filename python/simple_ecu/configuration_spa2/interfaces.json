@@ -1,0 +1,55 @@
+{
+    "chains": [
+        {
+            "type": "physical_can",
+            "namespace": "ecu_B",
+            "device_name": "can1",
+            "database": "can/HVBMsystemSPA2_MAIN_3_HVBM1CAN_200227.dbc"
+        },
+        {
+            "namespace": "CAN_8_HVBM",
+            "type": "udp",
+            "sub_type": 2,
+            "dbc_file": "can/HVBMsystemSPA2_MAIN_3_HVBM1CAN_200227.dbc",
+            "server_port": 5002,
+            "target_host": "198.19.4.14",
+            "target_port": 5004
+        },
+        {
+            "namespace": "CAN_7_LPC",
+            "type": "udp",
+            "sub_type": 2,
+            "dbc_file": "can/LPCSystem_MAIN_24.1.1_LPC1CAN.dbc",
+            "server_port": 5001,
+            "target_host": "198.19.4.14",
+            "target_port": 5004
+        },
+        {
+            "namespace": "CAN_15_BPD",
+            "type": "udp",
+            "sub_type": 2,
+            "dbc_file": "can/LPCSystem_MAIN_24.1.1_LPC1CAN.dbc",
+            "server_port": 5007,
+            "target_host": "198.19.4.14",
+            "target_port": 5004
+        },
+        {
+            "namespace": "CAN_16_HLCM",
+            "type": "udp",
+            "sub_type": 2,
+            "dbc_file": "can/LPCSystem_MAIN_24.1.1_LPC1CAN.dbc",
+            "server_port": 5003,
+            "target_host": "198.19.4.14",
+            "target_port": 5004
+        },
+        {
+            "namespace": "CAN_11_TVRL",
+            "type": "udp",
+            "sub_type": 2,
+            "dbc_file": "can/LPCSystem_MAIN_24.1.1_LPC1CAN.dbc",
+            "server_port": 5100,
+            "target_host": "198.19.4.14",
+            "target_port": 5004
+        }
+    ]
+}
