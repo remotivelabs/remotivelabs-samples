@@ -135,3 +135,8 @@ BO_ 1113 TestFr07: 4 CCM
  SG_ TestFr07_Child01_UB: 22|1@0+ (1,0) [0|1] "" CCM
  SG_ TestFr07_Child02: 7|16@0+ (1.0, 0.0) [0.0|65535.0] "NoUnit" CCM
  SG_ TestFr07_Child02_UB: 23|1@0+ (1,0) [0|1] "" CCM
+
+BA_ "GenMsgCycleTime" BO_ 1112 810.000;
+BA_ "GenMsgCycleTime" BO_ 1113 820.000;
+
+BA_DEF_ BO_ "GenMsgCycleTime" FLOAT 0 300000; // [ms]

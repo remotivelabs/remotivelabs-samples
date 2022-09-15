@@ -40,20 +40,19 @@ def read_signals(stub, signal):
         print(err)
 
 
-def ecu_A(stub, pause):
+def ecu_A(stub):
     """Publishes a value, read other value (published by ecu_B)
 
     Parameters
     ----------
     stub : NetworkServiceStub
         Object instance of class
-    pause : int
-        Amount of time to pause, in seconds
 
     """
     increasing_counter = 0
     namespace = "ecu_A"
     clientId = broker.common_pb2.ClientId(id="id_ecu_A")
+    pause = 0.001*signal_creator.get_meta("TestFr06", namespace).getCycleTime(1000.0)
     while True:
 
         print("\necu_A, seed is ", increasing_counter)
@@ -174,9 +173,9 @@ def run(url, x_api_key):
     helper.check_license(system_stub)
 
     helper.upload_folder(system_stub, "configuration_udp")
-    # upload_folder(system_stub, "configuration_lin")
-    # upload_folder(system_stub, "configuration_can")
-    # upload_folder(system_stub, "configuration_canfd")
+    # helper.upload_folder(system_stub, "configuration_lin")
+    # helper.upload_folder(system_stub, "configuration_can")
+    # helper.upload_folder(system_stub, "configuration_canfd")
     helper.reload_configuration(system_stub)
 
     global signal_creator
@@ -225,7 +224,6 @@ def run(url, x_api_key):
         target=ecu_A,
         args=(
             network_stub,
-            1,
         ),
     )
     ecu_A_thread.start()
