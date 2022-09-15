@@ -16,20 +16,21 @@ from threading import Thread, Timer
 signal_creator = None
 q = queue.Queue()
 
-def ecu_A(stub, pause):
-    """Publishes a value, read other value (published by ecu_B)
 
+def ecu_A(stub):
+    """Publishes a value with set frequncy in database or default to 1000ms, read other value (published by ecu_B)
     Parameters
     ----------
     stub : NetworkServiceStub
         Object instance of class
-    pause : int
-        Amount of time to pause, in seconds
-
     """
     increasing_counter = 0
     namespace = "ecu_A"
     clientId = broker.common_pb2.ClientId(id="id_ecu_A")
+    counter_frame = signal_creator.frame_by_signal("counter", namespace)
+    pause = 0.001 * signal_creator.get_meta(
+        counter_frame.name, counter_frame.namespace.name
+    ).getCycleTime(1000.0)
     while True:
 
         print("\necu_A, seed is ", increasing_counter)
@@ -93,6 +94,7 @@ def printer(signals):
     for signal in signals:
         print(f"ecu_B, (subscribe) {signal.id.name} {get_value(signal)}")
 
+
 def run(url, x_api_key):
     """Main function, checking arguments passed to script, setting up stubs, configuration and starting Threads."""
     # Setting up stubs and configuration
@@ -149,10 +151,7 @@ def run(url, x_api_key):
     # ecu a, this is where we publish, and
     Thread(
         target=ecu_A,
-        args=(
-            network_stub,
-            1,
-        ),
+        args=(network_stub,),
     ).start()
 
     # ecu b, bonus, periodically, read using timer.
