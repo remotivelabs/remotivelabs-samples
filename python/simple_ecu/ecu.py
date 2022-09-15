@@ -17,20 +17,23 @@ signal_creator = None
 q = queue.Queue()
 
 
-def ecu_A(stub):
-    """Publishes a value with set frequncy in database or default to 1000ms, read other value (published by ecu_B)
+def publish_loop(stub):
+    """Publishes a value with set frequncy in database or default to 1000ms, read other value
     Parameters
     ----------
     stub : NetworkServiceStub
         Object instance of class
     """
-    increasing_counter = 0
+    signal_name = "counter"
     namespace = "ecu_A"
+
+    increasing_counter = 0
     clientId = broker.common_pb2.ClientId(id="id_ecu_A")
-    counter_frame = signal_creator.frame_by_signal("counter", namespace)
+    counter_frame = signal_creator.frame_by_signal(signal_name, namespace)
     pause = 0.001 * signal_creator.get_meta(
         counter_frame.name, counter_frame.namespace.name
     ).getCycleTime(1000.0)
+
     while True:
 
         print("\necu_A, seed is ", increasing_counter)
@@ -41,7 +44,7 @@ def ecu_A(stub):
             stub,
             [
                 signal_creator.signal_with_payload(
-                    "counter", namespace, ("integer", increasing_counter)
+                    signal_name, namespace, ("integer", increasing_counter)
                 ),
                 # add any number of signals here, make sure that all signals/frames are unique.
                 # signal_creator.signal_with_payload(
@@ -123,15 +126,15 @@ def run(url, x_api_key):
             system_stub.ListSignals(networkInfo.namespace),
         )
 
+    # sleep so that the user can see the listings...
+    time.sleep(3) 
     # Starting Threads
 
-    # ecu b, we do this with lambda refering to double_and_publish.
-    ecu_b_client_id = broker.common_pb2.ClientId(id="id_ecu_B")
-
+    # ecu b, we do this with lambda which only logs subscribtions.
     Thread(
         target=helper.act_on_signal,
         args=(
-            ecu_b_client_id,
+            broker.common_pb2.ClientId(id="id_ecu_B"),
             network_stub,
             [
                 signal_creator.signal("counter", "ecu_B"),
@@ -148,18 +151,11 @@ def run(url, x_api_key):
     # wait for subscription to settle
     ecu, subscription = q.get()
 
-    # ecu a, this is where we publish, and
+    # ecu a, this is where we publish
     Thread(
-        target=ecu_A,
+        target=publish_loop,
         args=(network_stub,),
     ).start()
-
-    # ecu b, bonus, periodically, read using timer.
-    signals = [
-        signal_creator.signal("counter", "ecu_B"),
-        # add any number of signals from any namespace
-        # signal_creator.signal("TestFr04", "ecu_B"),
-    ]
 
     # once we are done we could cancel subscription
     # subscription.cancel()
