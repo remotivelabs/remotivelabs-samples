@@ -107,15 +107,15 @@ def run(url, x_api_key):
     system_stub = broker.system_api_pb2_grpc.SystemServiceStub(intercept_channel)
     helper.check_license(system_stub)
 
-    helper.upload_folder(system_stub, "configuration_udp")
-    # helper.upload_folder(system_stub, "spa2")
-    # upload_folder(system_stub, "configuration_lin")
-    # upload_folder(system_stub, "configuration_can")
-    # upload_folder(system_stub, "configuration_canfd")
-    helper.reload_configuration(system_stub)
+    # helper.upload_folder(system_stub, "configuration_udp")
+    # # helper.upload_folder(system_stub, "spa2")
+    # # upload_folder(system_stub, "configuration_lin")
+    # # upload_folder(system_stub, "configuration_can")
+    # # upload_folder(system_stub, "configuration_canfd")
+    # helper.reload_configuration(system_stub)
 
     global signal_creator
-    signal_creator = SignalCreator(system_stub)
+    # signal_creator = SignalCreator(system_stub)
 
     # Lists available signals
     configuration = system_stub.GetConfiguration(broker.common_pb2.Empty())
@@ -137,7 +137,8 @@ def run(url, x_api_key):
             broker.common_pb2.ClientId(id="id_ecu_B"),
             network_stub,
             [
-                signal_creator.signal("counter", "ecu_B"),
+                broker.common_pb2.SignalId(name="SteeringAngle129", namespace=broker.common_pb2.NameSpace(name = "ChassiBus"))
+                # signal_creator.signal("SteeringAngle129", "ChassiBus"),
                 # here you can add any signal from any namespace
                 # signal_creator.signal("TestFr04", "ecu_B"),
             ],
@@ -151,11 +152,11 @@ def run(url, x_api_key):
     # wait for subscription to settle
     ecu, subscription = q.get()
 
-    # ecu a, this is where we publish
-    Thread(
-        target=publish_loop,
-        args=(network_stub,),
-    ).start()
+    # # ecu a, this is where we publish
+    # Thread(
+    #     target=publish_loop,
+    #     args=(network_stub,),
+    # ).start()
 
     # once we are done we could cancel subscription
     # subscription.cancel()
