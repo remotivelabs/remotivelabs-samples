@@ -40,7 +40,7 @@ def read_signals(stub, signal):
         print(err)
 
 
-def ecu_A(stub):
+def ecu_A(stub, signal_name, namespace):
     """Publishes a value with set frequncy in database or default to 1000ms, read other value (published by ecu_B)
 
     Parameters
@@ -49,13 +49,22 @@ def ecu_A(stub):
         Object instance of class
 
     """
-    increasing_counter = 0
-    namespace = "ecu_A"
+    # increasing_counter = 0
+    # signal_name = "counter"
+    # namespace = "ecu_A"
+
     clientId = broker.common_pb2.ClientId(id="id_ecu_A")
-    counter_frame = signal_creator.frame_by_signal("counter", namespace)
+   
+    counter_frame = signal_creator.frame_by_signal(signal_name, namespace)
+   
     pause = 0.001 * signal_creator.get_meta(
         counter_frame.name, counter_frame.namespace.name
     ).getCycleTime(1000.0)
+
+    increasing_counter_start = signal_creator.get_meta(
+        signal_name, namespace
+    ).getStartValue(0)
+
     while True:
 
         print("\necu_A, seed is ", increasing_counter)
@@ -66,7 +75,7 @@ def ecu_A(stub):
             stub,
             [
                 signal_creator.signal_with_payload(
-                    "counter", namespace, ("integer", increasing_counter)
+                    signal_name, namespace, ("double", increasing_counter_start + increasing_counter)
                 ),
                 # add any number of signals here, make sure that all signals/frames are unique.
                 # signal_creator.signal_with_payload(
@@ -224,7 +233,7 @@ def run(url, x_api_key):
     # ecu a, this is where we publish, and
     Thread(
         target=ecu_A,
-        args=(network_stub,),
+        args=(network_stub, "counter", "ecu_A"),
     ).start()
 
     # ecu b, bonus, periodically, read using timer.
