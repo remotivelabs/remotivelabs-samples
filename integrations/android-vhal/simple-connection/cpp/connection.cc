@@ -100,10 +100,10 @@ int main(int argc, char *argv[])
 
   grpc::ChannelArguments cargs;
 
-  auto publisher = new GrpcConnection(CreateCustomChannel(argv[1], compsited_creds, cargs));
+  auto subscriber = new GrpcConnection(CreateCustomChannel(argv[1], compsited_creds, cargs));
 
-  std::thread publisher_thread(&GrpcConnection::subscriber, publisher);
-  publisher_thread.join();
+  std::thread subscriber_thread(&GrpcConnection::subscriber, subscriber);
+  subscriber_thread.join();
 
   return 0;
 }
