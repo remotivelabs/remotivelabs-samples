@@ -47,8 +47,9 @@ def ecu_A(stub):
         Object instance of class
 
     """
-    increasing_counter = 0
     namespace = "ecu_A"
+    increasing_counter = 0
+    counter_start_value = int(signal_creator.get_meta("counter", namespace).getStartValue(0))
     clientId = br.common_pb2.ClientId(id="id_ecu_A")
     counter_frame = signal_creator.frame_by_signal("counter", namespace)
     pause = 0.001 * signal_creator.get_meta(
@@ -82,7 +83,7 @@ def ecu_A(stub):
         )
         for signal in read_signal_response.signal:
             print(f"ecu_A, (result) {signal.id.name} is {get_value(signal)}")
-        increasing_counter = (increasing_counter + 1) % 4
+        increasing_counter = counter_start_value + (increasing_counter + 1) % 4
 
 
 def read_on_timer(stub, signals, pause):
