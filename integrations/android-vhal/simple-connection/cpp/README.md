@@ -1,4 +1,4 @@
-# Get vechicle traffic from cloud
+# Get vehicle traffic from cloud
 
 Start by doing
 
