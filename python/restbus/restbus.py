@@ -94,6 +94,11 @@ def run(url, x_api_key, namespace_name, frames, exclude, verbose, reload_config)
     namespace = br.common_pb2.NameSpace(name=namespace_name)
     signals = system_stub.ListSignals(namespace)
 
+    if len(frames) == 0:
+        print('No frames specified, selecting all frames in namespace {}'.format(namespace_name))
+        frames = []
+        exclude = True
+
     frameSelection = list(selectRestBusFrames(sc, signals.frame, frames, exclude))
 
     if len(frameSelection) > 0:
@@ -148,7 +153,7 @@ def main(argv):
     parser.add_argument(
         "-frame",
         "--frame",
-        help="Frame name to echo",
+        help="Frame name to echo. If not specified all frames in namespace will be used",
         type=str,
         required=False,
         action="append",
