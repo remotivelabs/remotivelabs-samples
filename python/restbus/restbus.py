@@ -18,14 +18,14 @@ def genDefaultPublishValues(signal_creator, child_info):
                 signalId.name, signalId.namespace.name, ("double", default_value)
                 )
 
-def selectRestBusFrames(signal_creator, frame_infos, match_frames, invert):
+def selectRestBusFrames(signal_creator, frame_infos, match_frames, exclude):
 
     for fi in frame_infos:
         si = fi.signalInfo
         # TODO get cycle time
 
         matching = si.id.name in match_frames
-        if invert:
+        if exclude:
             matching = not matching
 
         if matching:
@@ -44,7 +44,7 @@ def restBusSchedule(frameSelection, network_stub, verbose):
         cycle_time = cycle_time_ms * 0.001
         schedule.append((clock, cycle_time, publish_values))
 
-    clientId = br.common_pb2.ClientId(id="RestBus")
+    clientId = br.common_pb2.ClientId(id="Restbus")
 
     now = time.monotonic()
     sentFramesCount = 0
@@ -79,7 +79,7 @@ def restBusSchedule(frameSelection, network_stub, verbose):
         schedule.sort()
     print("No more schedules...")
 
-def run(url, x_api_key, namespace_name, frames, invert, verbose):
+def run(url, x_api_key, namespace_name, frames, exclude, verbose):
     intercept_channel = br.create_channel(url, x_api_key)
     system_stub = br.system_api_pb2_grpc.SystemServiceStub(intercept_channel)
     network_stub = br.network_api_pb2_grpc.NetworkServiceStub(intercept_channel)
@@ -88,15 +88,15 @@ def run(url, x_api_key, namespace_name, frames, invert, verbose):
     namespace = br.common_pb2.NameSpace(name=namespace_name)
     signals = system_stub.ListSignals(namespace)
 
-    frameSelection = list(selectRestBusFrames(sc, signals.frame, frames, invert))
+    frameSelection = list(selectRestBusFrames(sc, signals.frame, frames, exclude))
 
     if len(frameSelection) > 0:
-        print("Running rest bus for {} frames on namespace {}".format(len(frameSelection), namespace_name))
+        print("Running restbus for {} frames on namespace {}".format(len(frameSelection), namespace_name))
         if verbose:
 
             for cycle_time, frame_id, publish_values in frameSelection:
                 signals = ", ".join(map(lambda pair: pair.id.name, publish_values))
-                print('Frame {} with cycle time {} ms and signals: {}.'.format(frame_id, cycle_time, signals))
+                print(' - Frame {} with cycle time {} ms and signals: {}.'.format(frame_id, cycle_time, signals))
 
         try:
             restBusSchedule(frameSelection, network_stub, verbose)
@@ -145,9 +145,9 @@ def main(argv):
     )
 
     parser.add_argument(
-        "-invert",
-        "--invert",
-        help="Invert selection of frames",
+        "-exclude",
+        "--exclude",
+        help="Exclude selection of frames",
         action="store_true",
         default=False,
     )
@@ -169,7 +169,7 @@ def main(argv):
 
     args = parser.parse_args()
 
-    run(args.url, args.x_api_key, args.namespace, args.frame, args.invert, args.verbose)
+    run(args.url, args.x_api_key, args.namespace, args.frame, args.exclude, args.verbose)
 
 
 if __name__ == "__main__":
