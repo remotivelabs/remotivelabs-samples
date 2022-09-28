@@ -87,6 +87,7 @@ def run(url, x_api_key, namespace_name, frames, exclude, verbose, reload_config)
     if reload_config:
         print('Reloading sample configuration')
         br.upload_folder(system_stub, "configuration_udp")
+        # br.upload_folder(system_stub, "configuration_can")
         br.reload_configuration(system_stub)
 
     sc = br.SignalCreator(system_stub)
