@@ -130,8 +130,7 @@ def main(argv):
         "--url",
         type=str,
         help="URL of the RemotiveBroker",
-        required=False,
-        default="http://127.0.0.1:50051",
+        required=True,
     )
     parser.add_argument(
         "-x_api_key",

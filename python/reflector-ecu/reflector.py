@@ -157,12 +157,11 @@ def act_on_signal(client_id, stub, sub_signals, on_change, fun, on_subcribed=Non
 def main(argv):
     parser = argparse.ArgumentParser(description="Provide address to Beambroker")
     parser.add_argument(
-        "-ip",
-        "--ip",
+        "-url",
+        "--url",
         type=str,
         help="IP address of the RemotiveBroker",
-        required=False,
-        default="127.0.0.1",
+        required=True,
     )
     parser.add_argument(
         "-port",
