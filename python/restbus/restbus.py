@@ -136,7 +136,7 @@ def main(argv):
     parser.add_argument(
         "-x_api_key",
         "--x_api_key",
-        help="required api key for https sessions",
+        help="API key is required when accessing brokers running in the cloud",
         type=str,
         required=False,
         default="offline",

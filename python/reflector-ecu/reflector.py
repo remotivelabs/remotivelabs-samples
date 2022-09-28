@@ -156,13 +156,24 @@ def act_on_signal(client_id, stub, sub_signals, on_change, fun, on_subcribed=Non
 
 def main(argv):
     parser = argparse.ArgumentParser(description="Provide address to Beambroker")
+
     parser.add_argument(
         "-url",
         "--url",
         type=str,
-        help="IP address of the RemotiveBroker",
+        help="URL of the RemotiveBroker",
         required=True,
     )
+
+    parser.add_argument(
+        "-x_api_key",
+        "--x_api_key",
+        type=str,
+        help="API key is required when accessing brokers running in the cloud",
+        required=False,
+        default="offline",
+    )
+
     parser.add_argument(
         "-port",
         "--port",
@@ -171,8 +182,9 @@ def main(argv):
         required=False,
         default="50051",
     )
+
     args = parser.parse_args()
-    run(args.ip, args.port)
+    run(args.url, args.x_api_key, args.port)
 
 
 def double_and_publish(network_stub, client_id, trigger, signals):
@@ -215,12 +227,13 @@ def change_namespace(signals, namespace_name):
 # TestFr07 is split into all signals. Some signals are modified and then dispatched on ecu_B
 #
 # refer to interfaces.json for reflector configuration.
-def run(ip, port):
+def run(url, x_api_key, port):
     """Main function, checking arguments passed to script, setting up stubs, configuration and starting Threads."""
     # Setting up stubs and configuration
-    channel = grpc.insecure_channel(ip + ":" + port)
-    network_stub = br.network_api_pb2_grpc.NetworkServiceStub(channel)
-    system_stub = br.system_api_pb2_grpc.SystemServiceStub(channel)
+    intercept_channel = br.create_channel(url, x_api_key)
+
+    network_stub = br.network_api_pb2_grpc.NetworkServiceStub(intercept_channel)
+    system_stub = br.system_api_pb2_grpc.SystemServiceStub(intercept_channel)
     br.check_license(system_stub)
 
     br.upload_folder(system_stub, "configuration_can")

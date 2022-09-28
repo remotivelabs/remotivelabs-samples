@@ -191,14 +191,16 @@ def main(argv):
         help="URL of the RemotiveBroker",
         required=True,
     )
+
     parser.add_argument(
         "-x_api_key",
         "--x_api_key",
         type=str,
-        help="required api key for https sessions",
+        help="API key is required when accessing brokers running in the cloud",
         required=False,
         default="offline",
     )
+
     args = parser.parse_args()
 
     run(args.url, args.x_api_key)
