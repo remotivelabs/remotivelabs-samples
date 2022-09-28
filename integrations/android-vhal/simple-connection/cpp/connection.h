@@ -7,6 +7,7 @@ public:
     GrpcConnection() = default;
     GrpcConnection(std::shared_ptr<grpc::Channel> channel);
     void subscriber();
+    void publisher();
 
 private:
     std::unique_ptr<base::NetworkService::Stub> stub;

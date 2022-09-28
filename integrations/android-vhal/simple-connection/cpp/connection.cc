@@ -70,6 +70,44 @@ void GrpcConnection::subscriber()
   std::cout << "Subscribing done" << std::endl;
 }
 
+void GrpcConnection::publisher()
+{
+
+  // TODO we could use startvalue here as default
+  // https://github.com/remotivelabs/remotivelabs-apis/blob/main/proto/common.proto#L34
+  auto start_value = 12;
+
+  auto N = 10;
+  for (auto i = 0; i < N; i = ((i + 1) % N))
+  {
+    // std::cout << i << std::endl;
+    auto signals = new Signals();
+    {
+      auto signal_id = new SignalId();
+      signal_id->set_allocated_name(new std::string("SteeringAngle129"));
+      signal_id->set_allocated_namespace_(new NameSpace(*name_space));
+      auto handle = signals->add_signal();
+      handle->set_allocated_id(signal_id);
+      handle->set_integer(start_value + i);
+    }
+    {
+      // append any number of signals here! (duplicate above code)
+    }
+
+    PublisherConfig pub_info;
+    pub_info.set_allocated_clientid(new ClientId(*source));
+    pub_info.set_allocated_signals(signals);
+    pub_info.set_frequency(0);
+    ClientContext ctx;
+    Empty empty;
+    stub->PublishSignals(&ctx, pub_info, &empty);
+
+    // TODO we should derive this period from proto buffer,
+    // https://github.com/remotivelabs/remotivelabs-apis/blob/main/proto/common.proto#L33
+    usleep(30);
+  }
+}
+
 class MyCustomAuthenticator : public grpc::MetadataCredentialsPlugin
 {
 public:
@@ -100,10 +138,13 @@ int main(int argc, char *argv[])
 
   grpc::ChannelArguments cargs;
 
-  auto subscriber = new GrpcConnection(CreateCustomChannel(argv[1], compsited_creds, cargs));
+  auto connection = new GrpcConnection(CreateChannel(argv[1], compsited_creds));
 
-  std::thread subscriber_thread(&GrpcConnection::subscriber, subscriber);
-  subscriber_thread.join();
+  std::thread subscriber(&GrpcConnection::subscriber, connection);
+  subscriber.join();
+
+  // std::thread publisher(&GrpcConnection::publisher, connection);
+  // publisher.join();
 
   return 0;
 }
