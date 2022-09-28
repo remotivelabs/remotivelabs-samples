@@ -79,10 +79,15 @@ def restBusSchedule(frameSelection, network_stub, verbose):
         schedule.sort()
     print("No more schedules...")
 
-def run(url, x_api_key, namespace_name, frames, exclude, verbose):
+def run(url, x_api_key, namespace_name, frames, exclude, verbose, reload_config):
     intercept_channel = br.create_channel(url, x_api_key)
     system_stub = br.system_api_pb2_grpc.SystemServiceStub(intercept_channel)
     network_stub = br.network_api_pb2_grpc.NetworkServiceStub(intercept_channel)
+
+    if reload_config:
+        print('Reloading sample configuration')
+        br.upload_folder(system_stub, "configuration_udp")
+        br.reload_configuration(system_stub)
 
     sc = br.SignalCreator(system_stub)
     namespace = br.common_pb2.NameSpace(name=namespace_name)
@@ -96,7 +101,12 @@ def run(url, x_api_key, namespace_name, frames, exclude, verbose):
 
             for cycle_time, frame_id, publish_values in frameSelection:
                 signals = ", ".join(map(lambda pair: pair.id.name, publish_values))
-                print(' - Frame {} with cycle time {} ms and signals: {}.'.format(frame_id, cycle_time, signals))
+                if cycle_time > 0.0:
+                    print('- Frame {} with cycle time {} ms.'.format(frame_id, cycle_time))
+                else:
+                    print('- Frame {} without cycle time.'.format(frame_id))
+                for pair in publish_values:
+                    print('  - Signal {}, default value: {}.'.format(pair.id.name, pair.double))
 
         try:
             restBusSchedule(frameSelection, network_stub, verbose)
@@ -165,11 +175,13 @@ def main(argv):
         "-reload",
         "--reload",
         help="Reload with example configuration",
+        action="store_true",
+        default=False,
     )
 
     args = parser.parse_args()
 
-    run(args.url, args.x_api_key, args.namespace, args.frame, args.exclude, args.verbose)
+    run(args.url, args.x_api_key, args.namespace, args.frame, args.exclude, args.verbose, args.reload)
 
 
 if __name__ == "__main__":
