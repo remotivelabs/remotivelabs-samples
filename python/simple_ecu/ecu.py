@@ -1,5 +1,6 @@
 import argparse
 import binascii
+from errno import ESTALE
 import grpc
 import os
 import queue
@@ -92,10 +93,33 @@ def main(argv):
 
     run(args.url, args.x_api_key)
 
+def get_value_pair(signal):
+    if signal.raw != b"":
+        raise Exception(f"not a valid signal, probably a frame {signal}")
+    elif signal.HasField("integer"):
+        return ("integer", signal.integer)
+    elif signal.HasField("double"):
+        return ("double", signal.double)
+    elif signal.HasField("arbitration"):
+        return ("arbitration", signal.arbitration)
+    elif signal.HasField("empty"):
+        return ("empty", signal.empty)
+    else:
+        raise Exception(f"not a valid signal {signal}")
 
 def printer(signals):
-    for signal in signals:
-        print(f"ecu_B, (subscribe) {signal.id.name} {get_value(signal)}")
+    signal_dict = {signal.id.name: signal for signal in signals}
+    # for signal in signals:
+    #     print(f"ecu_B, (subscribe) {signal.id.name} {get_value(signal)}")
+    (type, value1) = get_value_pair(signal_dict["UI_solarAzimuthAngleCarRef"])
+    (type, value2) = get_value_pair(signal_dict["UI_solarAzimuthAngle"])
+    diff = value2-value1
+    
+    if diff < 0 or diff > 360:
+        print(f"diff is {diff + 360}")
+    else:
+        print(f"diff is {diff}")
+
 
 
 def run(url, x_api_key):
@@ -137,7 +161,8 @@ def run(url, x_api_key):
             broker.common_pb2.ClientId(id="id_ecu_B"),
             network_stub,
             [
-                broker.common_pb2.SignalId(name="SteeringAngle129", namespace=broker.common_pb2.NameSpace(name = "ChassiBus"))
+                broker.common_pb2.SignalId(name="UI_solarAzimuthAngle", namespace=broker.common_pb2.NameSpace(name = "ChassiBus")),
+                broker.common_pb2.SignalId(name="UI_solarAzimuthAngleCarRef", namespace=broker.common_pb2.NameSpace(name = "ChassiBus"))
                 # signal_creator.signal("SteeringAngle129", "ChassiBus"),
                 # here you can add any signal from any namespace
                 # signal_creator.signal("TestFr04", "ecu_B"),
