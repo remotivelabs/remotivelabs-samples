@@ -126,9 +126,22 @@ private:
   grpc::string ticket_;
 };
 
+const char CUSTOM_CERTIFICATE[] = R"(
+-----BEGIN CERTIFICATE-----
+YOU PREFERRED CERTIFICATE HERE
+-----END CERTIFICATE-----
+)";
+
 int main(int argc, char *argv[])
 {
-  auto channel_creds_ = ::grpc::SslCredentials(::grpc::SslCredentialsOptions());
+  // use local certificate
+  grpc::SslCredentialsOptions sslops;
+  sslops.pem_root_certs = CUSTOM_CERTIFICATE;
+
+  auto channel_creds_ = ::grpc::SslCredentials(sslops);
+
+  // or use certificate from host
+  // auto channel_creds_ = ::grpc::SslCredentials(::grpc::SslCredentialsOptions());
 
   auto call_creds = grpc::MetadataCredentialsFromPlugin(
       std::unique_ptr<grpc::MetadataCredentialsPlugin>(
