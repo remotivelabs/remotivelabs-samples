@@ -9,10 +9,7 @@ import time
 
 from threading import Thread, Timer
 
-import remotivelabs.broker.sync as broker
-import remotivelabs.broker.sync.helper as helper
-
-from remotivelabs.broker.sync import SignalCreator
+import remotivelabs.broker.sync as br
 
 signal_creator = None
 q = queue.Queue()
@@ -35,7 +32,7 @@ def read_signals(stub, signal):
 
     """
     try:
-        read_info = broker.network_api_pb2.SignalIds(signalId=[signal])
+        read_info = br.network_api_pb2.SignalIds(signalId=[signal])
         return stub.ReadSignals(read_info)
     except grpc._channel._Rendezvous as err:
         print(err)
@@ -54,13 +51,13 @@ def ecu_A(stub, pause):
     """
     increasing_counter = 0
     namespace = "ecu_A"
-    clientId = broker.common_pb2.ClientId(id="id_ecu_A")
+    clientId = br.common_pb2.ClientId(id="id_ecu_A")
     while True:
 
         print("\necu_A, seed/counter is ", increasing_counter)
         # Publishes value 'counter'
 
-        helper.publish_signals(
+        br.publish_signals(
             clientId,
             stub,
             [
@@ -106,7 +103,7 @@ def read_on_timer(stub, signals, pause):
 
     """
     while True:
-        read_info = broker.network_api_pb2.SignalIds(signalId=signals)
+        read_info = br.network_api_pb2.SignalIds(signalId=signals)
         try:
             response = stub.ReadSignals(read_info)
             for signal in response.signal:
@@ -132,9 +129,9 @@ def get_value_pair(signal):
 
 
 def act_on_signal(client_id, stub, sub_signals, on_change, fun, on_subcribed=None):
-    sub_info = broker.network_api_pb2.SubscriberConfig(
+    sub_info = br.network_api_pb2.SubscriberConfig(
         clientId=client_id,
-        signals=broker.network_api_pb2.SignalIds(signalId=sub_signals),
+        signals=br.network_api_pb2.SignalIds(signalId=sub_signals),
         onChange=on_change,
     )
     try:
@@ -159,24 +156,35 @@ def act_on_signal(client_id, stub, sub_signals, on_change, fun, on_subcribed=Non
 
 def main(argv):
     parser = argparse.ArgumentParser(description="Provide address to Beambroker")
+
     parser.add_argument(
-        "-ip",
-        "--ip",
+        "-url",
+        "--url",
         type=str,
-        help="IP address of the Beamy Broker",
-        required=False,
-        default="127.0.0.1",
+        help="URL of the RemotiveBroker",
+        required=True,
     )
+
+    parser.add_argument(
+        "-x_api_key",
+        "--x_api_key",
+        type=str,
+        help="API key is required when accessing brokers running in the cloud",
+        required=False,
+        default="offline",
+    )
+
     parser.add_argument(
         "-port",
         "--port",
         type=str,
-        help="grpc port used on Beamy Broker",
+        help="grpc port used on RemotiveBroker",
         required=False,
         default="50051",
     )
+
     args = parser.parse_args()
-    run(args.ip, args.port)
+    run(args.url, args.x_api_key, args.port)
 
 
 def double_and_publish(network_stub, client_id, trigger, signals):
@@ -184,7 +192,7 @@ def double_and_publish(network_stub, client_id, trigger, signals):
         # print(f"signals contains {signals}")
         print(f"ecu_B, (subscribe) {signal.id.name} {get_value(signal)}")
         if signal.id == trigger:
-            helper.publish_signals(
+            br.publish_signals(
                 client_id,
                 network_stub,
                 [
@@ -219,22 +227,23 @@ def change_namespace(signals, namespace_name):
 # TestFr07 is split into all signals. Some signals are modified and then dispatched on ecu_B
 #
 # refer to interfaces.json for reflector configuration.
-def run(ip, port):
+def run(url, x_api_key, port):
     """Main function, checking arguments passed to script, setting up stubs, configuration and starting Threads."""
     # Setting up stubs and configuration
-    channel = grpc.insecure_channel(ip + ":" + port)
-    network_stub = broker.network_api_pb2_grpc.NetworkServiceStub(channel)
-    system_stub = broker.system_api_pb2_grpc.SystemServiceStub(channel)
-    helper.check_license(system_stub)
+    intercept_channel = br.create_channel(url, x_api_key)
 
-    helper.upload_folder(system_stub, "configuration_can")
-    helper.reload_configuration(system_stub)
+    network_stub = br.network_api_pb2_grpc.NetworkServiceStub(intercept_channel)
+    system_stub = br.system_api_pb2_grpc.SystemServiceStub(intercept_channel)
+    br.check_license(system_stub)
+
+    br.upload_folder(system_stub, "configuration_can")
+    br.reload_configuration(system_stub)
 
     global signal_creator
-    signal_creator = SignalCreator(system_stub)
+    signal_creator = br.SignalCreator(system_stub)
 
     # ecu a, we do this with lambda refering to modify_signal_publish_frame.
-    reflector_client_id = broker.common_pb2.ClientId(id="reflector_client_id")
+    reflector_client_id = br.common_pb2.ClientId(id="reflector_client_id")
 
     def modify_signals_publish_frame(
         network_stub, client_id, destination_namespace_name, signals
@@ -282,7 +291,7 @@ def run(ip, port):
         # update destination namespace for all entrys in list
         change_namespace(publish_list, destination_namespace_name)
         # print(f"updates lists {publish_list}")
-        helper.publish_signals(client_id, network_stub, publish_list)
+        br.publish_signals(client_id, network_stub, publish_list)
 
     Thread(
         target=act_on_signal,

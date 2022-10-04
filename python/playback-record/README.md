@@ -4,12 +4,12 @@ Playback folder contains one script, **playback.py**. The script can start one o
 ## Pre-requisites
 > If you haven't yet installed the necessary requirements to run python examples. Then we suggest you start by following instructions [here](https://github.com/beamylabs/beamylabs-start/tree/improve-sample-and-docs/examples/grpc/python#readme).
 
-> Have knowledge of the ip address to your beamy broker installation, if you have the web-client running you can get the ip in the bottom left corner.
+> Have knowledge of the ip address to your RemotiveBroker installation, if you have the web-client running you can get the ip in the bottom left corner.
 
 ## Get started
 ### Options
 The script playback.py can be started with options `-h` or `--ip <ip_address>`.
-* `--ip <ip_address>` - Points to the ip of your beamy broker installation, if this option is not used the scripts will use ip `127.0.0.1`. For example start the script by typing: `python3 playback.py --ip 192.168.xxx.xxx`
+* `--ip <ip_address>` - Points to the ip of your RemotiveBroker installation, if this option is not used the scripts will use ip `127.0.0.1`. For example start the script by typing: `python3 playback.py --ip 192.168.xxx.xxx`
 * `-h` - Help, shows available options for script, run `python3 playback.py -h`
 
 ### Default instructions
@@ -24,7 +24,7 @@ python playback.py --ip <address>
 A bunch of things are going on in this examples and it all starts in the main function `def run(argv):`. Lets break it down.
 
 #### Setting up stubs and configuration
-First we start of with setting up a connection to the beamy broker (with the ip that was passed to the script) and then defining the gRPC stubs that will be used. In code it typically looks like this:
+First we start of with setting up a connection to the RemotiveBroker (with the ip that was passed to the script) and then defining the gRPC stubs that will be used. In code it typically looks like this:
 
 ```python
 intercept_channel = helper.create_channel(url, x_api_key)

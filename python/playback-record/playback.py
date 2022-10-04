@@ -6,8 +6,7 @@ import signal
 import sys
 import time
 
-import remotivelabs.broker.sync as broker
-import remotivelabs.broker.sync.helper as helper
+import remotivelabs.broker.sync as br
 
 from threading import Thread, Timer, Event
 
@@ -18,17 +17,17 @@ playbacklist = [
     {
         "namespace": "custom_can",
         "path": "recordings/candump_uploaded.log",
-        "mode": broker.traffic_api_pb2.Mode.PLAY,
+        "mode": br.traffic_api_pb2.Mode.PLAY,
     },
     {
         "namespace": "ecu_A",
         "path": "recordings/candump.log",
-        "mode": broker.traffic_api_pb2.Mode.PLAY,
+        "mode": br.traffic_api_pb2.Mode.PLAY,
     },
     {
         "namespace": "ecu_C",
         "path": "recordings/candump_.log",
-        "mode": broker.traffic_api_pb2.Mode.PLAY,
+        "mode": br.traffic_api_pb2.Mode.PLAY,
     },
 ]
 
@@ -48,7 +47,7 @@ def read_signal(stub, signal):
         Object instance of class
 
     """
-    read_info = broker.network_api_pb2.SignalIds(signalId=[signal])
+    read_info = br.network_api_pb2.SignalIds(signalId=[signal])
     return stub.ReadSignals(read_info)
 
 
@@ -65,11 +64,11 @@ def ecu_B_read(stub, pause):
     """
     while not exit_event.is_set():
         namespace = "custom_can"
-        client_id = broker.common_pb2.ClientId(id="id_ecu_B")
+        client_id = br.common_pb2.ClientId(id="id_ecu_B")
 
         # Read value 'SteerAngle'
-        steer_angle = broker.common_pb2.SignalId(
-            name="SteerAngle", namespace=broker.common_pb2.NameSpace(name=namespace)
+        steer_angle = br.common_pb2.SignalId(
+            name="SteerAngle", namespace=br.common_pb2.NameSpace(name=namespace)
         )
         response = read_signal(stub, steer_angle)
         print("ecu_B, (read) SteerAngle is ", response.signal[0].double)
@@ -88,15 +87,15 @@ def ecu_B_subscribe_(stub):
     """
 
     namespace = "custom_can"
-    client_id = broker.common_pb2.ClientId(id="id_ecu_B")
+    client_id = br.common_pb2.ClientId(id="id_ecu_B")
 
     # Subscribe to value 'SteerAngle'
-    steer_angle = broker.common_pb2.SignalId(
-        name="SteerAngle", namespace=broker.common_pb2.NameSpace(name=namespace)
+    steer_angle = br.common_pb2.SignalId(
+        name="SteerAngle", namespace=br.common_pb2.NameSpace(name=namespace)
     )
-    sub_info = broker.network_api_pb2.SubscriberConfig(
+    sub_info = br.network_api_pb2.SubscriberConfig(
         clientId=client_id,
-        signals=broker.network_api_pb2.SignalIds(signalId=[steer_angle]),
+        signals=br.network_api_pb2.SignalIds(signalId=[steer_angle]),
         onChange=True,
     )
 
@@ -125,7 +124,7 @@ def read_on_timer(stub, signals, pause):
 
     """
     while not exit_event.is_set():
-        read_info = broker.network_api_pb2.SignalIds(signalId=signals)
+        read_info = br.network_api_pb2.SignalIds(signalId=signals)
         try:
             response = stub.ReadSignals(read_info)
             for signal in response.signal:
@@ -152,25 +151,25 @@ def create_playback_config(item):
         Object instance of class
 
     """
-    playbackConfig = broker.traffic_api_pb2.PlaybackConfig(
-        fileDescription=broker.system_api_pb2.FileDescription(path=item["path"]),
-        namespace=broker.common_pb2.NameSpace(name=item["namespace"]),
+    playbackConfig = br.traffic_api_pb2.PlaybackConfig(
+        fileDescription=br.system_api_pb2.FileDescription(path=item["path"]),
+        namespace=br.common_pb2.NameSpace(name=item["namespace"]),
     )
-    return broker.traffic_api_pb2.PlaybackInfo(
+    return br.traffic_api_pb2.PlaybackInfo(
         playbackConfig=playbackConfig,
-        playbackMode=broker.traffic_api_pb2.PlaybackMode(mode=item["mode"]),
+        playbackMode=br.traffic_api_pb2.PlaybackMode(mode=item["mode"]),
     )
 
 
 def stop_playback(url, x_api_key):
     """Stop ongoing playback"""
-    intercept_channel = helper.create_channel(url, x_api_key)
-    traffic_stub = broker.traffic_api_pb2_grpc.TrafficServiceStub(intercept_channel)
+    intercept_channel = br.create_channel(url, x_api_key)
+    traffic_stub = br.traffic_api_pb2_grpc.TrafficServiceStub(intercept_channel)
     for playback in playbacklist:
-        playback["mode"] = broker.traffic_api_pb2.Mode.STOP
+        playback["mode"] = br.traffic_api_pb2.Mode.STOP
 
     status = traffic_stub.PlayTraffic(
-        broker.traffic_api_pb2.PlaybackInfos(
+        br.traffic_api_pb2.PlaybackInfos(
             playbackInfo=list(map(create_playback_config, playbacklist))
         )
     )
@@ -189,18 +188,19 @@ def main(argv):
         "-url",
         "--url",
         type=str,
-        help="URL of the Beamy Broker",
-        required=False,
-        default="http://127.0.0.1:50051",
+        help="URL of the RemotiveBroker",
+        required=True,
     )
+
     parser.add_argument(
         "-x_api_key",
         "--x_api_key",
         type=str,
-        help="required api key for https sessions",
+        help="API key is required when accessing brokers running in the cloud",
         required=False,
         default="offline",
     )
+
     args = parser.parse_args()
 
     run(args.url, args.x_api_key)
@@ -211,19 +211,19 @@ def run(url, x_api_key):
     signal.signal(signal.SIGINT, lambda signum, frame: exit_handler(url, x_api_key))
 
     # Setting up stubs and configuration
-    intercept_channel = helper.create_channel(url, x_api_key)
-    network_stub = broker.network_api_pb2_grpc.NetworkServiceStub(intercept_channel)
-    traffic_stub = broker.traffic_api_pb2_grpc.TrafficServiceStub(intercept_channel)
-    system_stub = broker.system_api_pb2_grpc.SystemServiceStub(intercept_channel)
+    intercept_channel = br.create_channel(url, x_api_key)
+    network_stub = br.network_api_pb2_grpc.NetworkServiceStub(intercept_channel)
+    traffic_stub = br.traffic_api_pb2_grpc.TrafficServiceStub(intercept_channel)
+    system_stub = br.system_api_pb2_grpc.SystemServiceStub(intercept_channel)
     # check_license(system_stub)
 
-    helper.upload_folder(system_stub, "configuration_custom_udp")
-    helper.reload_configuration(system_stub)
+    br.upload_folder(system_stub, "configuration_custom_udp")
+    br.reload_configuration(system_stub)
     # Give us some time to see it all went according to plan
     time.sleep(1)
 
     # Lists available signals
-    configuration = system_stub.GetConfiguration(broker.common_pb2.Empty())
+    configuration = system_stub.GetConfiguration(br.common_pb2.Empty())
     for networkInfo in configuration.networkInfo:
         print(
             "signals in namespace ",
@@ -244,7 +244,7 @@ def run(url, x_api_key):
     # )
     # ecu_B_thread_read.start()
 
-    helper.upload_file(
+    br.upload_file(
         system_stub,
         "recordings/traffic.log",
         "recordings/candump_uploaded.log",
@@ -254,11 +254,11 @@ def run(url, x_api_key):
         {
             "namespace": "custom_can",
             "path": "recordings/candump_uploaded_recorded",
-            "mode": broker.traffic_api_pb2.Mode.RECORD,
+            "mode": br.traffic_api_pb2.Mode.RECORD,
         },
     ]
     status_record = traffic_stub.PlayTraffic(
-        broker.traffic_api_pb2.PlaybackInfos(
+        br.traffic_api_pb2.PlaybackInfos(
             playbackInfo=list(map(create_playback_config, recordlist))
         )
     )
@@ -266,7 +266,7 @@ def run(url, x_api_key):
 
     # expect candump_.log does not exist, thus error string will be returned
     status = traffic_stub.PlayTraffic(
-        broker.traffic_api_pb2.PlaybackInfos(
+        br.traffic_api_pb2.PlaybackInfos(
             playbackInfo=list(map(create_playback_config, playbacklist))
         )
     )
@@ -278,17 +278,17 @@ def run(url, x_api_key):
         {
             "namespace": "custom_can",
             "path": "recordings/candump_uploaded_recorded",
-            "mode": broker.traffic_api_pb2.Mode.STOP,
+            "mode": br.traffic_api_pb2.Mode.STOP,
         },
     ]
     status_record = traffic_stub.PlayTraffic(
-        broker.traffic_api_pb2.PlaybackInfos(
+        br.traffic_api_pb2.PlaybackInfos(
             playbackInfo=list(map(create_playback_config, recordlist))
         )
     )
 
     # now stop recording and download the recorded file
-    helper.download_file(
+    br.download_file(
         system_stub,
         "recordings/candump_uploaded_recorded",
         "candump_uploaded_recorded_downloaded",
@@ -298,7 +298,7 @@ def run(url, x_api_key):
     # ecu_B_thread_subscribe  = Thread(target = ecu_B_subscribe_, args = (network_stub,))
     # ecu_B_thread_subscribe.start()
 
-    # read_signals = [broker.common_pb2.SignalId(name="SteerAngle", namespace=broker.common_pb2.NameSpace(name = "custom_can")), broker.common_pb2.SignalId(name="SteerAngleSpeed", namespace=broker.common_pb2.NameSpace(name = "custom_can"))]
+    # read_signals = [br.common_pb2.SignalId(name="SteerAngle", namespace=br.common_pb2.NameSpace(name = "custom_can")), br.common_pb2.SignalId(name="SteerAngleSpeed", namespace=br.common_pb2.NameSpace(name = "custom_can"))]
     # ecu_read_on_timer  = Thread(target = read_on_timer, args = (network_stub, read_signals, 2))
     # ecu_read_on_timer.start()
 

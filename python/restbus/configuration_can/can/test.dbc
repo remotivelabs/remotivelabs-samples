@@ -136,7 +136,26 @@ BO_ 1113 TestFr07: 4 CCM
  SG_ TestFr07_Child02: 7|16@0+ (1.0, 0.0) [0.0|65535.0] "NoUnit" CCM
  SG_ TestFr07_Child02_UB: 23|1@0+ (1,0) [0|1] "" CCM
 
-BA_ "GenMsgCycleTime" BO_ 1112 810.000;
-BA_ "GenMsgCycleTime" BO_ 1113 820.000;
+BA_ "GenMsgCycleTime" BO_ 1111 80.000;
+BA_ "GenMsgCycleTime" BO_ 1112 81.000;
+BA_ "GenMsgCycleTime" BO_ 1113 82.000;
+BA_ "GenSigStartValue" SG_ 1112 counter 10;
+BA_ "GenSigStartValue" SG_ 1112 TestFr06_Child01_UB 1;
+BA_ "GenSigStartValue" SG_ 1112 TestFr06_Child02 2;
+BA_ "GenSigStartValue" SG_ 1112 TestFr06_Child03 3;
+BA_ "GenSigStartValue" SG_ 1113 counter_times_2 4;
+BA_ "GenSigStartValue" SG_ 1113 TestFr07_Child01_UB 1;
+BA_ "GenSigStartValue" SG_ 1113 TestFr07_Child02 1;
+BA_ "GenSigStartValue" SG_ 1113 TestFr07_Child02_UB 1;
+BA_ "GenSigStartValue" SG_ 1111 EndOfLineSigOverByte1 1;
+BA_ "GenSigStartValue" SG_ 1111 EndOfLineSigOverByte2 2;
+BA_ "GenSigStartValue" SG_ 1111 EndOfLineSigOverByte3 3;
+BA_ "GenSigStartValue" SG_ 1111 EndOfLineSigOverByte4 4;
+BA_ "GenSigStartValue" SG_ 1111 EndOfLineSigOverByte5 5;
+BA_ "GenSigStartValue" SG_ 1111 EndOfLineSigOverByte6 6;
+BA_ "GenSigStartValue" SG_ 1111 EndOfLineSigOverByte7 7;
 
+
+BA_DEF_ SG_ "GenSigStartValue" FLOAT -1.7976931348623157E308 18446744073709551615;
+BA_DEF_DEF_ "GenSigStartValue" 0;
 BA_DEF_ BO_ "GenMsgCycleTime" FLOAT 0 300000; // [ms]
