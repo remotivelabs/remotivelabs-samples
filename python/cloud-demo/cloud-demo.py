@@ -37,7 +37,7 @@ def handle_signals(signals):
 
 def print_signals(signals):
     for signal in signals:
-        print(f"Turning Torso drivecycle {datetime.datetime.fromtimestamp(signal.timestamp / 1000000).strftime('%Y-%m-%d %H:%M:%S')} {signal.id.name} {get_value(signal)}")
+        print(f"{datetime.datetime.fromtimestamp(signal.timestamp / 1000000).strftime('%Y-%m-%d %H:%M:%S')} {signal.id.name} {get_value(signal)}")
 
 
 def calculate_average_speed(signals):
