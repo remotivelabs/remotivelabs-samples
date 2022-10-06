@@ -1,5 +1,3 @@
-// hdasari@volvocars.com
-
 #include "connection.h"
 #include <unistd.h>
 #include <chrono>
