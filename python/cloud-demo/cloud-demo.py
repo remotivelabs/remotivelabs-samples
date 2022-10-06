@@ -92,13 +92,23 @@ def run(url, api_key, signal_names):
             "mode": br.traffic_api_pb2.Mode.PLAY,
         }]
     print("Start playing recording")
-    status = traffic_stub.PlayTraffic(
-        br.traffic_api_pb2.PlaybackInfos(
-            playbackInfo=list(map(create_playback_config, playbacklist))
-        )
-    )
 
-    print("Play recording is in status", status.playbackInfo[0].playbackMode)
+    try:
+        status = traffic_stub.PlayTraffic(
+            br.traffic_api_pb2.PlaybackInfos(
+                playbackInfo=list(map(create_playback_config, playbacklist))
+            )
+        )
+    except grpc.RpcError as rpc_error:
+        if rpc_error.code() == grpc.StatusCode.CANCELLED:
+            pass
+        elif rpc_error.code() == grpc.StatusCode.UNAVAILABLE:
+            pass
+        else:
+            print(f"Received unknown RPC error: code={rpc_error.code()} message={rpc_error.details()}")
+        exit(0)
+
+    #print("Play recording is in status", status.playbackInfo[0].playbackMode)
 
     global signal_creator
     signal_creator = br.SignalCreator(system_stub)
@@ -163,7 +173,6 @@ def main(argv):
     )
 
     args = parser.parse_args()
-    print(args.signals)
     run(args.url, args.api_key, args.signals)
 
 
