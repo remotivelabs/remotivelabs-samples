@@ -3,7 +3,7 @@
 Start by doing
 
 ```
-./grpc_connection vhal-robert-beamydemo2-jrjbkq2tja-ez.a.run.app:443 092F8411-2D702818-531F3079-B7836BCD
+GRPC_VERBOSITY=debug ./grpc_connection vhal-robert-beamydemo2-jrjbkq2tja-ez.a.run.app:443 092F8411-2D702818-531F3079-B7836BCD
 ```
 
 ## Build and run from Ubuntu 18
@@ -11,9 +11,12 @@ This project can compile in the official _Ubuntu 18.04_ container on _Docker hub
 
     docker pull ubuntu:bionic
 
+    docker run -it -v $PWD:/my_mouted_folder ubuntu:focal /bin/bash
+
 Run container in your environment and install the following packets.
 
 ```sh
+apt-get update
 apt install libgrpc++-dev build-essential cmake protobuf-compiler libprotobuf-dev protobuf-compiler-grpc
 ```
 
