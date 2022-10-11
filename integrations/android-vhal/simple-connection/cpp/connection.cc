@@ -10,13 +10,14 @@
 using namespace grpc;
 using namespace base;
 
-GrpcConnection::GrpcConnection(std::shared_ptr<Channel> channel)
+GrpcConnection::GrpcConnection(std::shared_ptr<Channel> channel, int thisid)
     : stub(NetworkService::NewStub(channel))
 {
   source = std::make_unique<ClientId>();
   name_space = std::make_unique<NameSpace>();
   source->set_id("my_unique_client_id");
-  name_space->set_name("ChassiBus");
+  name_space->set_name("FlexrayBackbone");
+  id = thisid;
 }
 
 void GrpcConnection::subscriber()
@@ -26,13 +27,92 @@ void GrpcConnection::subscriber()
   // add any number of signals...
   {
     auto handle = signals->add_signalid();
-    handle->set_allocated_name(new std::string("SteeringAngle129"));
+    handle->set_allocated_name(new std::string("VehSpdLgtSafe"));
     handle->set_allocated_namespace_(new NameSpace(*name_space));
   }
 
   {
     auto handle = signals->add_signalid();
-    handle->set_allocated_name(new std::string("DI_uiSpeed"));
+    handle->set_allocated_name(new std::string("DispHvBattLvlOfChrg"));
+    handle->set_allocated_namespace_(new NameSpace(*name_space));
+  }
+
+  {
+    auto handle = signals->add_signalid();
+    handle->set_allocated_name(new std::string("PosnLgtInPosnFromSatlt"));
+    handle->set_allocated_namespace_(new NameSpace(*name_space));
+  }
+
+  {
+    auto handle = signals->add_signalid();
+    handle->set_allocated_name(new std::string("PosnAltiInPosnFromSatlt"));
+    handle->set_allocated_namespace_(new NameSpace(*name_space));
+  }
+
+  {
+    auto handle = signals->add_signalid();
+    handle->set_allocated_name(new std::string("PosnSpdInPosnFromSatlt"));
+    handle->set_allocated_namespace_(new NameSpace(*name_space));
+  }
+
+
+  {
+    auto handle = signals->add_signalid();
+    handle->set_allocated_name(new std::string("PosnDirInPosnFromSatlt"));
+    handle->set_allocated_namespace_(new NameSpace(*name_space));
+  }
+
+  {
+    auto handle = signals->add_signalid();
+    handle->set_allocated_name(new std::string("PreHozlDilInPosnFromSatlt"));
+    handle->set_allocated_namespace_(new NameSpace(*name_space));
+  }
+
+  {
+    auto handle = signals->add_signalid();
+    handle->set_allocated_name(new std::string("PreVertDilInPosnFromSatlt"));
+    handle->set_allocated_namespace_(new NameSpace(*name_space));
+  }
+
+  {
+    auto handle = signals->add_signalid();
+    handle->set_allocated_name(new std::string("PosnVHozlInPosnFromSatlt"));
+    handle->set_allocated_namespace_(new NameSpace(*name_space));
+  }
+
+  {
+    auto handle = signals->add_signalid();
+    handle->set_allocated_name(new std::string("TiForDayInPosnFromSatlt"));
+    handle->set_allocated_namespace_(new NameSpace(*name_space));
+  }
+
+  {
+    auto handle = signals->add_signalid();
+    handle->set_allocated_name(new std::string("TiForHrInPosnFromSatlt"));
+    handle->set_allocated_namespace_(new NameSpace(*name_space));
+  }
+
+  {
+    auto handle = signals->add_signalid();
+    handle->set_allocated_name(new std::string("TiForMinsInPosnFromSatlt"));
+    handle->set_allocated_namespace_(new NameSpace(*name_space));
+  }
+
+  {
+    auto handle = signals->add_signalid();
+    handle->set_allocated_name(new std::string("TiForMthInPosnFromSatlt"));
+    handle->set_allocated_namespace_(new NameSpace(*name_space));
+  }
+
+  {
+    auto handle = signals->add_signalid();
+    handle->set_allocated_name(new std::string("TiForSecInPosnFromSatlt"));
+    handle->set_allocated_namespace_(new NameSpace(*name_space));
+  }
+
+  {
+    auto handle = signals->add_signalid();
+    handle->set_allocated_name(new std::string("TiForYrInPosnFromSatlt"));
     handle->set_allocated_namespace_(new NameSpace(*name_space));
   }
 
@@ -53,14 +133,17 @@ void GrpcConnection::subscriber()
   {
     for (int i = 0; i < signalsreturned.signal_size(); i++)
     {
-      auto name = signalsreturned.signal(i).id().name();
-      std::cout << name << std::endl;
+      // auto name = signalsreturned.signal(i).id().name();
+      // std::cout << name << std::endl;
 
-      auto value_d = signalsreturned.signal(i).double_();
-      std::cout << value_d << std::endl;
+      // std::cout << "thread";
+      // std::cout << id << std::endl;
 
-      auto value_i = signalsreturned.signal(i).integer();
-      std::cout << value_i << std::endl;
+      // auto value_d = signalsreturned.signal(i).double_();
+      // std::cout << value_d << std::endl;
+
+      // auto value_i = signalsreturned.signal(i).integer();
+      // std::cout << value_i << std::endl;
     }
   }
   Status status = reader->Finish();
@@ -126,7 +209,25 @@ private:
 
 const char CUSTOM_CERTIFICATE[] = R"(
 -----BEGIN CERTIFICATE-----
-YOU PREFERRED CERTIFICATE HERE
+MIIDdTCCAl2gAwIBAgILBAAAAAABFUtaw5QwDQYJKoZIhvcNAQEFBQAwVzELMAkG
+A1UEBhMCQkUxGTAXBgNVBAoTEEdsb2JhbFNpZ24gbnYtc2ExEDAOBgNVBAsTB1Jv
+b3QgQ0ExGzAZBgNVBAMTEkdsb2JhbFNpZ24gUm9vdCBDQTAeFw05ODA5MDExMjAw
+MDBaFw0yODAxMjgxMjAwMDBaMFcxCzAJBgNVBAYTAkJFMRkwFwYDVQQKExBHbG9i
+YWxTaWduIG52LXNhMRAwDgYDVQQLEwdSb290IENBMRswGQYDVQQDExJHbG9iYWxT
+aWduIFJvb3QgQ0EwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQDaDuaZ
+jc6j40+Kfvvxi4Mla+pIH/EqsLmVEQS98GPR4mdmzxzdzxtIK+6NiY6arymAZavp
+xy0Sy6scTHAHoT0KMM0VjU/43dSMUBUc71DuxC73/OlS8pF94G3VNTCOXkNz8kHp
+1Wrjsok6Vjk4bwY8iGlbKk3Fp1S4bInMm/k8yuX9ifUSPJJ4ltbcdG6TRGHRjcdG
+snUOhugZitVtbNV4FpWi6cgKOOvyJBNPc1STE4U6G7weNLWLBYy5d4ux2x8gkasJ
+U26Qzns3dLlwR5EiUWMWea6xrkEmCMgZK9FGqkjWZCrXgzT/LCrBbBlDSgeF59N8
+9iFo7+ryUp9/k5DPAgMBAAGjQjBAMA4GA1UdDwEB/wQEAwIBBjAPBgNVHRMBAf8E
+BTADAQH/MB0GA1UdDgQWBBRge2YaRQ2XyolQL30EzTSo//z9SzANBgkqhkiG9w0B
+AQUFAAOCAQEA1nPnfE920I2/7LqivjTFKDK1fPxsnCwrvQmeU79rXqoRSLblCKOz
+yj1hTdNGCbM+w6DjY1Ub8rrvrTnhQ7k4o+YviiY776BQVvnGCv04zcQLcFGUl5gE
+38NflNUVyRRBnMRddWQVDf9VMOyGj/8N7yy5Y0b2qvzfvGn9LhJIZJrglfCm7ymP
+AbEVtQwdpf5pLGkkeB6zpxxxYu7KyJesF12KwvhHhm4qxFYxldBniYUr+WymXUad
+DKqC5JlR3XC321Y9YeRq4VzW9v493kHMB65jUr9TU/Qr6cf9tveCX4XSQRjbgbME
+HMUfpIBvFSDJ3gyICh3WZlXi/EjJKSZp4A==
 -----END CERTIFICATE-----
 )";
 
@@ -149,10 +250,40 @@ int main(int argc, char *argv[])
 
   grpc::ChannelArguments cargs;
 
-  auto connection = new GrpcConnection(CreateChannel(argv[1], compsited_creds));
+  auto connection = new GrpcConnection(CreateChannel(argv[1], compsited_creds), 1);
+  auto connection2 = new GrpcConnection(CreateChannel(argv[1], compsited_creds), 2);
+  auto connection3 = new GrpcConnection(CreateChannel(argv[1], compsited_creds), 3);
+  auto connection4 = new GrpcConnection(CreateChannel(argv[1], compsited_creds), 4);
+  auto connection5 = new GrpcConnection(CreateChannel(argv[1], compsited_creds), 5);
+  auto connection6 = new GrpcConnection(CreateChannel(argv[1], compsited_creds), 6);
+  auto connection7 = new GrpcConnection(CreateChannel(argv[1], compsited_creds), 7);
+  auto connection8 = new GrpcConnection(CreateChannel(argv[1], compsited_creds), 8);
+  auto connection9 = new GrpcConnection(CreateChannel(argv[1], compsited_creds), 9);
+  auto connection10 = new GrpcConnection(CreateChannel(argv[1], compsited_creds), 10);
+
+
 
   std::thread subscriber(&GrpcConnection::subscriber, connection);
+  std::thread subscriber2(&GrpcConnection::subscriber, connection2);
+  std::thread subscriber3(&GrpcConnection::subscriber, connection3);
+  std::thread subscriber4(&GrpcConnection::subscriber, connection4);
+  std::thread subscriber5(&GrpcConnection::subscriber, connection5);
+  std::thread subscriber6(&GrpcConnection::subscriber, connection6);
+  std::thread subscriber7(&GrpcConnection::subscriber, connection7);
+  std::thread subscriber8(&GrpcConnection::subscriber, connection8);
+  std::thread subscriber9(&GrpcConnection::subscriber, connection9);
+  std::thread subscriber10(&GrpcConnection::subscriber, connection10);
+
   subscriber.join();
+  subscriber2.join();
+  subscriber3.join();
+  subscriber4.join();
+  subscriber5.join();
+  subscriber6.join();
+  subscriber7.join();
+  subscriber8.join();
+  subscriber9.join();
+  subscriber10.join();
 
   // std::thread publisher(&GrpcConnection::publisher, connection);
   // publisher.join();

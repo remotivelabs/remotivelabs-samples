@@ -9,7 +9,7 @@ GRPC_VERBOSITY=debug ./grpc_connection vhal-robert-beamydemo2-jrjbkq2tja-ez.a.ru
 ## Build and run from Ubuntu 18
 This project can compile in the official _Ubuntu 18.04_ container on _Docker hub_.
 
-    docker pull ubuntu:bionic
+    docker pull ubuntu:focal
 
     docker run -it -v $PWD:/my_mouted_folder ubuntu:focal /bin/bash
 
