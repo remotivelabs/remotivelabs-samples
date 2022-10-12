@@ -29,5 +29,7 @@ This sample simply prints the speed but you can easily subscribe to more signals
 
 
 ## Support
-If you have any further questions, please reach out!
+For issues with any of the steps below please use our community discussions on github,
+https://github.com/remotivelabs/remotivelabs-community/discussions or send an email to 
+support@remotivelabs.com
 
