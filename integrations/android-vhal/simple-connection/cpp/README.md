@@ -32,7 +32,7 @@ protoc  -I proto_files proto_files/common.proto proto_files/network_api.proto --
 To build
 ```
 
-cd my_mouted_folder/simple-connection/cpp
+cd my_mouted_folder
 mkdir build-dir
 cd build-dir
 cmake ..
