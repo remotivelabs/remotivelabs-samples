@@ -7,6 +7,9 @@ GRPC_VERBOSITY=debug ./grpc_connection vhal-robert-beamydemo2-jrjbkq2tja-ez.a.ru
 ```
 
 ## Build and run from Ubuntu 18
+
+from **this** folder do:
+
 This project can compile in the official _Ubuntu 18.04_ container on _Docker hub_.
 
     docker pull ubuntu:focal
@@ -28,6 +31,8 @@ protoc  -I proto_files proto_files/common.proto proto_files/network_api.proto --
 
 To build
 ```
+
+cd my_mouted_folder/simple-connection/cpp
 mkdir build-dir
 cd build-dir
 cmake ..
