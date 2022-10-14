@@ -1,0 +1,161 @@
+#include "connection.h"
+#include <unistd.h>
+#include <chrono>
+#include <ctime>
+#include <array>
+#include <math.h>
+#include <iostream>
+#include <thread>
+
+using namespace grpc;
+using namespace base;
+
+GrpcConnection::GrpcConnection(std::shared_ptr<Channel> channel)
+    : stub(NetworkService::NewStub(channel))
+{
+  source = std::make_unique<ClientId>();
+  name_space = std::make_unique<NameSpace>();
+  source->set_id("my_unique_client_id");
+  name_space->set_name("ChassiBus");
+}
+
+void GrpcConnection::subscriber()
+{
+  auto signals = new SignalIds();
+
+  // add any number of signals...
+  {
+    auto handle = signals->add_signalid();
+    handle->set_allocated_name(new std::string("SteeringAngle129"));
+    handle->set_allocated_namespace_(new NameSpace(*name_space));
+  }
+
+  {
+    auto handle = signals->add_signalid();
+    handle->set_allocated_name(new std::string("DI_uiSpeed"));
+    handle->set_allocated_namespace_(new NameSpace(*name_space));
+  }
+
+  SubscriberConfig sub_info;
+  sub_info.set_allocated_clientid(new ClientId(*source));
+  sub_info.set_allocated_signals(signals);
+
+  ClientContext ctx;
+  Empty empty;
+
+  std::cout << "Subscribing" << std::endl;
+
+  Signals signalsreturned;
+
+  std::unique_ptr<ClientReader<Signals>> reader(
+      stub->SubscribeToSignals(&ctx, sub_info));
+  while (reader->Read(&signalsreturned))
+  {
+    for (int i = 0; i < signalsreturned.signal_size(); i++)
+    {
+      auto name = signalsreturned.signal(i).id().name();
+      std::cout << name << std::endl;
+
+      auto value_d = signalsreturned.signal(i).double_();
+      std::cout << value_d << std::endl;
+
+      auto value_i = signalsreturned.signal(i).integer();
+      std::cout << value_i << std::endl;
+    }
+  }
+  Status status = reader->Finish();
+
+  std::cout << "Subscribing done" << std::endl;
+}
+
+void GrpcConnection::publisher()
+{
+
+  // TODO we could use startvalue here as default
+  // https://github.com/remotivelabs/remotivelabs-apis/blob/main/proto/common.proto#L34
+  auto start_value = 12;
+
+  auto N = 10;
+  for (auto i = 0; i < N; i = ((i + 1) % N))
+  {
+    // std::cout << i << std::endl;
+    auto signals = new Signals();
+    {
+      auto signal_id = new SignalId();
+      signal_id->set_allocated_name(new std::string("SteeringAngle129"));
+      signal_id->set_allocated_namespace_(new NameSpace(*name_space));
+      auto handle = signals->add_signal();
+      handle->set_allocated_id(signal_id);
+      handle->set_integer(start_value + i);
+    }
+    {
+      // append any number of signals here! (duplicate above code)
+    }
+
+    PublisherConfig pub_info;
+    pub_info.set_allocated_clientid(new ClientId(*source));
+    pub_info.set_allocated_signals(signals);
+    pub_info.set_frequency(0);
+    ClientContext ctx;
+    Empty empty;
+    stub->PublishSignals(&ctx, pub_info, &empty);
+
+    // TODO we should derive this period from proto buffer,
+    // https://github.com/remotivelabs/remotivelabs-apis/blob/main/proto/common.proto#L33
+    usleep(30);
+  }
+}
+
+class MyCustomAuthenticator : public grpc::MetadataCredentialsPlugin
+{
+public:
+  MyCustomAuthenticator(const grpc::string &ticket) : ticket_(ticket) {}
+
+  grpc::Status GetMetadata(
+      grpc::string_ref service_url, grpc::string_ref method_name,
+      const grpc::AuthContext &channel_auth_context,
+      std::multimap<grpc::string, grpc::string> *metadata) override
+  {
+    metadata->insert(std::make_pair("x-api-key", ticket_));
+    return grpc::Status::OK;
+  }
+
+private:
+  grpc::string ticket_;
+};
+
+const char CUSTOM_CERTIFICATE[] = R"(
+-----BEGIN CERTIFICATE-----
+YOU PREFERRED CERTIFICATE HERE
+-----END CERTIFICATE-----
+)";
+
+int main(int argc, char *argv[])
+{
+  // use local certificate
+  grpc::SslCredentialsOptions sslops;
+  sslops.pem_root_certs = CUSTOM_CERTIFICATE;
+
+  auto channel_creds_ = ::grpc::SslCredentials(sslops);
+
+  // or use certificate from host
+  // auto channel_creds_ = ::grpc::SslCredentials(::grpc::SslCredentialsOptions());
+
+  auto call_creds = grpc::MetadataCredentialsFromPlugin(
+      std::unique_ptr<grpc::MetadataCredentialsPlugin>(
+          new MyCustomAuthenticator(argv[2])));
+
+  auto compsited_creds = ::grpc::CompositeChannelCredentials(channel_creds_, call_creds);
+
+  grpc::ChannelArguments cargs;
+
+  auto connection = new GrpcConnection(CreateChannel(argv[1], compsited_creds));
+
+  std::thread subscriber(&GrpcConnection::subscriber, connection);
+  subscriber.join();
+
+  // std::thread publisher(&GrpcConnection::publisher, connection);
+  // publisher.join();
+
+  return 0;
+}
