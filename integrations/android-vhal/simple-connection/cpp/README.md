@@ -119,7 +119,8 @@ För att se resultat i Kitchen Sink behöver man sätta selinux i permissive, m�
 Disclaimer: Tyvärr crashar VHAL när grpc-servicen stängs, försökte artigt stänga socket men hjälper inte. Hittar inte något sätt att fixa det från socket clienten, behöver nog in och patcha i VHAL för att få det att fungera smidigt.
 
 
-## Reflections
+## Reflections/inspirations
 
 This is done with inspiration from [https://android.googlesource.com/platform/packages/services/Car/+/master/tools/emulator](https://android.googlesource.com/platform/packages/services/Car/+/master/tools/emulator)
 
+https://discuss.96boards.org/t/android-automotive/4299/140
