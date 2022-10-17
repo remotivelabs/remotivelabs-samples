@@ -34,7 +34,7 @@ cmake ..
 make
 ```
 
-## Set up and build android AAOS for Pixel 4a
+# Set up and build android AAOS for Pixel 4a
 
 Här kommer lite setup instuktioner för att bygga aaos för pixel 4a
 
