@@ -248,6 +248,8 @@ def run(url, x_api_key, port):
     def modify_signals_publish_frame(
         network_stub, client_id, destination_namespace_name, signals
     ):
+        """Modifiy recieved signals and publish them."""
+
         # work in dictonary domain for easier access.
         signal_dict = {signal.id.name: signal for signal in signals}
 
