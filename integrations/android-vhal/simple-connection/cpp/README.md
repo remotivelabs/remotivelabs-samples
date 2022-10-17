@@ -124,3 +124,5 @@ Disclaimer: Tyvärr crashar VHAL när grpc-servicen stängs, försökte artigt s
 This is done with inspiration from [https://android.googlesource.com/platform/packages/services/Car/+/master/tools/emulator](https://android.googlesource.com/platform/packages/services/Car/+/master/tools/emulator)
 
 https://discuss.96boards.org/t/android-automotive/4299/140
+
+https://source.android.com/docs/devices/automotive
