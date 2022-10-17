@@ -126,3 +126,6 @@ This is done with inspiration from [https://android.googlesource.com/platform/pa
 https://discuss.96boards.org/t/android-automotive/4299/140
 
 https://source.android.com/docs/devices/automotive
+
+### VehiclePropertyIds
+https://developer.android.com/reference/android/car/VehiclePropertyIds
