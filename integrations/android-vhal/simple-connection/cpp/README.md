@@ -36,7 +36,7 @@ make
 
 # Set up and build android AAOS for Pixel 4a
 
-Här kommer lite setup instuktioner för att bygga aaos för pixel 4a
+Här kommer lite setup instuktioner för att bygga aaos för pixel 4a (sunfish)
 
 I stort sett kan man följa https://source.android.com/docs/devices/automotive/start/pixelxl
 , men man behöver nyare git och repo för att kunna köra repo sync kommandot de anger och andra vendor binärer.
