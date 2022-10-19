@@ -97,5 +97,8 @@ https://discuss.96boards.org/t/android-automotive/4299/140
 
 https://source.android.com/docs/devices/automotive
 
+location
+https://android.googlesource.com/platform/hardware/interfaces/+/master/gnss/1.0/types.hal
+
 ### VehiclePropertyIds
 https://developer.android.com/reference/android/car/VehiclePropertyIds
