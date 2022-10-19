@@ -1,6 +1,6 @@
 
 cc_library_static {
-    name: "grpc-beamylabs",
+    name: "grpc-remotivelabs",
     include_dirs: [
         "external/protobuf/src",
     ],
@@ -106,7 +106,7 @@ cc_binary {
         "android.hardware.automotive.vehicle@2.0",
     ],
     static_libs: [
-    	"grpc-beamylabs",
+    	"grpc-remotivelabs",
     ],
     cflags: [
         "-Wno-unused-parameter",
