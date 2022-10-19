@@ -60,7 +60,7 @@ build by doing:
 ```
 m grpc-service
 ```
-Unless it has already been done since last boot
+On the device, unless it has already been done since last boot
 ```
 adb root && sleep 5 &&  adb remount
 ```
