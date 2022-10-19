@@ -44,10 +44,15 @@ m android.hardware.automotive.audiocontrol@1.0-service android.hardware.automoti
 
 ## Build and replace grpc-service
 
-Put the code in for example: `aaos_on_phone/vendor/remotivelabs/grpc-service`
+Put the code in for example: `aaos_on_phone/vendor/remotivelabs/grpc-service`, like so:
+```
+~/aaos_on_phone/vendor/remotivelabs$ cp -r ~/remotivelabs-samples/integrations/android-vhal/grpc-service .
+```
+
 Unless already done you should do:
 
 ```
+# from aaos_on_phone folder
 . build/envsetup.sh
 lunch aosp_sunfish_car	
 ```
