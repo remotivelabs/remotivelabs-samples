@@ -76,8 +76,9 @@ Start the `grpc-service`:
 ```
 adb shell /system_ext/bin/grpc-service vhal-robert-beamydemo2-jnjbmq2tja-ez.a.run.app API_KEY
 ```
-Make sure the credetials match, go to the `cloud.remotivelabs.com`, and start the stream, click play.
-För att se resultat i log
+Make sure the credentials match, go to the `cloud.remotivelabs.com`, and start the recording, click play.
+
+To see output in log
 ```
 adb logcat | grep grpc
 ```
