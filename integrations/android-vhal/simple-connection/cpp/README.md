@@ -36,10 +36,8 @@ make
 
 # Set up and build android AAOS for Pixel 4a
 
-Här kommer lite setup instuktioner för att bygga aaos för pixel 4a (sunfish)
+This guide is basically a copy of https://source.android.com/docs/devices/automotive/start/pixelxl, but first new version of git and repo are fetched.
 
-I stort sett kan man följa https://source.android.com/docs/devices/automotive/start/pixelxl
-, men man behöver nyare git och repo för att kunna köra repo sync kommandot de anger och andra vendor binärer.
 ```
 sudo add-apt-repository ppa:git-core/ppa
 sudo apt-get update
@@ -71,52 +69,54 @@ tail -n +315 extract-qcom-sunfish.sh | tar -xzvf -
 
 . build/envsetup.sh
 lunch aosp_sunfish_car
+
+# once you executed m you need to wait for a few hours!
 m
 
 m android.hardware.automotive.audiocontrol@1.0-service android.hardware.automotive.vehicle@2.0-service
 ```
 
-Vad gäller flashning hoppas jag ni kan följa deras guide, annars får ni höra av er. Dock bootar det inte till homescreen efter jag flashat med fastboot, men adb root, remount och sync fungerar. Efter automotive binärerna är på plats bootar det till homescreen.
+>Swedish :) Vad gäller flashning hoppas jag ni kan följa deras guide, annars får ni höra av er. Dock bootar det inte till homescreen efter jag flashat med fastboot, men adb root, remount och sync fungerar. Efter automotive binärerna är på plats bootar det till homescreen.
 
 ## Build and replace grpc-service
 
-Lägg koden i ex. vendor/beamylabs/grpc-service
-Om det inte gjorts sen man startat shell kör:
+Put the code in for example: `aaos_on_phone/vendor/remotivelabs/grpc-service`
+Unless already done you should do:
 
 ```
-	. build/envsetup.sh
-	lunch aosp_sunfish_car	
+. build/envsetup.sh
+lunch aosp_sunfish_car	
 ```
-och bygg med:
+build by doing:
 ```
-	m grpc-service
+m grpc-service
 ```
-Om det inte gjorts sen senaste boot
+Unless it has already been done since last boot
 ```
-	adb root && sleep 5 &&  adb remount
+adb root && sleep 5 &&  adb remount
 ```
-Kopiera till pixel med:
+Copy to the pixel 4a by doing:
 ```
-	adb sync
+adb sync
 ```
 
-Kolla att nätverk är tillgängligt
+Make sure the network is available
 
-Starta grpc clienten med:
+Start the `grpc-service`:
 
 ```
-	adb shell /system_ext/bin/grpc-service vhal-robert-beamydemo2-jnjbmq2tja-ez.a.run.app API_KEY
+adb shell /system_ext/bin/grpc-service vhal-robert-beamydemo2-jnjbmq2tja-ez.a.run.app API_KEY
 ```
-Starta broker
+Make sure the credetials match, go to the `cloud.remotivelabs.com`, and start the stream, click play.
 För att se resultat i log
 ```
-	adb logcat | grep grpc
+adb logcat | grep grpc
 ```
-För att se resultat i Kitchen Sink behöver man sätta selinux i permissive, måste kört adb root och behöver köras efter varje reboot.
+To see the signals in Kitchen Sink selinux needs to be set to permissive on top of `adb root`. This needs to be done after each reboot.
 ```
-	adb shell setenforce 0
+adb shell setenforce 0
 ```
-Disclaimer: Tyvärr crashar VHAL när grpc-servicen stängs, försökte artigt stänga socket men hjälper inte. Hittar inte något sätt att fixa det från socket clienten, behöver nog in och patcha i VHAL för att få det att fungera smidigt.
+Dicslaimer: VHAL crashes when the grpc-service is closed. I've tried to close the socker properly but it didn't help. Can'f find a way on how to fix this from the socket client, probably we need to patch VHAL to make it behave nice.
 
 
 ## Reflections/inspirations
