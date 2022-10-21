@@ -1,0 +1,7 @@
+VERSION "Pytest"
+
+BO_ 1 myframe1: 1 NONE
+ SG_ mysignal1 : 7|8@0+ (1,0) [0|255] "My unit" NONE1, NONE2
+
+CM_ BO_ 1 "My frame 1"
+CM_ SG_ 1 mysignal1 "My signal 1";

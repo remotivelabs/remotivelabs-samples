@@ -2,14 +2,15 @@
 Playback folder contains one script, **playback.py**. The script can start one or multiple playbacks and holds various functions to listen and/or subscribe to signals. This with intention to give example and inspiration to further development. To get started and to get more details of the examples, continue reading.
 
 ## Pre-requisites
-> If you haven't yet installed the necessary requirements to run python examples. Then we suggest you start by following instructions [here](https://github.com/beamylabs/beamylabs-start/tree/improve-sample-and-docs/examples/grpc/python#readme).
 
-> Have knowledge of the ip address to your RemotiveBroker installation, if you have the web-client running you can get the ip in the bottom left corner.
+As all python samples in this repository, the pip package [remotivelabs-broker](https://pypi.org/project/remotivelabs-broker/) is required. Install all requirements with [pip](https://pypi.org/):
+
+    pip install -r requirements.txt
 
 ## Get started
 ### Options
-The script playback.py can be started with options `-h` or `--ip <ip_address>`.
-* `--ip <ip_address>` - Points to the ip of your RemotiveBroker installation, if this option is not used the scripts will use ip `127.0.0.1`. For example start the script by typing: `python3 playback.py --ip 192.168.xxx.xxx`
+The script playback.py can be started with options `-h` or `--url <URL>`.
+* `--url <URL>` - Points to the ip of your RemotiveBroker installation, if this option is not used the scripts will use ip `127.0.0.1`. For example start the script by typing: `python3 playback.py --url http://192.168.xxx.xxx`
 * `-h` - Help, shows available options for script, run `python3 playback.py -h`
 
 ### Default instructions
@@ -17,7 +18,7 @@ The script playback.py can be started with options `-h` or `--ip <ip_address>`.
 2. From [this directory](.) run:
 
 ```sh
-python playback.py --ip <address>
+python playback.py --url <address>
 ```
 
 ### Overview
@@ -34,7 +35,7 @@ helper.check_license(system_stub)
 ```
 
 #### Configuration
-Playback folder contains a sample configuration, [configuration_custom_udp](https://github.com/beamylabs/beamylabs-start/tree/master/examples/grpc/python/playback/configuration_custom_udp). The playback script uploads and reloads configuration with the `system_stub` that was defined above. Feel free to use your own.
+Playback folder contains a sample configuration, [configuration_custom_udp](configuration_custom_udp). The playback script uploads and reloads configuration with the `system_stub` that was defined above. Feel free to use your own.
 It will look similar to this:
 ```
 upload_folder(system_stub, "configuration_custom_udp")
