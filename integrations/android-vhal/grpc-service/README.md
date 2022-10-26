@@ -90,6 +90,8 @@ Dicslaimer: VHAL crashes when the grpc-service is closed. I've tried to close th
 
 In your pixel you can now start KITCHEN SINK and navigate to PROPERTY TEST and select relevant signals such as `PERF_STEERING_ANGLE` or `PERF_VEHICLE_SPEED`
 
+> If you build on a build server/remote server you can still use adb, inspiration here http://www.tinmith.net/wayne/blog/2015/11/android-remote-adb.htm
+
 ## Reflections/inspirations
 
 This is done with inspiration from [https://android.googlesource.com/platform/packages/services/Car/+/master/tools/emulator](https://android.googlesource.com/platform/packages/services/Car/+/master/tools/emulator)
