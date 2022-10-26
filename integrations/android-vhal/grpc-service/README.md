@@ -88,6 +88,7 @@ adb shell setenforce 0
 ```
 Dicslaimer: VHAL crashes when the grpc-service is closed. I've tried to close the socker properly but it didn't help. Can'f find a way on how to fix this from the socket client, probably we need to patch VHAL to make it behave nice.
 
+In your pixel you can now start KITCHEN SINK and navigate to PROPERY TEST and select relevant signals such as `PERF_STEERING_ANGLE` or `PERF_VEHICLE_SPEED`
 
 ## Reflections/inspirations
 
