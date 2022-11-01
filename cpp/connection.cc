@@ -16,7 +16,7 @@ GrpcConnection::GrpcConnection(std::shared_ptr<Channel> channel)
   source = std::make_unique<ClientId>();
   name_space = std::make_unique<NameSpace>();
   source->set_id("my_unique_client_id");
-  name_space->set_name("ChassiBus");
+  name_space->set_name("Control");
 }
 
 void GrpcConnection::subscriber()
@@ -26,13 +26,13 @@ void GrpcConnection::subscriber()
   // add any number of signals...
   {
     auto handle = signals->add_signalid();
-    handle->set_allocated_name(new std::string("SteeringAngle129"));
+    handle->set_allocated_name(new std::string("ChassisSteeringwheelAngle"));
     handle->set_allocated_namespace_(new NameSpace(*name_space));
   }
 
   {
     auto handle = signals->add_signalid();
-    handle->set_allocated_name(new std::string("DI_uiSpeed"));
+    handle->set_allocated_name(new std::string("VehicleSpeed"));
     handle->set_allocated_namespace_(new NameSpace(*name_space));
   }
 
