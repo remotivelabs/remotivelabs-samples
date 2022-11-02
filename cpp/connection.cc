@@ -16,7 +16,7 @@ GrpcConnection::GrpcConnection(std::shared_ptr<Channel> channel)
   source = std::make_unique<ClientId>();
   name_space = std::make_unique<NameSpace>();
   source->set_id("my_unique_client_id");
-  name_space->set_name("Control");
+  name_space->set_name("custom_can");
 }
 
 void GrpcConnection::subscriber()
@@ -65,7 +65,7 @@ void GrpcConnection::subscriber()
   }
   Status status = reader->Finish();
 
-  std::cout << "Subscribing done" << std::endl;
+  std::cout << "Subscribing end. Subscring on invalid signals or stream stopped." << std::endl;
 }
 
 void GrpcConnection::publisher()

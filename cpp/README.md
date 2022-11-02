@@ -41,7 +41,7 @@ Go here https://remotivelabs.com/get-started/ follow the guide so you have flowi
 
 ## Execute the binary by doing
 
-Make sure the credentials match, go to the `cloud.remotivelabs.com`, and start the recording, click play.
+Make sure the credentials match, go to the https://cloud.remotivelabs.com, and start the recording, click play.
 
 ```
 GRPC_VERBOSITY=debug ./grpc_connection vhal-robert-beamydemo2-jrjbkq2tja-ez.a.run.app:443 092F8411-2D702818-531F3079-B7836BCD
