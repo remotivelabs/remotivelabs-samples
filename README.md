@@ -2,4 +2,4 @@
 
 Samples collection for _RemotiveLabs_.
 
-Python samples are found in the directory [python](python/).
+Samples are found in the directory [python](python/) and [cpp](cpp/)
