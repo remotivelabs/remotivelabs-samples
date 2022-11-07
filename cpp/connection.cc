@@ -65,7 +65,7 @@ void GrpcConnection::subscriber()
   }
   Status status = reader->Finish();
 
-  std::cout << "Subscribing end. Subscring on invalid signals or stream stopped." << std::endl;
+  std::cout << "Subscribing end. Subscribing on invalid signals or stream stopped." << std::endl;
 }
 
 void GrpcConnection::publisher()
