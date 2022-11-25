@@ -1,13 +1,14 @@
 import argparse
 import math
 import time
+from typing import Generator, Tuple, TypeAlias, Iterable
 
 import remotivelabs.broker.sync as br
 
-def publishScheduler():
-    pass
+SchedulingTuple: TypeAlias = Tuple[float, str, list[br.network_api_pb2.Signal]]
 
-def genDefaultPublishValues(signal_creator, child_info):
+
+def genDefaultPublishValues(signal_creator, child_info) -> Generator[br.network_api_pb2.Signal, None, None]:
     for ci in child_info:
         # TODO Use default value
         signalId = ci.id
@@ -17,11 +18,11 @@ def genDefaultPublishValues(signal_creator, child_info):
                 signalId.name, signalId.namespace.name, ("double", default_value)
                 )
 
-def selectRestBusFrames(signal_creator, frame_infos, match_frames, exclude):
+
+def selectRestBusFrames(signal_creator: br.SignalCreator, frame_infos: Iterable[br.common_pb2.FrameInfo], match_frames: list[str], exclude: bool) -> Generator[SchedulingTuple, None, None]:
 
     for fi in frame_infos:
         si = fi.signalInfo
-        # TODO get cycle time
 
         matching = si.id.name in match_frames
         if exclude:
@@ -34,7 +35,8 @@ def selectRestBusFrames(signal_creator, frame_infos, match_frames, exclude):
             publish_values = list(genDefaultPublishValues(signal_creator, fi.childInfo))
             yield (cycle_time, frame_id.name, publish_values)
 
-def restBusSchedule(frameSelection, network_stub, verbose):
+
+def restBusSchedule(frameSelection: list[SchedulingTuple], network_stub: br.network_api_pb2_grpc.NetworkServiceStub, verbose: bool) -> None:
     clock = time.monotonic()
     schedule = []
 
@@ -78,7 +80,8 @@ def restBusSchedule(frameSelection, network_stub, verbose):
         schedule.sort()
     print("No more schedules...")
 
-def run(url, x_api_key, namespace_name, frames, exclude, verbose, reload_config):
+
+def run(url: str, x_api_key: str, namespace_name: str, frames: list[str], exclude: bool, verbose: bool, reload_config: bool) -> None:
     intercept_channel = br.create_channel(url, x_api_key)
     system_stub = br.system_api_pb2_grpc.SystemServiceStub(intercept_channel)
     network_stub = br.network_api_pb2_grpc.NetworkServiceStub(intercept_channel)
@@ -105,7 +108,6 @@ def run(url, x_api_key, namespace_name, frames, exclude, verbose, reload_config)
         if verbose:
 
             for cycle_time, frame_id, publish_values in frameSelection:
-                signals = ", ".join(map(lambda pair: pair.id.name, publish_values))
                 if cycle_time > 0.0:
                     print('- Frame {} with cycle time {} ms.'.format(frame_id, cycle_time))
                 else:
@@ -120,7 +122,7 @@ def run(url, x_api_key, namespace_name, frames, exclude, verbose, reload_config)
     else:
         print("No frames selected, exit...")
 
-def main():
+def main() -> None:
     parser = argparse.ArgumentParser(description="Provide address to Beambroker")
 
     parser.add_argument(
@@ -185,7 +187,6 @@ def main():
     )
 
     args = parser.parse_args()
-
     run(args.url, args.x_api_key, args.namespace, args.frame, args.exclude, args.verbose, args.reload)
 
 
