@@ -11,7 +11,9 @@ As all python samples in this repository, the pip package [remotivelabs-broker](
 
 Run restbus for entire name space.
 
-    python restbus.py --namespace ecu_A
+    python restbus.py --reload --namespace ecu_A
+
+Note: To reload the configuration on the server, add the `--reload` argument.
 
 To get an understanding of what is happening on the restbus, add the argument `--verbose`. This will print detailed information:
 
