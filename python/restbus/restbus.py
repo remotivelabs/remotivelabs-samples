@@ -51,18 +51,20 @@ def restBusSchedule(
 ) -> None:
 
     clock = time.monotonic()
-    schedule = []
+    schedule = []  # Sorted array with values to be published next
 
-    # Put everything in schedule
+    # Put all signals from frame selection in scheduling array
     for cycle_time_ms, _, publish_values in frameSelection:
         cycle_time = cycle_time_ms * 0.001
         schedule.append((clock, cycle_time, publish_values))
 
+    # Client ID of our problam to use in our publish operation
     clientId = br.common_pb2.ClientId(id="Restbus")
 
     now = time.monotonic()
     sentFramesCount = 0
     while len(schedule) > 0:
+        # Check if sleep is necessary, sleep if so
         next_publish = schedule[0][0]
         now = time.monotonic()
         if next_publish > now:
@@ -72,15 +74,17 @@ def restBusSchedule(
                 sentFramesCount = 0
             time.sleep(next_publish - now)
 
+        # Look for frames ready to be sent according to schedule
         trigger_index = 0
         for i, sh in enumerate(schedule):
             next_trigger, _, _ = sh
             if next_trigger < now:
                 trigger_index = i + 1
-        triggers = schedule[:trigger_index]
-        schedule = schedule[trigger_index:]
+        triggers = schedule[:trigger_index]  # Signals for publish
+        schedule = schedule[trigger_index:]  # Singals not ready for publish
 
         if len(triggers) > 0:
+            # Collect values to be published
             publish_combined = []
             for next_sleep, cycle_time, publish_data in triggers:
                 publish_combined += publish_data
@@ -88,9 +92,14 @@ def restBusSchedule(
                 if cycle_time > 0.0:
                     new_next_sleep = next_sleep + cycle_time
                     schedule.append((new_next_sleep, cycle_time, publish_data))
+
+            # Publish values
             br.publish_signals(clientId, network_stub, publish_combined)
 
+        # Sort schedule by upcoming publish time, first signals in array are upcoming in schedule
         schedule.sort()
+
+    # Exit if there are no cyclic signals
     print("No more schedules...")
 
 
@@ -104,21 +113,23 @@ def run(
     reload_config: bool,
 ) -> None:
 
+    # gRPC connection to RemotiveBroker
     intercept_channel = br.create_channel(url, x_api_key)
     system_stub = br.system_api_pb2_grpc.SystemServiceStub(intercept_channel)
     network_stub = br.network_api_pb2_grpc.NetworkServiceStub(intercept_channel)
 
     if reload_config:
         print("Reloading sample configuration")
-        br.upload_folder(system_stub, "configuration_udp")
-        # br.upload_folder(system_stub, "configuration_can")
+        br.upload_folder(system_stub, "configuration_udp")  # UDP interface sample
+        # br.upload_folder(system_stub, "configuration_can") # CAN interface sample
         br.reload_configuration(system_stub)
 
-    sc = br.SignalCreator(system_stub)
+    # Get all signals available on broker
     namespace = br.common_pb2.NameSpace(name=namespace_name)
     signals = system_stub.ListSignals(namespace)
 
     if len(frames) == 0:
+        # Exit if no frames selected
         print(
             "No frames specified, selecting all frames in namespace {}".format(
                 namespace_name
@@ -127,6 +138,8 @@ def run(
         frames = []
         exclude = True
 
+    # Generate a list of values ready for publish
+    sc = br.SignalCreator(system_stub)
     frameSelection = list(selectRestBusFrames(sc, signals.frame, frames, exclude))
 
     if len(frameSelection) > 0:
@@ -152,6 +165,7 @@ def run(
                     )
 
         try:
+            # Run scheduler loop
             restBusSchedule(frameSelection, network_stub, verbose)
         except KeyboardInterrupt:
             print("Keyboard interrupt received. Closing scheduler.")
