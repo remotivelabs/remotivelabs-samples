@@ -8,18 +8,26 @@ import remotivelabs.broker.sync as br
 SchedulingTuple: TypeAlias = Tuple[float, str, list[br.network_api_pb2.Signal]]
 
 
-def genDefaultPublishValues(signal_creator, child_info) -> Generator[br.network_api_pb2.Signal, None, None]:
+def genDefaultPublishValues(
+    signal_creator, child_info
+) -> Generator[br.network_api_pb2.Signal, None, None]:
+
     for ci in child_info:
         # TODO Use default value
         signalId = ci.id
         meta_data = signal_creator.get_meta(signalId.name, signalId.namespace.name)
         default_value = meta_data.getStartValue(0.0)
         yield signal_creator.signal_with_payload(
-                signalId.name, signalId.namespace.name, ("double", default_value)
-                )
+            signalId.name, signalId.namespace.name, ("double", default_value)
+        )
 
 
-def selectRestBusFrames(signal_creator: br.SignalCreator, frame_infos: Iterable[br.common_pb2.FrameInfo], match_frames: list[str], exclude: bool) -> Generator[SchedulingTuple, None, None]:
+def selectRestBusFrames(
+    signal_creator: br.SignalCreator,
+    frame_infos: Iterable[br.common_pb2.FrameInfo],
+    match_frames: list[str],
+    exclude: bool,
+) -> Generator[SchedulingTuple, None, None]:
 
     for fi in frame_infos:
         si = fi.signalInfo
@@ -36,7 +44,12 @@ def selectRestBusFrames(signal_creator: br.SignalCreator, frame_infos: Iterable[
             yield (cycle_time, frame_id.name, publish_values)
 
 
-def restBusSchedule(frameSelection: list[SchedulingTuple], network_stub: br.network_api_pb2_grpc.NetworkServiceStub, verbose: bool) -> None:
+def restBusSchedule(
+    frameSelection: list[SchedulingTuple],
+    network_stub: br.network_api_pb2_grpc.NetworkServiceStub,
+    verbose: bool,
+) -> None:
+
     clock = time.monotonic()
     schedule = []
 
@@ -63,7 +76,7 @@ def restBusSchedule(frameSelection: list[SchedulingTuple], network_stub: br.netw
         for i, sh in enumerate(schedule):
             next_trigger, _, _ = sh
             if next_trigger < now:
-                trigger_index = i+1
+                trigger_index = i + 1
         triggers = schedule[:trigger_index]
         schedule = schedule[trigger_index:]
 
@@ -81,13 +94,22 @@ def restBusSchedule(frameSelection: list[SchedulingTuple], network_stub: br.netw
     print("No more schedules...")
 
 
-def run(url: str, x_api_key: str, namespace_name: str, frames: list[str], exclude: bool, verbose: bool, reload_config: bool) -> None:
+def run(
+    url: str,
+    x_api_key: str,
+    namespace_name: str,
+    frames: list[str],
+    exclude: bool,
+    verbose: bool,
+    reload_config: bool,
+) -> None:
+
     intercept_channel = br.create_channel(url, x_api_key)
     system_stub = br.system_api_pb2_grpc.SystemServiceStub(intercept_channel)
     network_stub = br.network_api_pb2_grpc.NetworkServiceStub(intercept_channel)
 
     if reload_config:
-        print('Reloading sample configuration')
+        print("Reloading sample configuration")
         br.upload_folder(system_stub, "configuration_udp")
         # br.upload_folder(system_stub, "configuration_can")
         br.reload_configuration(system_stub)
@@ -97,23 +119,37 @@ def run(url: str, x_api_key: str, namespace_name: str, frames: list[str], exclud
     signals = system_stub.ListSignals(namespace)
 
     if len(frames) == 0:
-        print('No frames specified, selecting all frames in namespace {}'.format(namespace_name))
+        print(
+            "No frames specified, selecting all frames in namespace {}".format(
+                namespace_name
+            )
+        )
         frames = []
         exclude = True
 
     frameSelection = list(selectRestBusFrames(sc, signals.frame, frames, exclude))
 
     if len(frameSelection) > 0:
-        print("Running restbus for {} frames on namespace {}".format(len(frameSelection), namespace_name))
+        print(
+            "Running restbus for {} frames on namespace {}".format(
+                len(frameSelection), namespace_name
+            )
+        )
         if verbose:
 
             for cycle_time, frame_id, publish_values in frameSelection:
                 if cycle_time > 0.0:
-                    print('- Frame {} with cycle time {} ms.'.format(frame_id, cycle_time))
+                    print(
+                        "- Frame {} with cycle time {} ms.".format(frame_id, cycle_time)
+                    )
                 else:
-                    print('- Frame {} without cycle time.'.format(frame_id))
+                    print("- Frame {} without cycle time.".format(frame_id))
                 for pair in publish_values:
-                    print('  - Signal {}, default value: {}.'.format(pair.id.name, pair.double))
+                    print(
+                        "  - Signal {}, default value: {}.".format(
+                            pair.id.name, pair.double
+                        )
+                    )
 
         try:
             restBusSchedule(frameSelection, network_stub, verbose)
@@ -121,6 +157,7 @@ def run(url: str, x_api_key: str, namespace_name: str, frames: list[str], exclud
             print("Keyboard interrupt received. Closing scheduler.")
     else:
         print("No frames selected, exit...")
+
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="Provide address to Beambroker")
@@ -158,7 +195,7 @@ def main() -> None:
         type=str,
         required=False,
         action="append",
-        default=[]
+        default=[],
     )
 
     parser.add_argument(
@@ -175,7 +212,7 @@ def main() -> None:
         "--verbose",
         help="Print verbose information",
         action="store_true",
-        default=False
+        default=False,
     )
 
     parser.add_argument(
@@ -187,9 +224,16 @@ def main() -> None:
     )
 
     args = parser.parse_args()
-    run(args.url, args.x_api_key, args.namespace, args.frame, args.exclude, args.verbose, args.reload)
+    run(
+        args.url,
+        args.x_api_key,
+        args.namespace,
+        args.frame,
+        args.exclude,
+        args.verbose,
+        args.reload,
+    )
 
 
 if __name__ == "__main__":
     main()
-
