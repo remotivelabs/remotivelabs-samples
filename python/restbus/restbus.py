@@ -1,6 +1,5 @@
 import argparse
 import math
-import sys
 import time
 
 import remotivelabs.broker.sync as br
@@ -121,7 +120,7 @@ def run(url, x_api_key, namespace_name, frames, exclude, verbose, reload_config)
     else:
         print("No frames selected, exit...")
 
-def main(argv):
+def main():
     parser = argparse.ArgumentParser(description="Provide address to Beambroker")
 
     parser.add_argument(
@@ -191,5 +190,5 @@ def main(argv):
 
 
 if __name__ == "__main__":
-    main(sys.argv[1:])
+    main()
 
