@@ -66,7 +66,8 @@ def restBusSchedule(
     # Client ID of our problam to use in our publish operation
     clientId: br.common_pb2.ClientId = br.common_pb2.ClientId(id="MyRestbus")
 
-    sentFramesCount: int = 0 # Counter only used to print verbose information
+    # Counter only used to print verbose information
+    sentFramesCount: int = 0
 
     # Scheduling loop, run as long as there are cyclic frames to publish
     while len(schedule) > 0:
@@ -109,7 +110,7 @@ def restBusSchedule(
             br.publish_signals(clientId, network_stub, publish_combined)
 
         # Sort schedule by upcoming publish time, first signals in array are upcoming in schedule
-        schedule.sort()
+        schedule.sort(key=lambda s: s[0])
 
     # Exit if there are no cyclic signals
     print("No more schedules...")
