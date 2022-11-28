@@ -13,7 +13,6 @@ def genDefaultPublishValues(
 ) -> Generator[br.network_api_pb2.Signal, None, None]:
 
     for ci in child_info:
-        # TODO Use default value
         signalId = ci.id
         meta_data = signal_creator.get_meta(signalId.name, signalId.namespace.name)
         default_value = meta_data.getStartValue(0.0)
@@ -50,47 +49,60 @@ def restBusSchedule(
     verbose: bool,
 ) -> None:
 
-    clock = time.monotonic()
-    schedule = []  # Sorted array with values to be published next
+    # Use a monotonic timer for scheduling
+    clock: float = time.monotonic()
+
+    # Schedule is a sorted list with tuples made of:
+    # - Next schedule trigger
+    # - Cycle time
+    # - Publishable RemoviteBroker values
+    schedule: list[Tuple[float, float, list[br.network_api_pb2.Signal]]] = []
 
     # Put all signals from frame selection in scheduling array
     for cycle_time_ms, _, publish_values in frameSelection:
-        cycle_time = cycle_time_ms * 0.001
+        cycle_time: float = cycle_time_ms * 0.001
         schedule.append((clock, cycle_time, publish_values))
 
     # Client ID of our problam to use in our publish operation
-    clientId = br.common_pb2.ClientId(id="Restbus")
+    clientId: br.common_pb2.ClientId = br.common_pb2.ClientId(id="MyRestbus")
 
-    now = time.monotonic()
-    sentFramesCount = 0
+    sentFramesCount: int = 0 # Counter only used to print verbose information
+
+    # Scheduling loop, run as long as there are cyclic frames to publish
     while len(schedule) > 0:
         # Check if sleep is necessary, sleep if so
         next_publish = schedule[0][0]
-        now = time.monotonic()
-        if next_publish > now:
+        clock = time.monotonic()
+
+        if next_publish > clock:
+            # For debugging, print what's going on in scheduler
             if verbose:
-                ms = math.ceil((next_publish - now) * 1000.0)
+                ms: int = math.ceil((next_publish - clock) * 1000.0)
                 print("Sent {} frames, sleeping for {} ms".format(sentFramesCount, ms))
                 sentFramesCount = 0
-            time.sleep(next_publish - now)
+
+            # Sleep scheduler until next scheduled event
+            sleep_time: float = next_publish - clock
+            time.sleep(sleep_time)
 
         # Look for frames ready to be sent according to schedule
         trigger_index = 0
         for i, sh in enumerate(schedule):
             next_trigger, _, _ = sh
-            if next_trigger < now:
+            if next_trigger < clock:
                 trigger_index = i + 1
+
         triggers = schedule[:trigger_index]  # Signals for publish
         schedule = schedule[trigger_index:]  # Singals not ready for publish
 
         if len(triggers) > 0:
             # Collect values to be published
-            publish_combined = []
+            publish_combined: list[br.network_api_pb2.Signal] = []
             for next_sleep, cycle_time, publish_data in triggers:
                 publish_combined += publish_data
                 sentFramesCount += 1
                 if cycle_time > 0.0:
-                    new_next_sleep = next_sleep + cycle_time
+                    new_next_sleep: float = next_sleep + cycle_time
                     schedule.append((new_next_sleep, cycle_time, publish_data))
 
             # Publish values
