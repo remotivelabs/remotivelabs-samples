@@ -23,6 +23,19 @@ def selectSubscribeIds(
                 yield child.id
 
 
+def _get_value_str(signal: br.network_api_pb2.Signal) -> str:
+    if signal.raw != b"":
+        return signal.raw
+    elif signal.HasField("integer"):
+        return signal.integer
+    elif signal.HasField("double"):
+        return signal.double
+    elif signal.HasField("arbitration"):
+        return signal.arbitration
+    else:
+        return "empty"
+
+
 def run(
     url: str,
     x_api_key: str,
@@ -58,7 +71,10 @@ def run(
     print("Subscribing on signals...")
     try:
         for response in subscripton:
-            br.printer(response.signal)
+            for signal in response.signal:
+                print( "{} {} {}".format(
+                    signal.id.name,
+                    signal.id.namespace.name, _get_value_str(signal)))
     except KeyboardInterrupt:
         print("Keyboard interrupt received. Closing scheduler.")
 
