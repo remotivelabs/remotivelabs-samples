@@ -9,8 +9,8 @@ As all python samples in this repository, the pip package [remotivelabs-broker](
 
 Subscribe to a signal by running.
 
-    python subscribe.py --namespace ecu_A --signal TestFr06_Child02
+    python subscribe.py --url http://192.168.4.1:50051 --namespace ecu_A --signal TestFr06_Child02
 
 The script can take multiple `--signal` arguments for subscribing to several signals:
 
-    python subscribe.py --namespace ecu_A --signal TestFr06_Child02 --signal TestFr06_Child03
+    python subscribe.py --url http://192.168.4.1:50051 --namespace ecu_A --signal TestFr06_Child02 --signal TestFr06_Child03
