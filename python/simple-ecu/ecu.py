@@ -7,6 +7,7 @@ import sys, getopt
 import time
 
 import remotivelabs.broker.sync as br
+from typing import Callable, Generator, Iterable, Optional, TypeVar, Sequence
 
 from threading import Thread, Timer
 
@@ -49,7 +50,9 @@ def ecu_A(stub):
     """
     namespace = "ecu_A"
     increasing_counter = 0
-    counter_start_value = int(signal_creator.get_meta("counter", namespace).getStartValue(0))
+    counter_start_value = int(
+        signal_creator.get_meta("counter", namespace).getStartValue(0)
+    )
     clientId = br.common_pb2.ClientId(id="id_ecu_A")
     counter_frame = signal_creator.frame_by_signal("counter", namespace)
     pause = 0.001 * signal_creator.get_meta(
@@ -166,6 +169,31 @@ def double_and_publish(network_stub, client_id, trigger, signals):
             )
 
 
+def subscribe(
+    broker,
+    client_id: br.common_pb2.ClientId,
+    network_stub: br.network_api_pb2_grpc.NetworkServiceStub,
+    signals: br.network_api_pb2.Signals,
+    on_subscribe: Callable[[Sequence[br.network_api_pb2.Signal]], None],
+    on_change: bool = False,
+) -> grpc.RpcContext:
+    sync = queue.Queue()
+    Thread(
+        target=broker.act_on_signal,
+        args=(
+            client_id,
+            network_stub,
+            signals,
+            on_change,  # True: only report when signal changes
+            on_subscribe,
+            lambda subscription: (sync.put(subscription)),
+        ),
+    ).start()
+    # wait for subscription to settle
+    subscription = sync.get()
+    return subscription
+
+
 def run(url, x_api_key):
     """Main function, checking arguments passed to script, setting up stubs, configuration and starting Threads."""
     # Setting up stubs and configuration
@@ -193,33 +221,26 @@ def run(url, x_api_key):
             system_stub.ListSignals(networkInfo.namespace),
         )
 
-    # Starting Threads
-
     # ecu b, we do this with lambda refering to double_and_publish.
     ecu_b_client_id = br.common_pb2.ClientId(id="id_ecu_B")
 
-    Thread(
-        target=br.act_on_signal,
-        args=(
-            ecu_b_client_id,
+    # Starting subscription thread
+    subscription = subscribe(
+        br,
+        ecu_b_client_id,
+        network_stub,
+        [
+            signal_creator.signal("counter", "ecu_B"),
+            # here you can add any signal from any namespace
+            # signal_creator.signal("TestFr04", "ecu_B"),
+        ],
+        lambda signals: double_and_publish(
             network_stub,
-            [
-                signal_creator.signal("counter", "ecu_B"),
-                # here you can add any signal from any namespace
-                # signal_creator.signal("TestFr04", "ecu_B"),
-            ],
-            True,  # True: only report when signal changes
-            lambda signals: double_and_publish(
-                network_stub,
-                ecu_b_client_id,
-                signal_creator.signal("counter", "ecu_B"),
-                signals,
-            ),
-            lambda subscripton: (q.put(("id_ecu_B", subscripton))),
+            ecu_b_client_id,
+            signal_creator.signal("counter", "ecu_B"),
+            signals,
         ),
-    ).start()
-    # wait for subscription to settle
-    ecu, subscription = q.get()
+    )
 
     # ecu a, this is where we publish, and
     Thread(

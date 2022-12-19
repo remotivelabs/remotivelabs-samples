@@ -2,25 +2,43 @@ import argparse
 import math
 import time
 import remotivelabs.broker.sync as br
+import queue
+from threading import Thread, Timer
+import grpc
 
-from typing import Generator, Iterable
+from typing import Callable, Generator, Iterable, Optional, TypeVar, Sequence
 
 
-def selectSubscribeIds(
-    frame_infos: Iterable[br.common_pb2.FrameInfo],
-    match_signals: list[str],
+def subscribe(
+    broker,
+    client_id: br.common_pb2.ClientId,
+    network_stub: br.network_api_pb2_grpc.NetworkServiceStub,
+    signals: br.network_api_pb2.Signals,
+    on_subscribe: Callable[[Sequence[br.network_api_pb2.Signal]], None],
+    on_change: bool = False,
+) -> grpc.RpcContext:
+    sync = queue.Queue()
+    Thread(
+        target=broker.act_on_signal,
+        args=(
+            client_id,
+            network_stub,
+            signals,
+            on_change,  # True: only report when signal changes
+            on_subscribe,
+            lambda subscription: (sync.put(subscription)),
+        ),
+    ).start()
+    # wait for subscription to settle
+    subscription = sync.get()
+    return subscription
+
+
+def subscribe_list(
+    signal_creator, signals: list[str], namespace: str
 ) -> Generator[br.common_pb2.SignalId, None, None]:
-
-    def isMatch(sig: br.common_pb2.SignalInfo) -> bool:
-        return sig.id.name in match_signals
-
-    for fi in frame_infos:
-        if isMatch(fi.signalInfo):
-            yield fi.signalInfo.id
-
-        for child in fi.childInfo:
-            if isMatch(child):
-                yield child.id
+    for signal in signals:
+        yield signal_creator.signal(signal, namespace)
 
 
 def _get_value_str(signal: br.network_api_pb2.Signal) -> str:
@@ -36,6 +54,15 @@ def _get_value_str(signal: br.network_api_pb2.Signal) -> str:
         return "empty"
 
 
+def printer(signals: br.network_api_pb2.Signals) -> None:
+    for signal in signals:
+        print(
+            "{} {} {}".format(
+                signal.id.name, signal.id.namespace.name, _get_value_str(signal)
+            )
+        )
+
+
 def run(
     url: str,
     x_api_key: str,
@@ -48,12 +75,10 @@ def run(
     system_stub = br.system_api_pb2_grpc.SystemServiceStub(intercept_channel)
     network_stub = br.network_api_pb2_grpc.NetworkServiceStub(intercept_channel)
 
-    # Get all signals available on broker
-    namespace = br.common_pb2.NameSpace(name=namespace_name)
-    allFrames = system_stub.ListSignals(namespace)
-
-    # Generate a list of values ready for publish
-    subscribeValues = list(selectSubscribeIds(allFrames.frame, signals))
+    # Generate a list of values ready for subscribe
+    subscribeValues = list(
+        subscribe_list(br.SignalCreator(system_stub), signals, namespace_name)
+    )
     if len(subscribeValues) == 0:
         print("No signals found. Nothing to do...")
         return
@@ -61,26 +86,19 @@ def run(
     clientIdName = "MySubscriber_{}".format(math.floor(time.monotonic()))
     clientId: br.common_pb2.ClientId = br.common_pb2.ClientId(id=clientIdName)
 
-    subConfig = br.network_api_pb2.SubscriberConfig(
-        clientId=clientId,
-        signals=br.network_api_pb2.SignalIds(signalId=subscribeValues),
-        onChange=False,
-    )
-
-    subscripton = network_stub.SubscribeToSignals(subConfig, timeout=None)
     print("Subscribing on signals...")
+    subscription = subscribe(br, clientId, network_stub, subscribeValues, printer)
+
     try:
-        for response in subscripton:
-            for signal in response.signal:
-                print( "{} {} {}".format(
-                    signal.id.name,
-                    signal.id.namespace.name, _get_value_str(signal)))
+        while True:
+            pass
     except KeyboardInterrupt:
+        subscription.cancel()
         print("Keyboard interrupt received. Closing scheduler.")
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Provide address to Beambroker")
+    parser = argparse.ArgumentParser(description="Provide address to RemotiveBroker")
 
     parser.add_argument(
         "-u",

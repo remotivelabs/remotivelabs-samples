@@ -91,7 +91,7 @@ The function `ecu_A` will publish one or multiple signals which then can be caug
 
 We also see a thread called `ecu_B_sub_thread` which shows how to subscribe to signals that has been published by ecu_A. The thread `ecu_read_on_timer` is a synchronous variant of this and also has the purpose to read.
 
-`ecu_B_sub_thread` thread uses `act_on_signal` which will invoke provided function (here a lambda) once a subscrpition is triggered on any of the provided signals.
+`ecu_B_sub_thread` thread uses `subscribe` which then calls `act_on_signal` which will invoke provided function (here a lambda) once a subscrpition is triggered on any of the provided signals.
 
 ```python
 for subs_counter in subscripton:
@@ -99,26 +99,26 @@ for subs_counter in subscripton:
 ```
 
 ```python
-ecu_B_sub_thread = Thread(
-    target=act_on_signal,
-    args=(
+# Starting subscription thread
+    subscription = subscribe(
+        br,
         ecu_b_client_id,
         network_stub,
         [
             signal_creator.signal("counter", "ecu_B"),
+            # here you can add any signal from any namespace
+            # signal_creator.signal("TestFr04", "ecu_B"),
         ],
-        True,  # only report when signal changes
         lambda signals: double_and_publish(
             network_stub,
             ecu_b_client_id,
             signal_creator.signal("counter", "ecu_B"),
             signals,
         ),
-    ),
-)
+    )
 ```
 
-Every time the `counter` signal comes, the function will take the value from the incoming signal, double the value and publish it as another signal `counter_times_2` (which then can be read by ecu_A). I will look like this:
+Every time the `counter` signal arrives, the function will take the value from the incoming signal, double the value and publish it as another signal `counter_times_2` (which then can be read by ecu_A).
 
 ```python
 def double_and_publish(network_stub, client_id, trigger, signals):
