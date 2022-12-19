@@ -7,6 +7,7 @@ import sys, getopt
 import time
 
 import remotivelabs.broker.sync as br
+from typing import Callable, Generator, Iterable, Optional, TypeVar, Sequence
 
 from threading import Thread, Timer
 
@@ -168,7 +169,14 @@ def double_and_publish(network_stub, client_id, trigger, signals):
             )
 
 
-def subscribe(broker, client_id: str, network_stub, signals, on_subscribe):
+def subscribe(
+    broker,
+    client_id: br.common_pb2.ClientId,
+    network_stub: br.network_api_pb2_grpc.NetworkServiceStub,
+    signals: br.network_api_pb2.Signals,
+    on_subscribe: Callable[[Sequence[br.network_api_pb2.Signal]], None],
+    on_change: bool = False,
+) -> grpc.RpcContext:
     sync = queue.Queue()
     Thread(
         target=broker.act_on_signal,
@@ -176,9 +184,9 @@ def subscribe(broker, client_id: str, network_stub, signals, on_subscribe):
             client_id,
             network_stub,
             signals,
-            True,  # True: only report when signal changes
+            on_change,  # True: only report when signal changes
             on_subscribe,
-            lambda subscripton: (sync.put(("id_ecu_B", subscripton))),
+            lambda subscription: (sync.put(subscription)),
         ),
     ).start()
     # wait for subscription to settle
@@ -216,8 +224,8 @@ def run(url, x_api_key):
     # ecu b, we do this with lambda refering to double_and_publish.
     ecu_b_client_id = br.common_pb2.ClientId(id="id_ecu_B")
 
-    # Starting Threads
-    subscribe(
+    # Starting subscription thread
+    subscription = subscribe(
         br,
         ecu_b_client_id,
         network_stub,
