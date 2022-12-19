@@ -5,9 +5,17 @@ import remotivelabs.broker.sync as br
 import queue
 from threading import Thread, Timer
 
-from typing import Generator, Iterable
+from typing import Callable, Generator, Iterable, Optional, TypeVar, Sequence
 
-def subscribe(broker, client_id: str, network_stub, signals, on_subscribe, on_change = False):
+
+def subscribe(
+    broker,
+    client_id: br.common_pb2.ClientId,
+    network_stub: br.network_api_pb2_grpc.NetworkServiceStub,
+    signals: br.network_api_pb2.Signals,
+    on_subscribe: Callable[[Sequence[br.network_api_pb2.Signal]], None],
+    on_change: bool = False,
+):
     sync = queue.Queue()
     Thread(
         target=broker.act_on_signal,
@@ -24,11 +32,11 @@ def subscribe(broker, client_id: str, network_stub, signals, on_subscribe, on_ch
     subscription = sync.get()
     return subscription
 
+
 def selectSubscribeIds(
     frame_infos: Iterable[br.common_pb2.FrameInfo],
     match_signals: list[str],
 ) -> Generator[br.common_pb2.SignalId, None, None]:
-
     def isMatch(sig: br.common_pb2.SignalInfo) -> bool:
         return sig.id.name in match_signals
 
@@ -53,11 +61,15 @@ def _get_value_str(signal: br.network_api_pb2.Signal) -> str:
     else:
         return "empty"
 
+
 def printer(signals: br.network_api_pb2.Signals) -> None:
     for signal in signals:
-        print( "{} {} {}".format(
-                    signal.id.name,
-                    signal.id.namespace.name, _get_value_str(signal)))
+        print(
+            "{} {} {}".format(
+                signal.id.name, signal.id.namespace.name, _get_value_str(signal)
+            )
+        )
+
 
 def run(
     url: str,
@@ -84,13 +96,6 @@ def run(
     clientIdName = "MySubscriber_{}".format(math.floor(time.monotonic()))
     clientId: br.common_pb2.ClientId = br.common_pb2.ClientId(id=clientIdName)
 
-    # subConfig = br.network_api_pb2.SubscriberConfig(
-    #     clientId=clientId,
-    #     signals=br.network_api_pb2.SignalIds(signalId=subscribeValues),
-    #     onChange=False,
-    # )
-
-    # subscripton = network_stub.SubscribeToSignals(subConfig, timeout=None)
     print("Subscribing on signals...")
     subscripton = subscribe(br, clientId, network_stub, subscribeValues, printer)
 
