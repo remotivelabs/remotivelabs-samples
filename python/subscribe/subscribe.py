@@ -2,9 +2,27 @@ import argparse
 import math
 import time
 import remotivelabs.broker.sync as br
+import queue
+from threading import Thread, Timer
 
 from typing import Generator, Iterable
 
+def subscribe(broker, client_id: str, network_stub, signals, on_subscribe, on_change = False):
+    sync = queue.Queue()
+    Thread(
+        target=broker.act_on_signal,
+        args=(
+            client_id,
+            network_stub,
+            signals,
+            on_change,  # True: only report when signal changes
+            on_subscribe,
+            lambda subscripton: (sync.put(("id_ecu_B", subscripton))),
+        ),
+    ).start()
+    # wait for subscription to settle
+    subscription = sync.get()
+    return subscription
 
 def selectSubscribeIds(
     frame_infos: Iterable[br.common_pb2.FrameInfo],
@@ -35,6 +53,11 @@ def _get_value_str(signal: br.network_api_pb2.Signal) -> str:
     else:
         return "empty"
 
+def printer(signals: br.network_api_pb2.Signals) -> None:
+    for signal in signals:
+        print( "{} {} {}".format(
+                    signal.id.name,
+                    signal.id.namespace.name, _get_value_str(signal)))
 
 def run(
     url: str,
@@ -61,21 +84,21 @@ def run(
     clientIdName = "MySubscriber_{}".format(math.floor(time.monotonic()))
     clientId: br.common_pb2.ClientId = br.common_pb2.ClientId(id=clientIdName)
 
-    subConfig = br.network_api_pb2.SubscriberConfig(
-        clientId=clientId,
-        signals=br.network_api_pb2.SignalIds(signalId=subscribeValues),
-        onChange=False,
-    )
+    # subConfig = br.network_api_pb2.SubscriberConfig(
+    #     clientId=clientId,
+    #     signals=br.network_api_pb2.SignalIds(signalId=subscribeValues),
+    #     onChange=False,
+    # )
 
-    subscripton = network_stub.SubscribeToSignals(subConfig, timeout=None)
+    # subscripton = network_stub.SubscribeToSignals(subConfig, timeout=None)
     print("Subscribing on signals...")
+    subscripton = subscribe(br, clientId, network_stub, subscribeValues, printer)
+
     try:
-        for response in subscripton:
-            for signal in response.signal:
-                print( "{} {} {}".format(
-                    signal.id.name,
-                    signal.id.namespace.name, _get_value_str(signal)))
+        while True:
+            pass
     except KeyboardInterrupt:
+        subscripton.cancel()
         print("Keyboard interrupt received. Closing scheduler.")
 
 
