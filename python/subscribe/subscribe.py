@@ -52,7 +52,7 @@ def run(
     namespace = br.common_pb2.NameSpace(name=namespace_name)
     allFrames = system_stub.ListSignals(namespace)
 
-    # Generate a list of values ready for publish
+    # Generate a list of values ready for subscribe
     subscribeValues = list(selectSubscribeIds(allFrames.frame, signals))
     if len(subscribeValues) == 0:
         print("No signals found. Nothing to do...")
