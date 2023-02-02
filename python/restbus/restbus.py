@@ -1,11 +1,12 @@
 import argparse
 import math
 import time
-from typing import Generator, Tuple, TypeAlias, Iterable
+from typing import Generator, Tuple, TypeAlias, Iterable, Optional
 
 import remotivelabs.broker.sync as br
 
 SchedulingTuple: TypeAlias = Tuple[float, str, list[br.network_api_pb2.Signal]]
+E2eCounterStates: TypeAlias = dict[str, int]
 
 
 def genDefaultPublishValues(
@@ -43,8 +44,30 @@ def selectRestBusFrames(
             yield (cycle_time, frame_id.name, publish_values)
 
 
+def getE2eCounter(e2e: br.common_pb2.E2e) -> Optional[str]:
+    if e2e:
+        return e2e.signalCounter
+    return None
+
+
+def selectE2eCounters(
+    frame_infos: Iterable[br.common_pb2.FrameInfo],
+) -> Generator[str, None, None]:
+    def _yield_all_e2e():
+        for frame in frame_infos:
+            metaData = frame.metaData
+            yield getE2eCounter(metaData.e2e)
+            for group in metaData.groups:
+                yield getE2eCounter(group.e2e)
+
+    for opt_e2e_counter in _yield_all_e2e():
+        if opt_e2e_counter:
+            yield opt_e2e_counter
+
+
 def restBusSchedule(
     frameSelection: list[SchedulingTuple],
+    e2eCounters: E2eCounterStates,
     network_stub: br.network_api_pb2_grpc.NetworkServiceStub,
     verbose: bool,
 ) -> None:
@@ -100,6 +123,20 @@ def restBusSchedule(
             # Collect values to be published
             publish_combined: list[br.network_api_pb2.Signal] = []
             for next_sleep, cycle_time, publish_data in triggers:
+
+                for pd in publish_data:
+                    name = pd.id.name
+                    if name in e2eCounters:
+                        next = e2eCounters[name]
+                        next += 1
+                        if next > 14:
+                            next = 0
+                        # Store new E2E counter
+
+                        pd.integer = e2eCounters[name] = next
+                        # print("PUBLISaaaH")
+                        # print(e2eCounters)
+
                 publish_combined += publish_data
                 sentFramesCount += 1
                 if cycle_time > 0.0:
@@ -153,7 +190,12 @@ def run(
 
     # Generate a list of values ready for publish
     sc = br.SignalCreator(system_stub)
-    frameSelection = list(selectRestBusFrames(sc, signals.frame, frames, exclude))
+    frameSelection: list[SchedulingTuple] = list(
+        selectRestBusFrames(sc, signals.frame, frames, exclude)
+    )
+    e2eCounters: E2eCounterStates = dict(
+        [(signal_name, 0) for signal_name in selectE2eCounters(signals.frame)]
+    )
 
     if len(frameSelection) > 0:
         print(
@@ -179,7 +221,7 @@ def run(
 
         try:
             # Run scheduler loop
-            restBusSchedule(frameSelection, network_stub, verbose)
+            restBusSchedule(frameSelection, e2eCounters, network_stub, verbose)
         except KeyboardInterrupt:
             print("Keyboard interrupt received. Closing scheduler.")
     else:
