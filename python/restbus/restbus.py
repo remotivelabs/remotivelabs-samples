@@ -44,21 +44,17 @@ def selectRestBusFrames(
             yield (cycle_time, frame_id.name, publish_values)
 
 
-def getE2eCounter(e2e: br.common_pb2.E2e) -> Optional[str]:
-    if e2e:
-        return e2e.signalCounter
-    return None
-
-
 def selectE2eCounters(
     frame_infos: Iterable[br.common_pb2.FrameInfo],
 ) -> Generator[str, None, None]:
     def _yield_all_e2e():
         for frame in frame_infos:
-            metaData = frame.metaData
-            yield getE2eCounter(metaData.e2e)
+            metaData = frame.signalInfo.metaData
+            if metaData.e2e and metaData.e2e.signalCounter:
+                yield metaData.e2e.signalCounter
             for group in metaData.groups:
-                yield getE2eCounter(group.e2e)
+                if group.e2e and group.e2e.signalCounter:
+                    yield group.e2e.signalCounter
 
     for opt_e2e_counter in _yield_all_e2e():
         if opt_e2e_counter:
