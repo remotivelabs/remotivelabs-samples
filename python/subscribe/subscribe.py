@@ -74,6 +74,7 @@ def run(
     intercept_channel = br.create_channel(url, x_api_key)
     system_stub = br.system_api_pb2_grpc.SystemServiceStub(intercept_channel)
     network_stub = br.network_api_pb2_grpc.NetworkServiceStub(intercept_channel)
+    br.check_license(system_stub)
 
     # Generate a list of values ready for subscribe
     subscribeValues = list(

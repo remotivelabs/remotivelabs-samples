@@ -1,0 +1,11 @@
+{
+  "chains": [
+    {
+      "type": "can",
+      "namespace": "myecu",
+      "device_name": "vcan0",
+      "database": "can/test.dbc",
+      "auto_recover": false
+    }
+  ]
+}

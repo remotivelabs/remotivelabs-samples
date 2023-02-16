@@ -62,19 +62,12 @@ br.check_license(system_stub)
 #### Configuration
 Simple ecu folder contains some examples of different configurations, available configurations to use are the following:
 
-* [CAN](configuration_can).
-* [LIN](configuration_lin).
-* [UDP](configuration_udp).
+* [CAN](configuration_can) (`configuration_can`, or `configuration_canfd`).
+* [LIN](configuration_lin) (`configuration_lin`).
+* [UDP](configuration_udp) (`configuration_udp`).
 
-The example scripts uploads and reloads configuration with the `system_stub` that was defined above. Some lines are commented and not in use, but you can easily uncomment a line to shift between configurations or feel free to use your own.
-It will look similar to this:
-```
-br.upload_folder(system_stub, "configuration_udp")
-# br.upload_folder(system_stub, "configuration_lin")
-# br.upload_folder(system_stub, "configuration_can")
-# br.upload_folder(system_stub, "configuration_canfd")
-br.reload_configuration(system_stub)
-```
+Add the argument `--configure <directory>` to apply the selected configuration to the broker.
+
 > For _CAN_/_LIN_ to work you need seperate HW.
 
 #### Threads

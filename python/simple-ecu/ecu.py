@@ -7,7 +7,7 @@ import sys, getopt
 import time
 
 import remotivelabs.broker.sync as br
-from typing import Callable, Generator, Iterable, Optional, TypeVar, Sequence
+from typing import Callable, Sequence
 
 from threading import Thread, Timer
 
@@ -134,7 +134,8 @@ def main(argv):
         "--url",
         type=str,
         help="URL of the RemotiveBroker",
-        required=True,
+        default="http://127.0.0.1:50051",
+        required=False
     )
 
     parser.add_argument(
@@ -145,9 +146,18 @@ def main(argv):
         required=False,
         default="offline",
     )
-    args = parser.parse_args()
 
-    run(args.url, args.x_api_key)
+    parser.add_argument(
+        "-c",
+        "--configure",
+        type=str,
+        metavar="DIRECTORY",
+        help="Configure broker with specified configuration directory",
+        default="configuration_udp"
+    )
+
+    args = parser.parse_args()
+    run(args.url, args.x_api_key, args.configure)
 
 
 def double_and_publish(network_stub, client_id, trigger, signals):
@@ -194,7 +204,7 @@ def subscribe(
     return subscription
 
 
-def run(url, x_api_key):
+def run(url: str, x_api_key: str, configuration: str):
     """Main function, checking arguments passed to script, setting up stubs, configuration and starting Threads."""
     # Setting up stubs and configuration
     intercept_channel = br.create_channel(url, x_api_key)
@@ -203,10 +213,8 @@ def run(url, x_api_key):
     system_stub = br.system_api_pb2_grpc.SystemServiceStub(intercept_channel)
     br.check_license(system_stub)
 
-    br.upload_folder(system_stub, "configuration_udp")
-    # br.upload_folder(system_stub, "configuration_lin")
-    # br.upload_folder(system_stub, "configuration_can")
-    # br.upload_folder(system_stub, "configuration_canfd")
+    print("Using configuration {}".format(configuration))
+    br.upload_folder(system_stub, configuration)
     br.reload_configuration(system_stub)
 
     global signal_creator

@@ -187,9 +187,10 @@ def main(argv):
     parser.add_argument(
         "-url",
         "--url",
-        type=str,
         help="URL of the RemotiveBroker",
-        required=True,
+        type=str,
+        required=False,
+        default="http://127.0.0.1:50051",
     )
 
     parser.add_argument(
@@ -201,12 +202,21 @@ def main(argv):
         default="offline",
     )
 
+    parser.add_argument(
+        "-c",
+        "--configure",
+        type=str,
+        metavar="DIRECTORY",
+        help="Configure broker with specified configuration directory",
+        default="configuration_custom_udp"
+    )
+
     args = parser.parse_args()
 
-    run(args.url, args.x_api_key)
+    run(args.url, args.x_api_key, args.configure)
 
 
-def run(url, x_api_key):
+def run(url: str, x_api_key: str, configure: str):
     # To do a clean exit of the script on CTRL+C
     signal.signal(signal.SIGINT, lambda signum, frame: exit_handler(url, x_api_key))
 
@@ -215,9 +225,9 @@ def run(url, x_api_key):
     network_stub = br.network_api_pb2_grpc.NetworkServiceStub(intercept_channel)
     traffic_stub = br.traffic_api_pb2_grpc.TrafficServiceStub(intercept_channel)
     system_stub = br.system_api_pb2_grpc.SystemServiceStub(intercept_channel)
-    # check_license(system_stub)
+    br.check_license(system_stub)
 
-    br.upload_folder(system_stub, "configuration_custom_udp")
+    br.upload_folder(system_stub, configure)
     br.reload_configuration(system_stub)
     # Give us some time to see it all went according to plan
     time.sleep(1)

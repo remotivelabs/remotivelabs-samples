@@ -20,6 +20,10 @@ class Broker:
 def broker():
     return Broker()
 
+def test_check_license(broker):
+    """Check valid license"""
+    br.check_license(broker.system_stub)
+
 def test_serverInfo(broker):
     """Validate server information"""
 

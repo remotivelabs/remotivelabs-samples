@@ -156,7 +156,7 @@ def run(
     frames: list[str],
     exclude: bool,
     verbose: bool,
-    reload_config: bool,
+    configure: Optional[str],
 ) -> None:
 
     # gRPC connection to RemotiveBroker
@@ -164,10 +164,9 @@ def run(
     system_stub = br.system_api_pb2_grpc.SystemServiceStub(intercept_channel)
     network_stub = br.network_api_pb2_grpc.NetworkServiceStub(intercept_channel)
 
-    if reload_config:
-        print("Reloading sample configuration")
-        br.upload_folder(system_stub, "configuration_udp")  # UDP interface sample
-        # br.upload_folder(system_stub, "configuration_can") # CAN interface sample
+    if configure:
+        print("Configuring broker with {}".format(configure))
+        br.upload_folder(system_stub, configure)
         br.reload_configuration(system_stub)
 
     # Get all signals available on broker
@@ -281,11 +280,12 @@ def main() -> None:
     )
 
     parser.add_argument(
-        "-reload",
-        "--reload",
-        help="Reload with example configuration",
-        action="store_true",
-        default=False,
+        "-c",
+        "--configure",
+        type=str,
+        required=False,
+        metavar="DIRECTORY",
+        help="Upload and use configuration"
     )
 
     args = parser.parse_args()
@@ -296,7 +296,7 @@ def main() -> None:
         args.frame,
         args.exclude,
         args.verbose,
-        args.reload,
+        args.configure,
     )
 
 
