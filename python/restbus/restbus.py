@@ -1,29 +1,52 @@
 import argparse
 import math
 import time
+import re
 from typing import Generator, Tuple, TypeAlias, Iterable, Optional
 
 import remotivelabs.broker.sync as br
 
-SchedulingTuple: TypeAlias = Tuple[float, str, list[br.network_api_pb2.Signal]]
+
+class SignalValue:
+    def __init__(self, name: str, values: list[br.network_api_pb2.Signal]):
+        self.index = 0
+        self.name = name
+        self.values = values
+
+    def next(self):
+        ret = self.values[self.index]
+        self.index = (self.index + 1) % len(self.values)
+        return ret
+
+
+SchedulingTuple: TypeAlias = Tuple[float, str, list[SignalValue]]
 E2eCounterStates: TypeAlias = dict[str, int]
+OverrideValues: TypeAlias = dict[str, list[float]]
 
 
 def genDefaultPublishValues(
-    signal_creator, child_info
-) -> Generator[br.network_api_pb2.Signal, None, None]:
+    signal_creator, manual_sets, child_info
+) -> Generator[SignalValue, None, None]:
 
     for ci in child_info:
         signalId = ci.id
         meta_data = signal_creator.get_meta(signalId.name, signalId.namespace.name)
-        default_value = meta_data.getStartValue(0.0)
-        yield signal_creator.signal_with_payload(
-            signalId.name, signalId.namespace.name, ("double", default_value)
-        )
+        default_values = [meta_data.getStartValue(0.0)]
+        if signalId.name in manual_sets:
+            default_values = manual_sets[signalId.name]
+
+        def _yield_values():
+            for value in default_values:
+                yield signal_creator.signal_with_payload(
+                    signalId.name, signalId.namespace.name, ("double", value)
+                )
+
+        yield SignalValue(signalId.name, list(_yield_values()))
 
 
 def selectRestBusFrames(
     signal_creator: br.SignalCreator,
+    manual_sets: OverrideValues,
     frame_infos: Iterable[br.common_pb2.FrameInfo],
     match_frames: list[str],
     exclude: bool,
@@ -40,7 +63,9 @@ def selectRestBusFrames(
             frame_id = si.id
             meta_data = signal_creator.get_meta(frame_id.name, frame_id.namespace.name)
             cycle_time = meta_data.getCycleTime(0.0)
-            publish_values = list(genDefaultPublishValues(signal_creator, fi.childInfo))
+            publish_values = list(
+                genDefaultPublishValues(signal_creator, manual_sets, fi.childInfo)
+            )
             yield (cycle_time, frame_id.name, publish_values)
 
 
@@ -118,26 +143,26 @@ def restBusSchedule(
         if len(triggers) > 0:
             # Collect values to be published
             publish_combined: list[br.network_api_pb2.Signal] = []
-            for next_sleep, cycle_time, publish_data in triggers:
+            for next_sleep, cycle_time, signalValues in triggers:
 
-                for pd in publish_data:
-                    name = pd.id.name
+                for signalValue in signalValues:
+                    name = signalValue.name
                     if name in e2eCounters:
                         next = e2eCounters[name]
                         next += 1
                         if next > 14:
                             next = 0
-                        # Store new E2E counter
+                        # Update E2E counter
+                        signalValue.values[0].integer = e2eCounters[name] = next
 
-                        pd.integer = e2eCounters[name] = next
-                        # print("PUBLISaaaH")
-                        # print(e2eCounters)
-
+                publish_data = list(
+                    map(lambda signalValue: signalValue.next(), signalValues)
+                )
                 publish_combined += publish_data
                 sentFramesCount += 1
                 if cycle_time > 0.0:
                     new_next_sleep: float = next_sleep + cycle_time
-                    schedule.append((new_next_sleep, cycle_time, publish_data))
+                    schedule.append((new_next_sleep, cycle_time, signalValues))
 
             # Publish values
             br.publish_signals(clientId, network_stub, publish_combined)
@@ -157,6 +182,7 @@ def run(
     exclude: bool,
     verbose: bool,
     configure: Optional[str],
+    manual_sets: OverrideValues,
 ) -> None:
 
     # gRPC connection to RemotiveBroker
@@ -186,7 +212,7 @@ def run(
     # Generate a list of values ready for publish
     sc = br.SignalCreator(system_stub)
     frameSelection: list[SchedulingTuple] = list(
-        selectRestBusFrames(sc, signals.frame, frames, exclude)
+        selectRestBusFrames(sc, manual_sets, signals.frame, frames, exclude)
     )
     e2eCounters: E2eCounterStates = dict(
         [(signal_name, 0) for signal_name in selectE2eCounters(signals.frame)]
@@ -200,17 +226,23 @@ def run(
         )
         if verbose:
 
-            for cycle_time, frame_id, publish_values in frameSelection:
+            for cycle_time, frame_id, signalValues in frameSelection:
                 if cycle_time > 0.0:
                     print(
                         "- Frame {} with cycle time {} ms.".format(frame_id, cycle_time)
                     )
                 else:
                     print("- Frame {} without cycle time.".format(frame_id))
-                for pair in publish_values:
+                for signalValue in signalValues:
+                    valuesMsg = ", ".join(
+                        map(
+                            lambda value: str(value.double),
+                            signalValue.values
+                        )
+                    )
                     print(
-                        "  - Signal {}, default value: {}.".format(
-                            pair.id.name, pair.double
+                        "  - Signal {}, default value(s): {}.".format(
+                            signalValue.name, valuesMsg
                         )
                     )
 
@@ -221,6 +253,19 @@ def run(
             print("Keyboard interrupt received. Closing scheduler.")
     else:
         print("No frames selected, exit...")
+
+
+__REGEXP_OVERRIDE_ARG = re.compile(r"(\w+)=(.+)")
+
+
+def __override_argument_to_tuple(argument: str) -> Tuple[str, list[float]]:
+    res = __REGEXP_OVERRIDE_ARG.match(argument)
+    if res:
+        name = res.group(1)
+        values = list(map(float, res.group(2).split(",")))
+        return (name, values)
+    else:
+        raise Exception("Use pattern SIGNAL_NAME=VALUE")
 
 
 def main() -> None:
@@ -285,10 +330,22 @@ def main() -> None:
         type=str,
         required=False,
         metavar="DIRECTORY",
-        help="Upload and use configuration"
+        help="Upload and use configuration",
+    )
+
+    parser.add_argument(
+        "-s",
+        "--set",
+        type=str,
+        action="append",
+        metavar="NAME=VALUE",
+        default=[],
+        help="Manually the value of a given signal"
     )
 
     args = parser.parse_args()
+    manual_sets = dict(map(__override_argument_to_tuple, args.set))
+
     run(
         args.url,
         args.x_api_key,
@@ -297,6 +354,7 @@ def main() -> None:
         args.exclude,
         args.verbose,
         args.configure,
+        manual_sets,
     )
 
 
