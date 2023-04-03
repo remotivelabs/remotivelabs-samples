@@ -199,7 +199,6 @@ def main(argv):
         type=str,
         help="API key is required when accessing brokers running in the cloud",
         required=False,
-        default="offline",
     )
 
     parser.add_argument(
