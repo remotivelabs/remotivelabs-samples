@@ -6,7 +6,7 @@ import queue
 from threading import Thread, Timer
 import grpc
 
-from typing import Callable, Generator, Iterable, Optional, TypeVar, Sequence
+from typing import Callable, Generator, Iterable, Optional, TypeVar, Sequence, Tuple
 
 
 def subscribe(
@@ -35,9 +35,9 @@ def subscribe(
 
 
 def subscribe_list(
-    signal_creator, signals: list[str], namespace: str
+    signal_creator, signals: list[Tuple[str, str]]
 ) -> Generator[br.common_pb2.SignalId, None, None]:
-    for signal in signals:
+    for namespace, signal in signals:
         yield signal_creator.signal(signal, namespace)
 
 
@@ -66,10 +66,8 @@ def printer(signals: br.network_api_pb2.Signals) -> None:
 def run(
     url: str,
     x_api_key: str,
-    namespace_name: str,
-    signals: list[str],
+    signals: list[Tuple[str, str]],
 ) -> None:
-
     # gRPC connection to RemotiveBroker
     intercept_channel = br.create_channel(url, x_api_key)
     system_stub = br.system_api_pb2_grpc.SystemServiceStub(intercept_channel)
@@ -77,9 +75,7 @@ def run(
     br.check_license(system_stub)
 
     # Generate a list of values ready for subscribe
-    subscribeValues = list(
-        subscribe_list(br.SignalCreator(system_stub), signals, namespace_name)
-    )
+    subscribeValues = list(subscribe_list(br.SignalCreator(system_stub), signals))
     if len(subscribeValues) == 0:
         print("No signals found. Nothing to do...")
         return
@@ -96,6 +92,20 @@ def run(
     except KeyboardInterrupt:
         subscription.cancel()
         print("Keyboard interrupt received. Closing scheduler.")
+
+
+class NamespaceArgument(argparse.Action):
+    def __call__(self, _parser, namespace, value, _option):
+        print("Select namespace:", value)
+        setattr(namespace, "namespace", value)
+
+
+class SignalArgument(argparse.Action):
+    def __call__(self, _parser, namespace, value, _option):
+        ns = getattr(namespace, "namespace")
+        if not ns:
+            raise Exception(f'Missing namespace for signal "{value}"')
+        namespace.accumulated.append((ns, value))
 
 
 def main():
@@ -124,6 +134,7 @@ def main():
         "--namespace",
         help="Namespace to select frames on",
         type=str,
+        action=NamespaceArgument,
         required=True,
     )
 
@@ -133,17 +144,17 @@ def main():
         help="Signal to subscribe to",
         required=True,
         type=str,
-        action="append",
+        dest="accumulated",
+        action=SignalArgument,
         default=[],
     )
 
-    args = parser.parse_args()
-    run(
-        args.url,
-        args.x_api_key,
-        args.namespace,
-        args.signal,
-    )
+    try:
+        args = parser.parse_args()
+    except Execption as e:
+        return print("Error specifying signals to use:", e)
+    signals = args.accumulated
+    run(args.url, args.x_api_key, signals)
 
 
 if __name__ == "__main__":
