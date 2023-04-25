@@ -104,7 +104,7 @@ class SignalArgument(argparse.Action):
     def __call__(self, _parser, namespace, value, _option):
         ns = getattr(namespace, "namespace")
         if not ns:
-            raise Exception(f'Missing namespace for signal "{value}"')
+            raise Exception(f'Namespace must be specified before signal ("{value}")')
         namespace.accumulated.append((ns, value))
 
 
@@ -151,7 +151,7 @@ def main():
 
     try:
         args = parser.parse_args()
-    except Execption as e:
+    except Exception as e:
         return print("Error specifying signals to use:", e)
     signals = args.accumulated
     run(args.url, args.x_api_key, signals)
