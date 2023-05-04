@@ -35,14 +35,14 @@ With the argument `--set` it's possible to manually set the value of a signal.
 
 Using the signal database from `configuration_e2e_metadatabase` as an example. Set a signal value like this:
 
-    --set MyNumber=2
+    --set counter=2
 
 This will echo out `2` on the CAN bus for the signal `MyNumber`.
 
 Set value for multiple signals:
 
-    --set MyNumber=2 --set MyOtherNumber=3
+    --set counter=2 --set counter_times_2=3
 
 Set a series of values for the signal to loop through:
 
-    --set MyNumber=2,3,4,5
+    --set counter=2,3,4,5
