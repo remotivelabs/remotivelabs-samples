@@ -18,7 +18,7 @@ def subscribe(
     on_change: bool = False,
 ) -> grpc.RpcContext:
     sync = queue.Queue()
-    Thread(
+    thread = Thread(
         target=broker.act_on_mapped_signal,
         args=(
             client_id,
@@ -28,10 +28,11 @@ def subscribe(
             on_subscribe,
             lambda subscription: (sync.put(subscription)),
         ),
-    ).start()
+    )
+    thread.start()
     # wait for subscription to settle
     subscription = sync.get()
-    return subscription
+    return subscription, thread
 
 
 def subscribe_list(
@@ -94,11 +95,10 @@ def run(
     client_id: br.common_pb2.ClientId = br.common_pb2.ClientId(id=client_id_name)
 
     print("Subscribing on signals...")
-    subscription = subscribe(br, client_id, network_stub, mapped_code, printer)
+    subscription, thread = subscribe(br, client_id, network_stub, mapped_code, printer)
 
     try:
-        while True:
-            pass
+        thread.join()
     except KeyboardInterrupt:
         subscription.cancel()
         print("Keyboard interrupt received. Closing scheduler.")
