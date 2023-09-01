@@ -1,1 +1,1 @@
-remotivelabs-broker==0.1.4
+remotivelabs-broker
