@@ -16,7 +16,7 @@ GrpcConnection::GrpcConnection(std::shared_ptr<Channel> channel)
   source = std::make_unique<ClientId>();
   name_space = std::make_unique<NameSpace>();
   source->set_id("my_unique_client_id");
-  name_space->set_name("custom_can");
+  name_space->set_name("vss");
 }
 
 void GrpcConnection::subscriber()
@@ -26,13 +26,13 @@ void GrpcConnection::subscriber()
   // add any number of signals...
   {
     auto handle = signals->add_signalid();
-    handle->set_allocated_name(new std::string("ChassisSteeringwheelAngle"));
+    handle->set_allocated_name(new std::string("Vehicle.Chassis.SteeringWheel.Angle"));
     handle->set_allocated_namespace_(new NameSpace(*name_space));
   }
 
   {
     auto handle = signals->add_signalid();
-    handle->set_allocated_name(new std::string("VehicleSpeed"));
+    handle->set_allocated_name(new std::string("Vehicle.Speed"));
     handle->set_allocated_namespace_(new NameSpace(*name_space));
   }
 
@@ -45,21 +45,21 @@ void GrpcConnection::subscriber()
 
   std::cout << "Subscribing" << std::endl;
 
-  Signals signalsreturned;
+  Signals signals_returned;
 
   std::unique_ptr<ClientReader<Signals>> reader(
       stub->SubscribeToSignals(&ctx, sub_info));
-  while (reader->Read(&signalsreturned))
+  while (reader->Read(&signals_returned))
   {
-    for (int i = 0; i < signalsreturned.signal_size(); i++)
+    for (int i = 0; i < signals_returned.signal_size(); i++)
     {
-      auto name = signalsreturned.signal(i).id().name();
+      auto name = signals_returned.signal(i).id().name();
       std::cout << name << std::endl;
 
-      auto value_d = signalsreturned.signal(i).double_();
+      auto value_d = signals_returned.signal(i).double_();
       std::cout << value_d << std::endl;
 
-      auto value_i = signalsreturned.signal(i).integer();
+      auto value_i = signals_returned.signal(i).integer();
       std::cout << value_i << std::endl;
     }
   }
