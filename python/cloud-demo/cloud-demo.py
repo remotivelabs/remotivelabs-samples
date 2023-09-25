@@ -33,7 +33,8 @@ def print_signals(frame):
 
 def main(args):
     print(f"Connecting to {args.url}")
-    broker = Broker.connect(args.url, args.api_key)
+
+    broker = Broker(args.url, args.api_key, args.access_token)
 
     print("Listing available signals")
     available_signals = broker.list_signal_names()
