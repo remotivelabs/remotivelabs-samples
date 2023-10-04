@@ -34,7 +34,7 @@ end
 -- @param system_timestamp_us
 -- @param signals: array of signals containing all or a subset of signals declared in "local_signals". Make sure to nil check before use.
 function signals(signals, namespace, signals_timestamp_us, system_timestamp_us)
-    state_of_charge = signals["ID352BMS_energyStatus.BMS_nominalEnergyRemaining"] / signals["ID352BMS_energyStatus.BMS_nominalFullPackEnergy"]
+    state_of_charge = (signals["ID352BMS_energyStatus.BMS_nominalEnergyRemaining"] / signals["ID352BMS_energyStatus.BMS_nominalFullPackEnergy"]) * 100
     return return_nothing()
 end
 
