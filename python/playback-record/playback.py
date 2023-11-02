@@ -9,6 +9,7 @@ import time
 import remotivelabs.broker.sync as br
 
 from threading import Thread, Timer, Event
+from typing import Optional
 
 
 exit_event = Event()
@@ -161,9 +162,9 @@ def create_playback_config(item):
     )
 
 
-def stop_playback(url, x_api_key):
+def stop_playback(url, x_api_key, access_token):
     """Stop ongoing playback"""
-    intercept_channel = br.create_channel(url, x_api_key)
+    intercept_channel = br.create_channel(url, x_api_key, access_token)
     traffic_stub = br.traffic_api_pb2_grpc.TrafficServiceStub(intercept_channel)
     for playback in playbacklist:
         playback["mode"] = br.traffic_api_pb2.Mode.STOP
@@ -176,10 +177,10 @@ def stop_playback(url, x_api_key):
     print("Stop traffic status is ", status)
 
 
-def exit_handler(url, x_api_key):
+def exit_handler(url, x_api_key, access_token):
     exit_event.set()
     time.sleep(0.5)
-    stop_playback(url, x_api_key)
+    stop_playback(url, x_api_key, access_token)
 
 
 def main(argv):
@@ -199,6 +200,16 @@ def main(argv):
         type=str,
         help="API key is required when accessing brokers running in the cloud",
         required=False,
+        default=None
+    )
+
+    parser.add_argument(
+        "-t",
+        "--access_token",
+        help="Personal or service-account access token",
+        type=str,
+        required=False,
+        default=None,
     )
 
     parser.add_argument(
@@ -212,15 +223,18 @@ def main(argv):
 
     args = parser.parse_args()
 
-    run(args.url, args.x_api_key, args.configure)
+    run(args.url, args.configure, args.x_api_key, args.access_token)
 
 
-def run(url: str, x_api_key: str, configure: str):
+def run(url: str,
+        configure:str,
+        x_api_key:  Optional[str] = None,
+        access_token: Optional[str] = None):
     # To do a clean exit of the script on CTRL+C
-    signal.signal(signal.SIGINT, lambda signum, frame: exit_handler(url, x_api_key))
+    signal.signal(signal.SIGINT, lambda signum, frame: exit_handler(url, x_api_key, access_token))
 
     # Setting up stubs and configuration
-    intercept_channel = br.create_channel(url, x_api_key)
+    intercept_channel = br.create_channel(url, x_api_key, access_token)
     network_stub = br.network_api_pb2_grpc.NetworkServiceStub(intercept_channel)
     traffic_stub = br.traffic_api_pb2_grpc.TrafficServiceStub(intercept_channel)
     system_stub = br.system_api_pb2_grpc.SystemServiceStub(intercept_channel)

@@ -3,16 +3,18 @@ import queue
 from threading import Thread
 import remotivelabs.broker.sync as br
 
+from typing import Optional
+
 
 class Broker:
 
-    def __init__(self, url, api_key):
+    def __init__(self, url, api_key:str = Optional[None], access_token:str = Optional[None]):
         self.url = url
         self.api_key = api_key
         self.q = queue.Queue()
         """Main function, checking arguments passed to script, setting up stubs, configuration and starting Threads."""
         # Setting up stubs and configuration
-        self.intercept_channel = br.create_channel(url, api_key)
+        self.intercept_channel = br.create_channel(url, api_key, access_token)
 
         self.network_stub = br.network_api_pb2_grpc.NetworkServiceStub(self.intercept_channel)
         self.system_stub = br.system_api_pb2_grpc.SystemServiceStub(self.intercept_channel)
@@ -67,8 +69,8 @@ class Broker:
         return subscription
 
     @classmethod
-    def connect(cls, url, api_key):
-        return Broker(url, api_key)
+    def connect(cls, url, api_key: str = Optional[None], access_token: str = Optional[None]):
+        return Broker(url, api_key, access_token)
 
     def __each_signal(self, signals, callback):
         callback(map(lambda s: {

@@ -75,11 +75,13 @@ def read_scripted_code_file(file_path: str) -> str:
 
 def run(
     url: str,
-    x_api_key: str,
     scripted_code_path: str,
+    x_api_key: str,
+    access_token: Optional[str] = None,
+
 ) -> None:
     # gRPC connection to RemotiveBroker
-    intercept_channel = br.create_channel(url, x_api_key)
+    intercept_channel = br.create_channel(url, x_api_key, access_token)
     system_stub = br.system_api_pb2_grpc.SystemServiceStub(intercept_channel)
     network_stub = br.network_api_pb2_grpc.NetworkServiceStub(intercept_channel)
     br.check_license(system_stub)
@@ -128,7 +130,16 @@ def main():
         help="API key is required when accessing brokers running in the cloud",
         type=str,
         required=False,
-        default="offline",
+        default=None,
+    )
+
+    parser.add_argument(
+        "-t",
+        "--access_token",
+        help="Personal or service-account access token",
+        type=str,
+        required=False,
+        default=None,
     )
 
     parser.add_argument(
@@ -144,7 +155,7 @@ def main():
         args = parser.parse_args()
     except Exception as e:
         return print("Error specifying script to use:", e)
-    run(args.url, args.x_api_key, args.scripted_code_path)
+    run(args.url, args.scripted_code_path, args.x_api_key,args.access_token)
 
 
 if __name__ == "__main__":

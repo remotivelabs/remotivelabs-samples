@@ -7,7 +7,7 @@ import sys, getopt
 import time
 
 import remotivelabs.broker.sync as br
-from typing import Callable, Sequence
+from typing import Callable, Sequence, Optional
 
 from threading import Thread, Timer
 
@@ -147,6 +147,15 @@ def main(argv):
     )
 
     parser.add_argument(
+        "-t",
+        "--access_token",
+        help="Personal or service-account access token",
+        type=str,
+        required=False,
+        default=None,
+    )
+
+    parser.add_argument(
         "-c",
         "--configure",
         type=str,
@@ -156,7 +165,7 @@ def main(argv):
     )
 
     args = parser.parse_args()
-    run(args.url, args.x_api_key, args.configure)
+    run(args.url, args.configure, args.x_api_key,args.access_token )
 
 
 def double_and_publish(network_stub, client_id, trigger, signals):
@@ -203,10 +212,13 @@ def subscribe(
     return subscription
 
 
-def run(url: str, x_api_key: str, configuration: str):
+def run(url: str,
+        configuration: str,
+        x_api_key:  Optional[str] = None,
+        access_token: Optional[str] = None):
     """Main function, checking arguments passed to script, setting up stubs, configuration and starting Threads."""
     # Setting up stubs and configuration
-    intercept_channel = br.create_channel(url, x_api_key)
+    intercept_channel = br.create_channel(url, x_api_key, access_token)
 
     network_stub = br.network_api_pb2_grpc.NetworkServiceStub(intercept_channel)
     system_stub = br.system_api_pb2_grpc.SystemServiceStub(intercept_channel)

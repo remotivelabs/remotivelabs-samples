@@ -18,6 +18,16 @@ def parse(argv):
         type=str,
         help="API key is required when accessing brokers running in the cloud",
         required=False,
+        default=None
+    )
+
+    parser.add_argument(
+        "-t",
+        "--access-token",
+        help="Personal or service-account access token",
+        type=str,
+        required=False,
+        default=None,
     )
 
     parser.add_argument(

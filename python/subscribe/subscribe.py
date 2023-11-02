@@ -6,7 +6,7 @@ import queue
 from threading import Thread, Timer
 import grpc
 
-from typing import Callable, Generator, Iterable, Optional, TypeVar, Sequence, Tuple
+from typing import Callable, Generator, Iterable, Optional, TypeVar, Sequence, Tuple, Optional
 
 
 def subscribe(
@@ -65,11 +65,13 @@ def printer(signals: br.network_api_pb2.Signals) -> None:
 
 def run(
     url: str,
-    x_api_key: str,
     signals: list[Tuple[str, str]],
+    x_api_key:  Optional[str] = None,
+    access_token: Optional[str] = None
 ) -> None:
     # gRPC connection to RemotiveBroker
-    intercept_channel = br.create_channel(url, x_api_key)
+    intercept_channel = br.create_channel(url, x_api_key, access_token)
+
     system_stub = br.system_api_pb2_grpc.SystemServiceStub(intercept_channel)
     network_stub = br.network_api_pb2_grpc.NetworkServiceStub(intercept_channel)
     br.check_license(system_stub)
@@ -126,7 +128,16 @@ def main():
         help="API key is required when accessing brokers running in the cloud",
         type=str,
         required=False,
-        default="offline",
+        default=None,
+    )
+
+    parser.add_argument(
+        "-t",
+        "--access_token",
+        help="Personal or service-account access token",
+        type=str,
+        required=False,
+        default=None,
     )
 
     parser.add_argument(
@@ -154,7 +165,7 @@ def main():
     except Exception as e:
         return print("Error specifying signals to use:", e)
     signals = args.accumulated
-    run(args.url, args.x_api_key, signals)
+    run(args.url, signals, args.x_api_key, args.access_token)
 
 
 if __name__ == "__main__":

@@ -3,7 +3,7 @@ import remotivelabs.broker.sync as br
 
 # Server address:
 _SERVER_URL = 'http://127.0.0.1:50051'
-_SERVER_APIKEY = 'offline'
+_SERVER_APIKEY = None
 
 
 class Broker:

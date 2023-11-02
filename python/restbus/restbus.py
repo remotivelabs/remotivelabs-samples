@@ -176,17 +176,18 @@ def restBusSchedule(
 
 def run(
     url: str,
-    x_api_key: str,
     namespace_name: str,
     frames: list[str],
     exclude: bool,
     verbose: bool,
     configure: Optional[str],
     manual_sets: OverrideValues,
+    x_api_key:  Optional[str] = None,
+    access_token: Optional[str] = None,
 ) -> None:
 
     # gRPC connection to RemotiveBroker
-    intercept_channel = br.create_channel(url, x_api_key)
+    intercept_channel = br.create_channel(url, x_api_key, access_token)
     system_stub = br.system_api_pb2_grpc.SystemServiceStub(intercept_channel)
     network_stub = br.network_api_pb2_grpc.NetworkServiceStub(intercept_channel)
 
@@ -289,6 +290,15 @@ def main() -> None:
     )
 
     parser.add_argument(
+        "-t",
+        "--access_token",
+        help="Personal or service-account access token",
+        type=str,
+        required=False,
+        default=None,
+    )
+
+    parser.add_argument(
         "-namespace",
         "--namespace",
         help="Namespace to select frames on",
@@ -347,13 +357,14 @@ def main() -> None:
 
     run(
         args.url,
-        args.x_api_key,
         args.namespace,
         args.frame,
         args.exclude,
         args.verbose,
         args.configure,
         manual_sets,
+        args.x_api_key,
+        args.access_token
     )
 
 

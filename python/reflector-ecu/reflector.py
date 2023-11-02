@@ -8,6 +8,7 @@ import sys
 import time
 
 from threading import Thread, Timer
+from typing import Optional
 
 import remotivelabs.broker.sync as br
 
@@ -171,19 +172,20 @@ def main(argv):
         type=str,
         help="API key is required when accessing brokers running in the cloud",
         required=False,
+        default=None
     )
 
     parser.add_argument(
-        "-port",
-        "--port",
+        "-t",
+        "--access_token",
+        help="Personal or service-account access token",
         type=str,
-        help="grpc port used on RemotiveBroker",
         required=False,
-        default="50051",
+        default=None,
     )
 
     args = parser.parse_args()
-    run(args.url, args.x_api_key, args.port)
+    run(args.url, args.x_api_key, args.access_token)
 
 
 def double_and_publish(network_stub, client_id, trigger, signals):
@@ -226,10 +228,12 @@ def change_namespace(signals, namespace_name):
 # TestFr07 is split into all signals. Some signals are modified and then dispatched on ecu_B
 #
 # refer to interfaces.json for reflector configuration.
-def run(url, x_api_key, port):
+def run(url,
+        x_api_key:  Optional[str] = None,
+        access_token: Optional[str] = None):
     """Main function, checking arguments passed to script, setting up stubs, configuration and starting Threads."""
     # Setting up stubs and configuration
-    intercept_channel = br.create_channel(url, x_api_key)
+    intercept_channel = br.create_channel(url, x_api_key, access_token)
 
     network_stub = br.network_api_pb2_grpc.NetworkServiceStub(intercept_channel)
     system_stub = br.system_api_pb2_grpc.SystemServiceStub(intercept_channel)
