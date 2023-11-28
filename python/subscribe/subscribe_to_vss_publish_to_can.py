@@ -81,7 +81,7 @@ def printer(signals: br.network_api_pb2.Signals) -> None:
         )
 
 
-def composeControlClimateFrame(signal_creator):
+def composeControlClimateFrame(signal_creator, signal: br.network_api_pb2.Signal):
     # make sure to populate all relevant signals in this frame, alternatively publish a full frame.
     # to get reliability make sure to remove the unit that produces this frame. Alternative filter it out using RemotiveLabs reflector
     # 1 find all relevant sibling
@@ -94,7 +94,7 @@ def composeControlClimateFrame(signal_creator):
     signal_dict = {signal.name: signal for signal in signals_in_frame}
     signal_write_dict = dict()
     signal_write_dict["ClimaRqrd1"] = signal_creator.signal_with_payload(
-        "ClimaRqrd1", signal_dict["ClimaRqrd1"].namespace.name, ("double", 10)
+        "ClimaRqrd1", signal_dict["ClimaRqrd1"].namespace.name, ("double", _get_value_str(signal))
     )
     # recreate the signal list to be published.
     return signal_write_dict.values()
@@ -127,8 +127,11 @@ def run(
     def publisher(signals: br.network_api_pb2.Signals) -> None:
         # just for log purposes
         printer(signals)
-        pub_signals = composeControlClimateFrame(signal_creator)
-        publish(br, clientId, network_stub, pub_signals)
+        for signal in signals:
+            if signal.id.name == "VehicleBodyMirrorsLeftPan":
+                # we only have one possible signal, but for the case of structure we could do conditions here
+                pub_signals = composeControlClimateFrame(signal_creator, signal)
+                publish(br, clientId, network_stub, pub_signals)
 
     print("Subscribing on signals...")
     subscription = subscribe(br, clientId, network_stub, subscribeValues, publisher)
@@ -220,10 +223,10 @@ def main():
 # relevant project https://console.cloud.remotivelabs.com/p/vccdefault/recordings/2926915681680700400
 # use configuration configuration_xc90_write_vss
 # if needed
-# $> pip install -U remotivelabs-cli 
+# $> pip install -U remotivelabs-cli
 # hint: try "remotive tui"
 # $> remotive cloud auth login
-# then 
+# then
 # hard coded in data for the purpose to this demo, check "signals" in main method
 # for out data check "composeControlClimateFrame"
 # $> python3 subscribe_to_vss_publish_to_can.py --url https://personal-xktvetbdzw-vccdefault-sglnqbpwoa-ez.a.run.app --access_token $(remotive cloud auth print-access-token)

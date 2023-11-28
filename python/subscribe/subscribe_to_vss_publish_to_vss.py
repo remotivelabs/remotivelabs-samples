@@ -99,7 +99,7 @@ def run(
         # just for log purposes
         printer(signals) 
         pub_signals = [br.SignalCreator(system_stub).signal_with_payload(
-                    "VehicleBodyMirrorsLeftPan", "vss_publish", ("double", 10)
+                    "VehicleBodyMirrorsLeftPan", "vss_publish", ("double", 7)
                 )]
         publish(br, clientId, network_stub, pub_signals)
 
