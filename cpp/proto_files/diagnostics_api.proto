@@ -2,22 +2,63 @@ syntax = "proto3";
 
 import "common.proto";
 
-package base;
+package diagnostics;
 
-//  # 0x22 read data by identinifier (Service id)
-//  # 0x1f90 did for vin number (Data identifier)
 
 service DiagnosticsService {
-  rpc SendDiagnosticsQuery (DiagnosticsRequest) returns (DiagnosticsResponse) {}
+  /// CAN MF sending.
+  rpc PublishMultiFrame (PublisherConfig) returns (base.Empty) {}
+  /// CAN MF Receiving.
+  rpc SubscribeMultiFrame (SubscriberConfig) returns (stream Payload) {}
 }
 
-message DiagnosticsRequest {
-  SignalId upLink = 1;
-  SignalId downLink = 2;
-  bytes serviceId = 3;
-  bytes dataIdentifier = 4;
+message LinkTimers {
+  /**
+  * Max milliseconds waiting flow control or single frame before throwing maxRespTimeoutError. Defaults to 1000.
+  * Equivavlent to (N_As + N_Bs according to ISO-15765-2) for sender.
+  * Equivavlent to (N_Ar + N_Cr according to ISO-15765-2) for receiver.
+  */
+  int64 maxResponseTimeout = 3;
+  /**
+  * Enables testing of maxResponseTimeout by delaying millieseconds before responding to:
+  * received flow control with consecutive frame for sender (N_Cs according to ISO-15765-2).
+  * received first frame with flow control for receiver (N_Br according to ISO-15765-2).
+  * Defaults to 0.
+  */
+  int64 delayResponse = 4; 
 }
 
-message DiagnosticsResponse {
-  bytes raw = 5;
+message PublisherConfig {
+  Link link = 1;
+  Payload payload = 2;
+  /** LinkTimers currently not supported **/
+  LinkTimers linkTimers = 3;
+}
+
+message SubscriberConfig {
+  Link link = 1;
+  /** LinkTimers currently not supported **/
+  LinkTimers linkTimers = 2;
+  /**
+  * Specify if the payload should be retured raw or decoded. Setting this to true will provide the raw repsonce without stipped headers and counters. Defaults to false.
+  */
+  bool rawPayload = 3;
+}
+
+message Payload {
+  bytes bytes = 1;
+}
+
+message Link {
+   /**
+   * Identifier of subscriber, typically your app identifier. Published signals
+   * with same identifier will not trigger callback.
+   */
+  base.ClientId clientId = 1;    
+   /**
+   * Uplink for intended target
+   * This is optional for SubscribeMultiFrame, not setting this will effectively result in sniff_mode, where no control frames are sent.
+   */
+  base.SignalId publishSignal = 2;          /// Uplink for intended target
+  base.SignalId subscribeSignal = 3;        /// Downlink where response is expected
 }
