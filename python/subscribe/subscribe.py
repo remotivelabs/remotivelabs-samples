@@ -90,7 +90,7 @@ def run(
 
     try:
         while True:
-            pass
+            time.sleep(1)
     except KeyboardInterrupt:
         subscription.cancel()
         print("Keyboard interrupt received. Closing scheduler.")
