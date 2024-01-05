@@ -37,7 +37,7 @@ with transformation "configuration_vss".
 ```
 URL=https://my-cloud-broker.url \
 API_KEY=the_api_key \
- python3 mov_avg.py
+ ./mov_avg.py
 ```
 3. Output should look something like this
 
