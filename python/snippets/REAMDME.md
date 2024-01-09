@@ -21,7 +21,7 @@ Uses environment variables to configure.
 
 Prepare a virtualenv (or similar is recommended) with dependencies.
 
-```
+```bash
 cd remotivelabs-samples/python/snippets
 virtualenv venv
 source venv/bin/activate
@@ -34,14 +34,14 @@ source venv/bin/activate
 with transformation "configuration_vss".
 
 2. Run script, replace with correct url and api-key
-```
+```bash
 URL=https://my-cloud-broker.url \
 API_KEY=the_api_key \
  ./mov_avg.py
 ```
 3. Output should look something like this
 
-```
+```json lines
 {'avg': 37.7, 'min': 14, 'max': 50, 'latest': 50, 'count': 1000}
 {'avg': 41.24, 'min': 14, 'max': 50, 'latest': 48, 'count': 1000}
 {'avg': 43.87, 'min': 23, 'max': 50, 'latest': 38, 'count': 1000}

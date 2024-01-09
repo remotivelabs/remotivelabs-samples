@@ -6,10 +6,10 @@ from collections import deque
 from typing import Deque
 
 import grpc
-from remotivelabs.broker.sync import SignalWrapper, BrokerException, Client as BrokerClient
+from remotivelabs.broker.sync import SignalValue, BrokerException, SignalsInFrame, Client as BrokerClient
 
 # Let´s keep the last window of signals here
-received_signals: Deque[SignalWrapper] = deque(maxlen=int(os.environ.get("WINDOW", 1000)))
+received_signals: Deque[SignalValue] = deque(maxlen=int(os.environ.get("WINDOW", 1000)))
 subscription = None
 
 try:
