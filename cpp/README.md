@@ -48,7 +48,7 @@ Go here https://cloud.remotivelabs.com/ follow the guide.
 Make sure the credentials match, go to the https://cloud.remotivelabs.com, and start the recording, click play.
 
 ```
-GRPC_VERBOSITY=debug <url_without_https_prefix>:443 <api_key>
+GRPC_VERBOSITY=debug ./grpc_connection <url_without_https_prefix>:443 <api_key>
 # example
 GRPC_VERBOSITY=debug ./grpc_connection personal-r3f7mqsm0j-demo-uo7acw3qiq-ez.a.run.app:443 0640E0CE-A4068A11-94CC4AFE-181D5129
 ```
