@@ -1,0 +1,30 @@
+{
+  "chains": [
+    {
+      "type": "udp",
+      "namespace": "VehicleBus",
+      "server_port": 2001,
+      "target_host": "127.0.0.1",
+      "target_port": 2000,
+      "database": "can/Model3CAN_VehicleBus.dbc",
+      "public": false,
+      "short_names": false
+    },
+    {
+      "type": "udp",
+      "namespace": "ChassisBus",
+      "server_port": 2003,
+      "target_host": "127.0.0.1",
+      "target_port": 2002,
+      "database": "can/Model3CAN_ChassisBus.dbc",
+      "public": false,
+      "short_names": false
+    },
+    {
+      "namespace": "vss",
+      "type": "scripted",
+      "database": "vss_signals.json",
+      "public": true
+    }
+  ]
+}

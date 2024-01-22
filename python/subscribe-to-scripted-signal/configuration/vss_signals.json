@@ -1,0 +1,35 @@
+{
+   "description": "COVESA VSS mapping information",
+   "formatVersion": "0.1.0",
+   "scripts_location": "scripts",
+   "simple_mapping": {
+      "Vehicle.Speed": {
+         "namespace": "VehicleBus",
+         "name": "ID257DIspeed.DI_vehicleSpeed"
+      },
+      "Vehicle.Chassis.Accelerator.PedalPosition": {
+         "namespace": "VehicleBus",
+         "name": "ID118DriveSystemStatus.DI_accelPedalPos"
+      },
+      "Vehicle.Powertrain.Transmission.CurrentGear": {
+         "namespace": "VehicleBus",
+         "name": "ID118DriveSystemStatus.DI_gear"
+      },
+      "Vehicle.Chassis.SteeringWheel.Angle": {
+         "namespace": "VehicleBus",
+         "name": "ID129SteeringAngle.SteeringAngle129"
+      },
+      "Vehicle.CurrentLocation.Longitude": {
+         "namespace": "ChassisBus",
+         "name": "ID04FGPSLatLong.GPSLongitude04F"
+      },
+      "Vehicle.CurrentLocation.Latitude": {
+         "namespace": "ChassisBus",
+         "name": "ID04FGPSLatLong.GPSLatitude04F"
+      },
+      "Vehicle.CurrentLocation.HorizontalAccuracy": {
+         "namespace": "ChassisBus",
+         "name": "ID04FGPSLatLong.GPSAccuracy04F"
+      }
+   }
+}
