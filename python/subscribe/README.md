@@ -11,12 +11,16 @@ Subscribe to a signal by running.
 
     python subscribe.py --url http://192.168.4.1:50051 --namespace ecu_A --signal TestFr06_Child02
 
-The script can take multiple `--signal` arguments for subscribing to several signals:
+To subscribe to multiple namespaces and/or signals append after `--namespace` or `--signal` as below, mapping of namespace to signal is done automatically.
+This will subscribe to the signal `TestFr06_Child02` from the namespace `ecu_A` and the signal `TestFr06_Child04` from namespace `ecu_B`. 
 
-    python subscribe.py --url http://192.168.4.1:50051 --namespace ecu_A --signal TestFr06_Child02 --signal TestFr06_Child03
+    python subscribe.py --url http://192.168.4.1:50051 --namespace ecu_A ecu_B --signal TestFr06_Child02 TestFr06_Child04
 
-Always put the argument `--namespace` before `--signal`. This in necesarry because it's possible to read signals from multiple namespaces at once. This is archived by specifying several namespaces. Signals will be selected from the last given namespace. As an example:
 
-    python subscribe.py --namespace ecu_A --signal TestFr06_Child02 --namespace ecu_B --signal TestFr06_Child02
+If corresponding namespace and signal does not exist on the broker an error message will be shown.
 
-This will subscribe to the signal `TestFr06_Child02` from the namespace `ecu_A` and the signal `TestFr06_Child02` from namespace `ecu_B`.
+    python subscribe.py --url http://192.168.4.1:50051 --namespace ecu_A --signal NonExistingSignal
+
+    One or more signals you subscribed to does not exist , {'NonExistingSignal'}
+
+

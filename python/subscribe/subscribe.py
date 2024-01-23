@@ -1,113 +1,34 @@
 import argparse
-import math
 import time
-import remotivelabs.broker.sync as br
-import queue
-from threading import Thread, Timer
-import grpc
+from typing import Optional
 
-from typing import Callable, Generator, Iterable, Optional, TypeVar, Sequence, Tuple, Optional
+from remotivelabs.broker.sync import Client, SignalsInFrame
 
 
-def subscribe(
-    broker,
-    client_id: br.common_pb2.ClientId,
-    network_stub: br.network_api_pb2_grpc.NetworkServiceStub,
-    signals: br.network_api_pb2.Signals,
-    on_subscribe: Callable[[Sequence[br.network_api_pb2.Signal]], None],
-    on_change: bool = False,
-) -> grpc.RpcContext:
-    sync = queue.Queue()
-    Thread(
-        target=broker.act_on_signal,
-        args=(
-            client_id,
-            network_stub,
-            signals,
-            on_change,  # True: only report when signal changes
-            on_subscribe,
-            lambda subscription: (sync.put(subscription)),
-        ),
-    ).start()
-    # wait for subscription to settle
-    subscription = sync.get()
-    return subscription
+def run_subscribe_sample(
+        url: str,
+        signals: list[str],
+        namespaces: list[str],
+        secret: Optional[str] = None
+):
+    client = Client(client_id="Sample client")
+    client.connect(url=url, api_key=secret)
 
+    def on_signals(signals_in_frame: SignalsInFrame):
+        for signal in signals_in_frame:
+            print(signal.to_json())
 
-def subscribe_list(
-    signal_creator, signals: list[Tuple[str, str]]
-) -> Generator[br.common_pb2.SignalId, None, None]:
-    for namespace, signal in signals:
-        yield signal_creator.signal(signal, namespace)
+    client.on_signals = on_signals
 
-
-def _get_value_str(signal: br.network_api_pb2.Signal) -> str:
-    if signal.raw != b"":
-        return signal.raw
-    elif signal.HasField("integer"):
-        return signal.integer
-    elif signal.HasField("double"):
-        return signal.double
-    elif signal.HasField("arbitration"):
-        return signal.arbitration
-    else:
-        return "empty"
-
-
-def printer(signals: br.network_api_pb2.Signals) -> None:
-    for signal in signals:
-        print(
-            "{} {} {}".format(
-                signal.id.name, signal.id.namespace.name, _get_value_str(signal)
-            )
-        )
-
-
-def run(
-    url: str,
-    signals: list[Tuple[str, str]],
-    x_api_key:  Optional[str] = None,
-    access_token: Optional[str] = None
-) -> None:
-    # gRPC connection to RemotiveBroker
-    intercept_channel = br.create_channel(url, x_api_key, access_token)
-
-    system_stub = br.system_api_pb2_grpc.SystemServiceStub(intercept_channel)
-    network_stub = br.network_api_pb2_grpc.NetworkServiceStub(intercept_channel)
-    br.check_license(system_stub)
-
-    # Generate a list of values ready for subscribe
-    subscribeValues = list(subscribe_list(br.SignalCreator(system_stub), signals))
-    if len(subscribeValues) == 0:
-        print("No signals found. Nothing to do...")
-        return
-
-    clientIdName = "MySubscriber_{}".format(math.floor(time.monotonic()))
-    clientId: br.common_pb2.ClientId = br.common_pb2.ClientId(id=clientIdName)
-
-    print("Subscribing on signals...")
-    subscription = subscribe(br, clientId, network_stub, subscribeValues, printer)
+    subscription = client.subscribe(signal_names=signals, namespaces=namespaces, changed_values_only=False)
 
     try:
+        print("Broker connection and subscription setup completed, waiting for signals...")
         while True:
             time.sleep(1)
     except KeyboardInterrupt:
         subscription.cancel()
-        print("Keyboard interrupt received. Closing scheduler.")
-
-
-class NamespaceArgument(argparse.Action):
-    def __call__(self, _parser, namespace, value, _option):
-        print("Select namespace:", value)
-        setattr(namespace, "namespace", value)
-
-
-class SignalArgument(argparse.Action):
-    def __call__(self, _parser, namespace, value, _option):
-        ns = getattr(namespace, "namespace")
-        if not ns:
-            raise Exception(f'Namespace must be specified before signal ("{value}")')
-        namespace.accumulated.append((ns, value))
+        print("Keyboard interrupt received, closing")
 
 
 def main():
@@ -145,8 +66,8 @@ def main():
         "--namespace",
         help="Namespace to select frames on",
         type=str,
-        action=NamespaceArgument,
         required=True,
+        nargs="*"
     )
 
     parser.add_argument(
@@ -154,18 +75,16 @@ def main():
         "--signal",
         help="Signal to subscribe to",
         required=True,
-        type=str,
-        dest="accumulated",
-        action=SignalArgument,
-        default=[],
+        nargs="*"
     )
 
     try:
         args = parser.parse_args()
     except Exception as e:
         return print("Error specifying signals to use:", e)
-    signals = args.accumulated
-    run(args.url, signals, args.x_api_key, args.access_token)
+
+    secret = args.x_api_key if args.x_api_key is not None else args.access_token
+    run_subscribe_sample(args.url, args.signal, args.namespace, secret)
 
 
 if __name__ == "__main__":
