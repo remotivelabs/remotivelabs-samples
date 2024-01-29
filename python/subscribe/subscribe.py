@@ -21,7 +21,7 @@ def run_subscribe_sample(
 
     client.on_signals = on_signals
 
-    subscription = client.subscribe(signal_names=signals, namespaces=namespaces, changed_values_only=False)
+    subscription = client.subscribe(signal_names=signals, namespaces=namespaces)
 
     try:
         print("Broker connection and subscription setup completed, waiting for signals...")
