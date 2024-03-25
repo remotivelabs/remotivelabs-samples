@@ -3,7 +3,7 @@ from __future__ import annotations
 import argparse
 import time
 from typing import Optional, List
-from remotivelabs.broker.sync import Client, SignalsInFrame
+from remotivelabs.broker.sync import Client, SignalsInFrame, BrokerException
 
 
 def run_subscribe_sample(
@@ -21,7 +21,11 @@ def run_subscribe_sample(
 
     client.on_signals = on_signals
 
-    subscription = client.subscribe(signal_names=signals, namespaces=namespaces, changed_values_only=False)
+    try:
+        subscription = client.subscribe(signal_names=signals, namespaces=namespaces, changed_values_only=False)
+    except BrokerException as e:
+        print(e)
+        exit(1)
 
     try:
         print("Broker connection and subscription setup completed, waiting for signals...")
@@ -83,6 +87,13 @@ def main():
         args = parser.parse_args()
     except Exception as e:
         return print("Error specifying signals to use:", e)
+
+    if len(args.signal) == 0:
+        print("You must subscribe to at least one signal with --signal somesignal")
+        exit(1)
+    if len(args.namespace) == 0:
+        print("You must subscribe to at least one namespace with --namespace my_namespace")
+        exit(1)
 
     secret = args.x_api_key if args.x_api_key is not None else args.access_token
     run_subscribe_sample(args.url, args.signal, args.namespace, secret)
