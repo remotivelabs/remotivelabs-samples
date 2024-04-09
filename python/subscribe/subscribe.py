@@ -2,16 +2,16 @@ from __future__ import annotations
 
 import argparse
 import time
-from typing import Optional, List
-from remotivelabs.broker.sync import Client, SignalsInFrame, BrokerException
+from typing import Optional
+from remotivelabs.broker.sync import (
+    Client,
+    SignalsInFrame,
+    BrokerException,
+    SignalIdentifier,
+)
 
 
-def run_subscribe_sample(
-        url: str,
-        signals: list[str],
-        namespaces: list[str],
-        secret: Optional[str] = None
-):
+def run_subscribe_sample(url: str, signals: list[str], secret: Optional[str] = None):
     client = Client(client_id="Sample client")
     client.connect(url=url, api_key=secret)
 
@@ -22,13 +22,29 @@ def run_subscribe_sample(
     client.on_signals = on_signals
 
     try:
-        subscription = client.subscribe(signal_names=signals, namespaces=namespaces, changed_values_only=False)
+
+        def to_signal_id(signal: str):
+            s = signal.split(":")
+            if len(s) != 2:
+                print("--signals must be in format namespace:signal_name")
+                exit(1)
+            return SignalIdentifier(s[1], s[0])
+
+        subscription = client.subscribe(
+            signals_to_subscribe_to=list(map(to_signal_id, signals)),
+            changed_values_only=False,
+        )
     except BrokerException as e:
+        print(e)
+        exit(1)
+    except Exception as e:
         print(e)
         exit(1)
 
     try:
-        print("Broker connection and subscription setup completed, waiting for signals...")
+        print(
+            "Broker connection and subscription setup completed, waiting for signals..."
+        )
         while True:
             time.sleep(1)
     except KeyboardInterrupt:
@@ -67,20 +83,7 @@ def main():
     )
 
     parser.add_argument(
-        "-n",
-        "--namespace",
-        help="Namespace to select frames on",
-        type=str,
-        required=True,
-        nargs="*"
-    )
-
-    parser.add_argument(
-        "-s",
-        "--signal",
-        help="Signal to subscribe to",
-        required=True,
-        nargs="*"
+        "-s", "--signals", help="Signal to subscribe to", required=True, nargs="*"
     )
 
     try:
@@ -88,15 +91,12 @@ def main():
     except Exception as e:
         return print("Error specifying signals to use:", e)
 
-    if len(args.signal) == 0:
-        print("You must subscribe to at least one signal with --signal somesignal")
-        exit(1)
-    if len(args.namespace) == 0:
-        print("You must subscribe to at least one namespace with --namespace my_namespace")
+    if len(args.signals) == 0:
+        print("You must subscribe to at least one signal with --signals somesignal")
         exit(1)
 
     secret = args.x_api_key if args.x_api_key is not None else args.access_token
-    run_subscribe_sample(args.url, args.signal, args.namespace, secret)
+    run_subscribe_sample(args.url, args.signals, secret)
 
 
 if __name__ == "__main__":

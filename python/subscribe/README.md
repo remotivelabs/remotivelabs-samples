@@ -9,17 +9,17 @@ As all python samples in this repository, the pip package [remotivelabs-broker](
 
 Subscribe to a signal by running.
 
-    python subscribe.py --url http://192.168.4.1:50051 --namespace ecu_A --signal TestFr06_Child02
+    python subscribe.py --url http://192.168.4.1:50051  --signals ecu_A:TestFr06_Child02
 
-To subscribe to multiple namespaces and/or signals append after `--namespace` or `--signal` as below, mapping of namespace to signal is done automatically.
-This will subscribe to the signal `TestFr06_Child02` from the namespace `ecu_A` and the signal `TestFr06_Child04` from namespace `ecu_B`. 
+This will subscribe to the signal `TestFr06_Child02` from the namespace `ecu_A` and the signal `TestFr06_Child04` 
+from namespace `ecu_B`. 
 
-    python subscribe.py --url http://192.168.4.1:50051 --namespace ecu_A ecu_B --signal TestFr06_Child02 TestFr06_Child04
+    python subscribe.py --url http://192.168.4.1:50051 --signals ecu_A:TestFr06_Child02 ecu_B:TestFr06_Child04
 
 
 If corresponding namespace and signal does not exist on the broker an error message will be shown.
 
-    python subscribe.py --url http://192.168.4.1:50051 --namespace ecu_A --signal NonExistingSignal
+    python subscribe.py --url http://192.168.4.1:50051  --signals ecu_A:NonExistingSignal
 
     One or more signals you subscribed to does not exist , {'NonExistingSignal'}
 
