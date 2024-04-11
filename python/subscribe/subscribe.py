@@ -92,7 +92,7 @@ def main():
         return print("Error specifying signals to use:", e)
 
     if len(args.signals) == 0:
-        print("You must subscribe to at least one signal with --signals somesignal")
+        print("You must subscribe to at least one signal with --signals namespace:somesignal")
         exit(1)
 
     secret = args.x_api_key if args.x_api_key is not None else args.access_token
