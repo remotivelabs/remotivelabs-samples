@@ -1,1 +1,1 @@
-remotivelabs-broker >= 0.1.18
+remotivelabs-broker == 0.1.21
