@@ -1,0 +1,34 @@
+[MAIN]
+py-version=3.8
+ignore=.venv
+
+good-names-rgxs=__,.*__.*
+
+[DESIGN]
+max-args=7
+max-attributes=11
+
+
+[FORMAT]
+max-line-length=140
+max-module-lines=1000
+
+
+[MESSAGES CONTROL]
+disable=raw-checker-failed,
+        bad-inline-option,
+        locally-disabled,
+        file-ignored,
+        suppressed-message,
+        useless-suppression,
+        deprecated-pragma,
+        use-symbolic-message-instead,
+        use-implicit-booleaness-not-comparison-to-string,
+        use-implicit-booleaness-not-comparison-to-zero,
+        missing-function-docstring,
+        missing-class-docstring,
+        missing-module-docstring,
+        logging-fstring-interpolation,
+        broad-exception-raised,
+        too-few-public-methods,
+        cell-var-from-loop
