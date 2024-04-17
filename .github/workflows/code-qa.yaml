@@ -1,0 +1,54 @@
+name: Code-QA
+
+on: push
+
+jobs:
+  mypy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: 3.8.18
+          architecture: x64
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Install mypy
+        run: |
+            pip install mypy remotivelabs-broker>=0.1.8 pytest
+      - name: Run mypy
+        run: |
+          mypy python --no-namespace-packages
+
+  ruff-lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: chartboost/ruff-action@v1
+        with:
+          src: "python"
+
+  ruff-format:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: chartboost/ruff-action@v1
+        with:
+          src: "python"
+          args: format --check --diff
+
+  pylint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: 3.8
+          architecture: x64
+      - name: Install pylint
+        run: |
+          pip install pylint remotivelabs-broker>=0.1.8
+      - name: Run pylint
+        run: pylint python
