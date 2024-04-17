@@ -1,0 +1,23 @@
+name: Code-QA
+
+on: push
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: 3.8.18
+          architecture: x64
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Install deps
+        run: |
+            pip install mypy==1.8.0 pylint==3.2.5 ruff==0.1.14 remotivelabs-broker>=0.1.8 pytest
+      - name: Run lint
+        run: |
+          cd python
+          make
+          cd -
