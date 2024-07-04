@@ -101,7 +101,7 @@ def run(
 
 
 class ScriptPathArgument(argparse.Action):
-    # pylint: disable=R0913
+    # pylint: disable=R0903
     # pylint: disable=W0222
     def __call__(self, _parser: Any, namespace: Any, value: Any, _option: Any) -> None:  # type: ignore
         print("Script path in use:", value)
