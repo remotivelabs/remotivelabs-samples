@@ -1,10 +1,12 @@
+# pylint: disable=W0621
+
 import remotivelabs.broker.sync as br
 
 import pytest
 
 # Server address:
-_SERVER_URL = "http://127.0.0.1:50051"
-_SERVER_APIKEY = None
+_SERVER_URL = "https://personal-5z42sn9ui4-demo-uo7acw3qiq-ez.a.run.app"
+_SERVER_APIKEY = "7925BA43-9FB03240-FF17B0DE-BA0CC228"
 
 
 class Broker:  # pylint: disable=R0903
@@ -22,15 +24,15 @@ def broker() -> Broker:
     return Broker()
 
 
-def test_check_license(local_broker: Broker) -> None:
+def test_check_license(broker: Broker) -> None:
     """Check valid license"""
-    br.check_license(local_broker.system_stub)
+    br.check_license(broker.system_stub)
 
 
-def test_server_info(local_broker: Broker) -> None:
+def test_server_info(broker: Broker) -> None:
     """Validate server information"""
 
-    conf = local_broker.system_stub.GetConfiguration(br.common_pb2.Empty())
+    conf = broker.system_stub.GetConfiguration(br.common_pb2.Empty())
 
     # Major version should be 1
     assert conf.serverVersion.startswith("v1.")
@@ -40,18 +42,18 @@ def test_server_info(local_broker: Broker) -> None:
     assert conf.networkInfo[0].namespace.name == "mynamespace"
 
 
-def test_list_signals(local_broker: Broker) -> None:
+def test_list_signals(broker: Broker) -> None:
     """List and valitade signals."""
 
     ns = br.common_pb2.NameSpace(name="mynamespace")
-    signals = local_broker.system_stub.ListSignals(ns)
+    signals = broker.system_stub.ListSignals(ns)
     assert len(signals.frame) == 1
 
 
-def test_meta_fields(local_broker: Broker) -> None:
+def test_meta_fields(broker: Broker) -> None:
     """Validate signal meta information."""
 
-    sc = br.SignalCreator(local_broker.system_stub)
+    sc = br.SignalCreator(broker.system_stub)
     meta_signal = sc.get_meta("mysignal1", "mynamespace")
     frame = sc.frame_by_signal("mysignal1", "mynamespace")
     assert frame.name == "myframe1"
