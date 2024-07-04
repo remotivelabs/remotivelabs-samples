@@ -1,0 +1,38 @@
+Requirement already satisfied: mypy==1.8.0 in /mnt/c/Users/Oscar Gren/Documents/RemotiveLabs/lib/python3.10/site-packages (1.8.0)
+Requirement already satisfied: pylint==3.2.5 in /mnt/c/Users/Oscar Gren/Documents/RemotiveLabs/lib/python3.10/site-packages (3.2.5)
+Requirement already satisfied: ruff==0.1.14 in /mnt/c/Users/Oscar Gren/Documents/RemotiveLabs/lib/python3.10/site-packages (0.1.14)
+Requirement already satisfied: pylint-protobuf==0.22.0 in /mnt/c/Users/Oscar Gren/Documents/RemotiveLabs/lib/python3.10/site-packages (0.22.0)
+Requirement already satisfied: remotivelabs-broker in /mnt/c/Users/Oscar Gren/Documents/RemotiveLabs/lib/python3.10/site-packages (0.1.26)
+Requirement already satisfied: pytest in /mnt/c/Users/Oscar Gren/Documents/RemotiveLabs/lib/python3.10/site-packages (8.2.2)
+Requirement already satisfied: tomli>=1.1.0 in /mnt/c/Users/Oscar Gren/Documents/RemotiveLabs/lib/python3.10/site-packages (from mypy==1.8.0) (2.0.1)
+Requirement already satisfied: typing-extensions>=4.1.0 in /mnt/c/Users/Oscar Gren/Documents/RemotiveLabs/lib/python3.10/site-packages (from mypy==1.8.0) (4.12.2)
+Requirement already satisfied: mypy-extensions>=1.0.0 in /mnt/c/Users/Oscar Gren/Documents/RemotiveLabs/lib/python3.10/site-packages (from mypy==1.8.0) (1.0.0)
+Requirement already satisfied: dill>=0.2 in /mnt/c/Users/Oscar Gren/Documents/RemotiveLabs/lib/python3.10/site-packages (from pylint==3.2.5) (0.3.8)
+Requirement already satisfied: astroid<=3.3.0-dev0,>=3.2.2 in /mnt/c/Users/Oscar Gren/Documents/RemotiveLabs/lib/python3.10/site-packages (from pylint==3.2.5) (3.2.2)
+Requirement already satisfied: platformdirs>=2.2.0 in /mnt/c/Users/Oscar Gren/Documents/RemotiveLabs/lib/python3.10/site-packages (from pylint==3.2.5) (4.2.2)
+Requirement already satisfied: mccabe<0.8,>=0.6 in /mnt/c/Users/Oscar Gren/Documents/RemotiveLabs/lib/python3.10/site-packages (from pylint==3.2.5) (0.7.0)
+Requirement already satisfied: isort!=5.13.0,<6,>=4.2.5 in /mnt/c/Users/Oscar Gren/Documents/RemotiveLabs/lib/python3.10/site-packages (from pylint==3.2.5) (5.13.2)
+Requirement already satisfied: tomlkit>=0.10.1 in /mnt/c/Users/Oscar Gren/Documents/RemotiveLabs/lib/python3.10/site-packages (from pylint==3.2.5) (0.12.5)
+Requirement already satisfied: protobuf in /mnt/c/Users/Oscar Gren/Documents/RemotiveLabs/lib/python3.10/site-packages (from pylint-protobuf==0.22.0) (5.27.2)
+Requirement already satisfied: requests~=2.21 in /mnt/c/Users/Oscar Gren/Documents/RemotiveLabs/lib/python3.10/site-packages (from remotivelabs-broker) (2.32.3)
+Requirement already satisfied: grpc-stubs~=1.53.0.5 in /mnt/c/Users/Oscar Gren/Documents/RemotiveLabs/lib/python3.10/site-packages (from remotivelabs-broker) (1.53.0.5)
+Collecting protobuf
+  Using cached protobuf-3.20.1-cp310-cp310-manylinux_2_12_x86_64.manylinux2010_x86_64.whl (1.1 MB)
+Requirement already satisfied: grpcio~=1.44 in /mnt/c/Users/Oscar Gren/Documents/RemotiveLabs/lib/python3.10/site-packages (from remotivelabs-broker) (1.64.1)
+Requirement already satisfied: types-protobuf~=4.24.0.20240106 in /mnt/c/Users/Oscar Gren/Documents/RemotiveLabs/lib/python3.10/site-packages (from remotivelabs-broker) (4.24.0.20240408)
+Requirement already satisfied: grpc-interceptor~=0.14 in /mnt/c/Users/Oscar Gren/Documents/RemotiveLabs/lib/python3.10/site-packages (from remotivelabs-broker) (0.15.4)
+Requirement already satisfied: mypy-protobuf~=3.3.0 in /mnt/c/Users/Oscar Gren/Documents/RemotiveLabs/lib/python3.10/site-packages (from remotivelabs-broker) (3.3.0)
+Requirement already satisfied: iniconfig in /mnt/c/Users/Oscar Gren/Documents/RemotiveLabs/lib/python3.10/site-packages (from pytest) (2.0.0)
+Requirement already satisfied: exceptiongroup>=1.0.0rc8 in /mnt/c/Users/Oscar Gren/Documents/RemotiveLabs/lib/python3.10/site-packages (from pytest) (1.2.1)
+Requirement already satisfied: pluggy<2.0,>=1.5 in /mnt/c/Users/Oscar Gren/Documents/RemotiveLabs/lib/python3.10/site-packages (from pytest) (1.5.0)
+Requirement already satisfied: packaging in /mnt/c/Users/Oscar Gren/Documents/RemotiveLabs/lib/python3.10/site-packages (from pytest) (24.1)
+Requirement already satisfied: certifi>=2017.4.17 in /mnt/c/Users/Oscar Gren/Documents/RemotiveLabs/lib/python3.10/site-packages (from requests~=2.21->remotivelabs-broker) (2024.6.2)
+Requirement already satisfied: idna<4,>=2.5 in /mnt/c/Users/Oscar Gren/Documents/RemotiveLabs/lib/python3.10/site-packages (from requests~=2.21->remotivelabs-broker) (3.7)
+Requirement already satisfied: urllib3<3,>=1.21.1 in /mnt/c/Users/Oscar Gren/Documents/RemotiveLabs/lib/python3.10/site-packages (from requests~=2.21->remotivelabs-broker) (2.2.2)
+Requirement already satisfied: charset-normalizer<4,>=2 in /mnt/c/Users/Oscar Gren/Documents/RemotiveLabs/lib/python3.10/site-packages (from requests~=2.21->remotivelabs-broker) (3.3.2)
+Installing collected packages: protobuf
+  Attempting uninstall: protobuf
+    Found existing installation: protobuf 5.27.2
+    Uninstalling protobuf-5.27.2:
+      Successfully uninstalled protobuf-5.27.2
+Successfully installed protobuf-3.20.1

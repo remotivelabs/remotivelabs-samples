@@ -17,7 +17,7 @@ Python 3 is required
 
 ```
 pip3 install -r requirements.txt 
-python3 cloud-demo.py \
+python3 cloud_demo.py \
   --url <url_from_cloud> \
   --api-key <api_key_from_cloud> \
   --signals Speed,SteeringWheel_Position,Accelerator_PedalPosition

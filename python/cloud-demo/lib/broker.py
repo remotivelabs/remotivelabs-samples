@@ -1,17 +1,20 @@
+from __future__ import annotations
+
 import binascii
 import queue
 from threading import Thread
+from typing import Any, Callable
+
 import remotivelabs.broker.sync as br
+from typing_extensions import Self
 
-from typing import Optional
 
-
+# pylint: disable=R0902
 class Broker:
-
-    def __init__(self, url, api_key:str = Optional[None], access_token:str = Optional[None]):
+    def __init__(self, url: str, api_key: str | None = None, access_token: str | None = None) -> None:
         self.url = url
         self.api_key = api_key
-        self.q = queue.Queue()
+        self.q: queue.Queue[Any] = queue.Queue()
         """Main function, checking arguments passed to script, setting up stubs, configuration and starting Threads."""
         # Setting up stubs and configuration
         self.intercept_channel = br.create_channel(url, api_key, access_token)
@@ -21,37 +24,35 @@ class Broker:
         self.traffic_stub = br.traffic_api_pb2_grpc.TrafficServiceStub(self.intercept_channel)
         self.signal_creator = br.SignalCreator(self.system_stub)
 
-    def play(self, namespace: str, path: str):
+    def play(self, namespace: str, path: str) -> None:
         playback_list = [
             {
                 "namespace": namespace,
                 "path": path,
                 "mode": br.traffic_api_pb2.Mode.PLAY,
-            }]
+            }
+        ]
 
-        status = self.traffic_stub.PlayTraffic(
-            br.traffic_api_pb2.PlaybackInfos(
-                playbackInfo=list(map(self.__create_playback_config, playback_list))
-            )
+        self.traffic_stub.PlayTraffic(
+            br.traffic_api_pb2.PlaybackInfos(playbackInfo=list(map(self.__create_playback_config, playback_list)))
         )
 
-    def list_signal_names(self):
+    def list_signal_names(self) -> list[str]:
         # Lists available signals
         configuration = self.system_stub.GetConfiguration(br.common_pb2.Empty())
 
         signal_names = []
-        for networkInfo in configuration.networkInfo:
-            res = self.system_stub.ListSignals(networkInfo.namespace)
+        for network_info in configuration.networkInfo:
+            res = self.system_stub.ListSignals(network_info.namespace)
             for finfo in res.frame:
                 for sinfo in finfo.childInfo:
                     signal_names.append(sinfo.id.name)
         return signal_names
 
-    def subscribe(self, signals: list, on_frame, changed_values_only: bool = True):
+    def subscribe(self, signals: list[br.network_api_pb2.Signal], on_frame: Callable[..., None], changed_values_only: bool = True) -> Any:
         client_id = br.common_pb2.ClientId(id="cloud_demo")
 
-        signals_to_subscribe_on = \
-            map(lambda signal: self.signal_creator.signal(signal, "custom_can"), signals)
+        signals_to_subscribe_on = map(lambda signal: self.signal_creator.signal(signal, "custom_can"), signals)
 
         Thread(
             target=br.act_on_signal,
@@ -65,35 +66,31 @@ class Broker:
             ),
         ).start()
         # Wait for subscription
-        ecu, subscription = self.q.get()
+        _, subscription = self.q.get()
         return subscription
 
     @classmethod
-    def connect(cls, url, api_key: str = Optional[None], access_token: str = Optional[None]):
-        return Broker(url, api_key, access_token)
+    def connect(cls, url: str, api_key: str | None = None, access_token: str | None = None) -> Self:
+        return Broker(url, api_key, access_token)  # type: ignore
 
-    def __each_signal(self, signals, callback):
-        callback(map(lambda s: {
-            'timestamp_nanos': s.timestamp,
-            'name': s.id.name,
-            'value': self.__get_value(s)
-        }, signals))
+    def __each_signal(self, signals: br.network_api_pb2.Signals, callback: Callable[..., Any]) -> None:
+        callback(map(lambda s: {"timestamp_nanos": s.timestamp, "name": s.id.name, "value": self.__get_value(s)}, signals))
 
     @staticmethod
-    def __get_value(signal):
+    def __get_value(signal: br.network_api_pb2.Signal) -> Any:
         if signal.raw != b"":
             return "0x" + binascii.hexlify(signal.raw).decode("ascii")
-        elif signal.HasField("integer"):
+        if signal.HasField("integer"):
             return signal.integer
-        elif signal.HasField("double"):
+        if signal.HasField("double"):
             return signal.double
-        elif signal.HasField("arbitration"):
+        if signal.HasField("arbitration"):
             return signal.arbitration
-        else:
-            return "empty"
+
+        return "empty"
 
     @staticmethod
-    def __create_playback_config(item):
+    def __create_playback_config(item: dict[str, Any]) -> br.traffic_api_pb2.PlaybackInfo:
         """Creating configuration for playback
 
         Parameters
@@ -107,14 +104,14 @@ class Broker:
             Object instance of class
 
         """
-        playbackConfig = br.traffic_api_pb2.PlaybackConfig(
+        playback_config = br.traffic_api_pb2.PlaybackConfig(
             fileDescription=br.system_api_pb2.FileDescription(path=item["path"]),
             namespace=br.common_pb2.NameSpace(name=item["namespace"]),
         )
         return br.traffic_api_pb2.PlaybackInfo(
-            playbackConfig=playbackConfig,
+            playbackConfig=playback_config,
             playbackMode=br.traffic_api_pb2.PlaybackMode(mode=item["mode"]),
         )
 
 
-Broker.connect = classmethod(Broker.connect)
+Broker.connect = classmethod(Broker.connect)  # type: ignore

@@ -1,22 +1,19 @@
+from __future__ import annotations
+
 import argparse
-import binascii
-import getopt
-import grpc
-import os
 import queue
 import sys
 import time
+from threading import Thread
+from typing import Any, Callable, Optional, Sequence, Tuple
 
-from threading import Thread, Timer
-from typing import Optional
-
+import grpc
 import remotivelabs.broker.sync as br
 
-signal_creator = None
-q = queue.Queue()
+q: queue.Queue[Any] = queue.Queue()
 
 
-def read_signals(stub, signal):
+def read_signals(stub: br.network_api_pb2_grpc.NetworkServiceStub, signal: br.common_pb2.SignalId) -> br.network_api_pb2.Signals:
     """Read signals
 
     Parameters
@@ -35,16 +32,19 @@ def read_signals(stub, signal):
     try:
         read_info = br.network_api_pb2.SignalIds(signalId=[signal])
         return stub.ReadSignals(read_info)
-    except grpc._channel._Rendezvous as err:
+    except grpc.RpcError as err:
         print(err)
+        sys.exit()
 
 
-def ecu_A(stub, pause):
+def ecu_a(stub: br.network_api_pb2_grpc.NetworkServiceStub, signal_creator: br.SignalCreator, pause: int) -> None:
     """Publishes a value, read other value (published by ecu_B)
 
     Parameters
     ----------
     stub : NetworkServiceStub
+        Object instance of class
+    signal_creator: SignalCreator
         Object instance of class
     pause : int
         Amount of time to pause, in seconds
@@ -52,19 +52,19 @@ def ecu_A(stub, pause):
     """
     increasing_counter = 0
     namespace = "ecu_A"
-    clientId = br.common_pb2.ClientId(id="id_ecu_A")
-    while True:
+    client_id = br.common_pb2.ClientId(id="id_ecu_A")
+    if signal_creator is None:
+        return
 
+    while True:
         print("\necu_A, seed/counter is ", increasing_counter)
         # Publishes value 'counter'
 
         br.publish_signals(
-            clientId,
+            client_id,
             stub,
             [
-                signal_creator.signal_with_payload(
-                    "counter", namespace, ("integer", increasing_counter)
-                ),
+                signal_creator.signal_with_payload("counter", namespace, ("integer", increasing_counter)),
                 # signal_creator.signal_with_payload(
                 #     "TestFr07_Child01_UB", namespace, ("integer", 1)
                 # ),
@@ -82,15 +82,13 @@ def ecu_A(stub, pause):
 
         # Read the other value 'counter_times_2' and output result
 
-        read_signal_response = read_signals(
-            stub, signal_creator.signal("counter_times_2", namespace)
-        )
+        read_signal_response = read_signals(stub, signal_creator.signal("counter_times_2", namespace))
         for signal in read_signal_response.signal:
-            print(f"ecu_A, (result) {signal.id.name} is {get_value(signal)}")
+            print(f"ecu_A, (result) {signal.id.name} is {get_value_pair(signal)[1]}")
         increasing_counter = (increasing_counter + 1) % 4
 
 
-def read_on_timer(stub, signals, pause):
+def read_on_timer(stub: br.network_api_pb2_grpc.NetworkServiceStub, signals: br.network_api_pb2.Signals, pause: int) -> None:
     """Simple reading with timer
 
     Parameters
@@ -108,28 +106,36 @@ def read_on_timer(stub, signals, pause):
         try:
             response = stub.ReadSignals(read_info)
             for signal in response.signal:
-                print(f"ecu_B, (read) {signal.id.name} is {get_value(signal)}")
-        except grpc._channel._Rendezvous as err:
+                print(f"ecu_B, (read) {signal.id.name} is {get_value_pair(signal)[1]}")
+        except grpc.RpcError as err:
             print(err)
         time.sleep(pause)
 
 
-def get_value_pair(signal):
+def get_value_pair(signal: br.network_api_pb2.Signal) -> Tuple[str, Any]:
     if signal.raw != b"":
-        raise Exception(f"not a valid signal, probably a frame {signal}")
-    elif signal.HasField("integer"):
+        raise ValueError(f"not a valid signal, probably a frame {signal}")
+    if signal.HasField("integer"):
         return ("integer", signal.integer)
-    elif signal.HasField("double"):
+    if signal.HasField("double"):
         return ("double", signal.double)
-    elif signal.HasField("arbitration"):
+    if signal.HasField("arbitration"):
         return ("arbitration", signal.arbitration)
-    elif signal.HasField("empty"):
+    if signal.HasField("empty"):
         return ("empty", signal.empty)
-    else:
-        raise Exception(f"not a valid signal {signal}")
+
+    raise ValueError(f"not a valid signal {signal}")
 
 
-def act_on_signal(client_id, stub, sub_signals, on_change, fun, on_subcribed=None):
+def act_on_signal(
+    client_id: br.common_pb2.ClientId,
+    stub: br.network_api_pb2_grpc.NetworkServiceStub,
+    sub_signals: br.common_pb2.SignalId,
+    on_change: bool,
+    fun: Callable[[Any], None],
+    on_subcribed: Callable[[Any], None] | None = None,
+) -> None:
+    # pylint: disable=R0913
     sub_info = br.network_api_pb2.SubscriberConfig(
         clientId=client_id,
         signals=br.network_api_pb2.SignalIds(signalId=sub_signals),
@@ -143,19 +149,17 @@ def act_on_signal(client_id, stub, sub_signals, on_change, fun, on_subcribed=Non
         for subs_counter in subscripton:
             fun(subs_counter.signal)
 
-    except grpc.RpcError as e:
+    except grpc.RpcError:
         try:
             subscripton.cancel()
-        except grpc.RpcError as e2:
-            pass
+        except grpc.RpcError as err:
+            print(err)
 
-    except grpc._channel._Rendezvous as err:
-        print(err)
     # reload, alternatively non-existing signal
     print("subscription terminated")
 
 
-def main(argv):
+def main() -> None:
     parser = argparse.ArgumentParser(description="Provide address to Beambroker")
 
     parser.add_argument(
@@ -172,7 +176,7 @@ def main(argv):
         type=str,
         help="API key is required when accessing brokers running in the cloud",
         required=False,
-        default=None
+        default=None,
     )
 
     parser.add_argument(
@@ -188,18 +192,25 @@ def main(argv):
     run(args.url, args.x_api_key, args.access_token)
 
 
-def double_and_publish(network_stub, client_id, trigger, signals):
+def double_and_publish(
+    network_stub: br.network_api_pb2_grpc.NetworkServiceStub,
+    client_id: br.common_pb2.ClientId,
+    trigger: Any,
+    signals: br.network_api_pb2.Signals,
+    signal_creator: br.SignalCreator,
+) -> None:
+    if signal_creator is None:
+        return
+
     for signal in signals:
         # print(f"signals contains {signals}")
-        print(f"ecu_B, (subscribe) {signal.id.name} {get_value(signal)}")
+        print(f"ecu_B, (subscribe) {signal.id.name} {get_value_pair(signal)[1]}")
         if signal.id == trigger:
             br.publish_signals(
                 client_id,
                 network_stub,
                 [
-                    signal_creator.signal_with_payload(
-                        "counter_times_2", "ecu_B", ("integer", get_value(signal) * 2)
-                    ),
+                    signal_creator.signal_with_payload("counter_times_2", "ecu_B", ("integer", get_value_pair(signal)[1] * 2)),
                     # add any number of signals/frames here
                     # signal_creator.signal_with_payload(
                     #     "TestFr04", "ecu_B", ("raw", binascii.unhexlify("0a0b0c0d")), False
@@ -208,16 +219,18 @@ def double_and_publish(network_stub, client_id, trigger, signals):
             )
 
 
-def all_siblings(name, namespace_name):
+def all_siblings(name: str, namespace_name: str, signal_creator: br.SignalCreator) -> Sequence[br.common_pb2.SignalId]:
+    if signal_creator is None:
+        return []
     frame_name = signal_creator.frame_by_signal(name, namespace_name)
     return signal_creator.signals_in_frame(frame_name.name, frame_name.namespace.name)
 
 
-def some_function_to_calculate_crc(a, b, c):
+def some_function_to_calculate_crc(a: Any, b: Any, c: Any) -> int:  # pylint: disable=W0613
     return 1
 
 
-def change_namespace(signals, namespace_name):
+def change_namespace(signals: list[br.network_api_pb2.Signal], namespace_name: str) -> None:
     for signal in signals:
         signal.id.namespace.name = namespace_name
 
@@ -228,9 +241,7 @@ def change_namespace(signals, namespace_name):
 # TestFr07 is split into all signals. Some signals are modified and then dispatched on ecu_B
 #
 # refer to interfaces.json for reflector configuration.
-def run(url,
-        x_api_key:  Optional[str] = None,
-        access_token: Optional[str] = None):
+def run(url: str, x_api_key: Optional[str] = None, access_token: Optional[str] = None) -> None:
     """Main function, checking arguments passed to script, setting up stubs, configuration and starting Threads."""
     # Setting up stubs and configuration
     intercept_channel = br.create_channel(url, x_api_key, access_token)
@@ -242,39 +253,41 @@ def run(url,
     br.upload_folder(system_stub, "configuration_can")
     br.reload_configuration(system_stub)
 
-    global signal_creator
     signal_creator = br.SignalCreator(system_stub)
 
     # ecu a, we do this with lambda refering to modify_signal_publish_frame.
     reflector_client_id = br.common_pb2.ClientId(id="reflector_client_id")
 
     def modify_signals_publish_frame(
-        network_stub, client_id, destination_namespace_name, signals
-    ):
+        network_stub: br.network_api_pb2_grpc.NetworkServiceStub,
+        client_id: br.common_pb2.ClientId,
+        destination_namespace_name: str,
+        signals: br.network_api_pb2.Signals,
+    ) -> None:
         """Modifiy recieved signals and publish them."""
 
         # work in dictonary domain for easier access.
-        signal_dict = {signal.id.name: signal for signal in signals}
+        signal_dict: dict[str, br.network_api_pb2.Signal] = {signal.id.name: signal for signal in signals}
 
         # example, lets update TestFr07_Child02
-        (type, value) = get_value_pair(signal_dict["TestFr07_Child02"])
+        (signal_type, value) = get_value_pair(signal_dict["TestFr07_Child02"])
         signal_dict["TestFr07_Child02"] = signal_creator.signal_with_payload(
-            "TestFr07_Child02", destination_namespace_name, (type, value + 1)
+            "TestFr07_Child02", destination_namespace_name, (signal_type, value + 1)
         )
 
         # example, lets update TestFr07_Child01_UB just invert this single bit
-        (type, value) = get_value_pair(signal_dict["TestFr07_Child01_UB"])
+        (signal_type, value) = get_value_pair(signal_dict["TestFr07_Child01_UB"])
         signal_dict["TestFr07_Child01_UB"] = signal_creator.signal_with_payload(
-            "TestFr07_Child01_UB", destination_namespace_name, (type, 1 - value)
+            "TestFr07_Child01_UB", destination_namespace_name, (signal_type, 1 - value)
         )
 
         # example, lets compute counter_times_2 using some formula
-        (type, value) = get_value_pair(signal_dict["counter_times_2"])
+        (signal_type, value) = get_value_pair(signal_dict["counter_times_2"])
         signal_dict["counter_times_2"] = signal_creator.signal_with_payload(
             "counter_times_2",
             destination_namespace_name,
             (
-                type,
+                signal_type,
                 some_function_to_calculate_crc(
                     id,
                     destination_namespace_name,
@@ -292,7 +305,7 @@ def run(url,
             ),
         )
 
-        publish_list = signal_dict.values()
+        publish_list = list(signal_dict.values())
         # update destination namespace for all entrys in list
         change_namespace(publish_list, destination_namespace_name)
         # print(f"updates lists {publish_list}")
@@ -317,4 +330,4 @@ def run(url,
 
 
 if __name__ == "__main__":
-    main(sys.argv[1:])
+    main()

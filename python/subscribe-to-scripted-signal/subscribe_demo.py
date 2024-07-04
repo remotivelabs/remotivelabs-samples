@@ -1,24 +1,26 @@
+from __future__ import annotations
+
 import argparse
 import math
-import time
-import remotivelabs.broker.sync as br
 import queue
-from threading import Thread, Timer
-import grpc
+import time
+from threading import Thread
+from typing import Any, Callable, Generator, Optional, Tuple
 
-from typing import Callable, Generator, Iterable, Optional, TypeVar, Sequence, Tuple
+import remotivelabs.broker.sync as br
 
 
 def subscribe(
-    broker,
+    broker: Any,
     client_id: br.common_pb2.ClientId,
     network_stub: br.network_api_pb2_grpc.NetworkServiceStub,
     script: bytes,
-    on_subscribe: Callable[[Sequence[br.network_api_pb2.Signal]], None],
+    on_subscribe: Callable[[br.network_api_pb2.Signals], None],
     on_change: bool = False,
-) -> grpc.RpcContext:
-    sync = queue.Queue()
-    thread = Thread(
+) -> Tuple[Any, Thread]:
+    # pylint: disable=R0913
+    sync: queue.Queue[Any] = queue.Queue()
+    thread: Thread = Thread(
         target=broker.act_on_scripted_signal,
         args=(
             client_id,
@@ -26,7 +28,7 @@ def subscribe(
             script,
             on_change,  # True: only report when signal changes
             on_subscribe,
-            lambda subscription: (sync.put(subscription)),
+            sync.put,
         ),
     )
     thread.start()
@@ -35,42 +37,35 @@ def subscribe(
     return subscription, thread
 
 
-def subscribe_list(
-    signal_creator, signals: list[Tuple[str, str]]
-) -> Generator[br.common_pb2.SignalId, None, None]:
+def subscribe_list(signal_creator: Any, signals: list[Tuple[str, str]]) -> Generator[br.common_pb2.SignalId, None, None]:
     for namespace, signal in signals:
         yield signal_creator.signal(signal, namespace)
 
 
 def _get_value_str(signal: br.network_api_pb2.Signal) -> str:
     if signal.raw != b"":
-        return signal.raw
-    elif signal.HasField("integer"):
-        return signal.integer
-    elif signal.HasField("double"):
-        return signal.double
-    elif signal.HasField("arbitration"):
-        return signal.arbitration
-    else:
-        return "empty"
+        return str(signal.raw)
+    if signal.HasField("integer"):
+        return str(signal.integer)
+    if signal.HasField("double"):
+        return str(signal.double)
+    if signal.HasField("arbitration"):
+        return str(signal.arbitration)
+    return "empty"
 
 
 def printer(signals: br.network_api_pb2.Signals) -> None:
     for signal in signals:
-        print(
-            "{} {} {}".format(
-                signal.id.name, signal.id.namespace.name, _get_value_str(signal)
-            )
-        )
+        print(f"{signal.id.name} {signal.id.namespace.name} {_get_value_str(signal)}")
 
 
-def read_script_file(file_path: str) -> str:
+def read_script_file(file_path: str) -> bytes:
     try:
         with open(file_path, "rb") as file:
             return file.read()
     except FileNotFoundError:
         print("File not found. Please check your file path.")
-        return ""
+        return b""
 
 
 def run(
@@ -78,7 +73,6 @@ def run(
     script_path: str,
     x_api_key: str,
     access_token: Optional[str] = None,
-
 ) -> None:
     # gRPC connection to RemotiveBroker
     intercept_channel = br.create_channel(url, x_api_key, access_token)
@@ -93,7 +87,7 @@ def run(
         print("The script file is empty.")
         return
 
-    client_id_name = "MySubscriber_{}".format(math.floor(time.monotonic()))
+    client_id_name = f"MySubscriber_{math.floor(time.monotonic())}"
     client_id: br.common_pb2.ClientId = br.common_pb2.ClientId(id=client_id_name)
 
     print("Subscribing on signals...")
@@ -107,12 +101,14 @@ def run(
 
 
 class ScriptPathArgument(argparse.Action):
-    def __call__(self, _parser, namespace, value, _option):
+    # pylint: disable=R0913
+    # pylint: disable=W0222
+    def __call__(self, _parser: Any, namespace: Any, value: Any, _option: Any) -> None:  # type: ignore
         print("Script path in use:", value)
         setattr(namespace, "script_path", value)
 
 
-def main():
+def main() -> None:
     parser = argparse.ArgumentParser(description="Provide address to RemotiveBroker")
 
     parser.add_argument(
@@ -153,9 +149,10 @@ def main():
 
     try:
         args = parser.parse_args()
-    except Exception as e:
-        return print("Error specifying script to use:", e)
-    run(args.url, args.script_path, args.x_api_key,args.access_token)
+    except argparse.ArgumentError as e:
+        print("Error specifying script to use:", e)
+        return
+    run(args.url, args.script_path, args.x_api_key, args.access_token)
 
 
 if __name__ == "__main__":

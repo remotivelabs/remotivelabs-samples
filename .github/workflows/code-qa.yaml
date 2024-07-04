@@ -15,7 +15,7 @@ jobs:
         uses: actions/checkout@v4
       - name: Install deps
         run: |
-            pip install mypy==1.8.0 pylint==3.2.5 ruff==0.1.14 remotivelabs-broker>=0.1.8 pytest
+            pip install mypy==1.8.0 pylint==3.2.5 ruff==0.1.14 pylint-protobuf==0.22.0 remotivelabs-broker>=0.1.8 pytest
       - name: Run lint
         run: |
           cd python
