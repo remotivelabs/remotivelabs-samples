@@ -6,7 +6,7 @@ import queue
 import sys
 import time
 from threading import Thread
-from typing import Any, Callable, Optional, Tuple
+from typing import Any, Callable, Optional, Sequence
 
 import grpc
 import remotivelabs.broker.sync as br
@@ -184,26 +184,25 @@ def subscribe(
     broker: Any,
     client_id: br.common_pb2.ClientId,
     network_stub: br.network_api_pb2_grpc.NetworkServiceStub,
-    script: list[br.common_pb2.SignalId],
-    on_subscribe: Callable[[br.network_api_pb2.Signals], None],
+    signals: br.network_api_pb2.Signals,
+    on_subscribe: Callable[[Sequence[br.network_api_pb2.Signal]], None],
     on_change: bool = False,
-) -> Tuple[Any, Thread]:
-    sync: queue.Queue[Any] = queue.Queue()
-    thread: Thread = Thread(
-        target=broker.act_on_scripted_signal,
+) -> grpc.RpcContext:
+    sync = queue.Queue()
+    Thread(
+        target=broker.act_on_signal,
         args=(
             client_id,
             network_stub,
-            script,
+            signals,
             on_change,  # True: only report when signal changes
             on_subscribe,
-            sync.put,
+            lambda subscription: (sync.put(subscription)),
         ),
-    )
-    thread.start()
+    ).start()
     # wait for subscription to settle
     subscription = sync.get()
-    return subscription, thread
+    return subscription
 
 
 def run(url: str, configuration: str, x_api_key: Optional[str] = None, access_token: Optional[str] = None) -> None:
@@ -251,7 +250,7 @@ def run(url: str, configuration: str, x_api_key: Optional[str] = None, access_to
     # ecu a, this is where we publish, and
     Thread(
         target=ecu_a,
-        args=(network_stub,),
+        args=(network_stub,signal_creator),
     ).start()
 
     # ecu b, bonus, periodically, read using timer.
