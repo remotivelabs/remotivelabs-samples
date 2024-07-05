@@ -88,7 +88,7 @@ def ecu_a(stub: br.network_api_pb2_grpc.NetworkServiceStub, signal_creator: br.S
         increasing_counter = (increasing_counter + 1) % 4
 
 
-def read_on_timer(stub: br.network_api_pb2_grpc.NetworkServiceStub, signals: br.network_api_pb2.Signals, pause: int) -> None:
+def read_on_timer(stub: br.network_api_pb2_grpc.NetworkServiceStub, signals: Sequence[br.common_pb2.SignalId], pause: int) -> None:
     """Simple reading with timer
 
     Parameters
@@ -130,7 +130,7 @@ def get_value_pair(signal: br.network_api_pb2.Signal) -> Tuple[str, Any]:
 def act_on_signal(
     client_id: br.common_pb2.ClientId,
     stub: br.network_api_pb2_grpc.NetworkServiceStub,
-    sub_signals: br.common_pb2.SignalId,
+    sub_signals: Sequence[br.common_pb2.SignalId],
     on_change: bool,
     fun: Callable[[Any], None],
     on_subcribed: Callable[[Any], None] | None = None,
@@ -196,7 +196,7 @@ def double_and_publish(
     network_stub: br.network_api_pb2_grpc.NetworkServiceStub,
     client_id: br.common_pb2.ClientId,
     trigger: Any,
-    signals: br.network_api_pb2.Signals,
+    signals: Sequence[br.network_api_pb2.Signal],
     signal_creator: br.SignalCreator,
 ) -> None:
     if signal_creator is None:
@@ -262,7 +262,7 @@ def run(url: str, x_api_key: Optional[str] = None, access_token: Optional[str] =
         network_stub: br.network_api_pb2_grpc.NetworkServiceStub,
         client_id: br.common_pb2.ClientId,
         destination_namespace_name: str,
-        signals: br.network_api_pb2.Signals,
+        signals: Sequence[br.network_api_pb2.Signal],
     ) -> None:
         """Modifiy recieved signals and publish them."""
 

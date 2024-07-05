@@ -6,7 +6,7 @@ import re
 import time
 from typing import Any, Dict, Generator, Iterable, List, Optional, Tuple
 
-import google.protobuf.internal.containers  # type: ignore
+import google.protobuf.internal.containers
 import remotivelabs.broker.sync as br
 from grpc import Channel
 from typing_extensions import TypeAlias

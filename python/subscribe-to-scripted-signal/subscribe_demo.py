@@ -5,7 +5,7 @@ import math
 import queue
 import time
 from threading import Thread
-from typing import Any, Callable, Generator, Optional, Tuple
+from typing import Any, Callable, Generator, Optional, Sequence, Tuple
 
 import remotivelabs.broker.sync as br
 
@@ -15,7 +15,7 @@ def subscribe(
     client_id: br.common_pb2.ClientId,
     network_stub: br.network_api_pb2_grpc.NetworkServiceStub,
     script: bytes,
-    on_subscribe: Callable[[br.network_api_pb2.Signals], None],
+    on_subscribe: Callable[[Sequence[br.network_api_pb2.Signal]], None],
     on_change: bool = False,
 ) -> Tuple[Any, Thread]:
     # pylint: disable=R0913
@@ -54,7 +54,7 @@ def _get_value_str(signal: br.network_api_pb2.Signal) -> str:
     return "empty"
 
 
-def printer(signals: br.network_api_pb2.Signals) -> None:
+def printer(signals: Sequence[br.network_api_pb2.Signal]) -> None:
     for signal in signals:
         print(f"{signal.id.name} {signal.id.namespace.name} {_get_value_str(signal)}")
 

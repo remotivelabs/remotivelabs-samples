@@ -4,7 +4,7 @@ import argparse
 import signal as sig
 import time
 from threading import Event
-from typing import Any, Optional
+from typing import Any, Optional, Sequence
 
 import grpc
 import remotivelabs.broker.sync as br
@@ -105,7 +105,7 @@ def ecu_b_subscribe_(stub: br.network_api_pb2_grpc.NetworkServiceStub) -> None:
         print(err)
 
 
-def read_on_timer(stub: br.network_api_pb2_grpc.NetworkServiceStub, signals: br.network_api_pb2.Signals, pause: int) -> None:
+def read_on_timer(stub: br.network_api_pb2_grpc.NetworkServiceStub, signals: Sequence[br.common_pb2.SignalId], pause: int) -> None:
     """Simple reading with timer, logs on purpose tabbed with double space
 
     Parameters
