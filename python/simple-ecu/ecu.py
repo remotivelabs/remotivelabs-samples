@@ -82,7 +82,7 @@ def ecu_a(stub: br.network_api_pb2_grpc.NetworkServiceStub, signal_creator: br.S
         increasing_counter = counter_start_value + (increasing_counter + 1) % 4
 
 
-def read_on_timer(stub: br.network_api_pb2_grpc.NetworkServiceStub, signals: br.network_api_pb2.Signals, pause: int) -> None:
+def read_on_timer(stub: br.network_api_pb2_grpc.NetworkServiceStub, signals: Sequence[br.common_pb2.SignalId], pause: int) -> None:
     """Simple reading with timer
 
     Parameters
@@ -157,7 +157,7 @@ def double_and_publish(
     network_stub: br.network_api_pb2_grpc.NetworkServiceStub,
     client_id: br.common_pb2.ClientId,
     trigger: Any,
-    signals: br.network_api_pb2.Signals,
+    signals: Sequence[br.network_api_pb2.Signal],
     signal_creator: br.SignalCreator,
 ) -> None:
     if signal_creator is None:
@@ -184,11 +184,11 @@ def subscribe(
     broker: Any,
     client_id: br.common_pb2.ClientId,
     network_stub: br.network_api_pb2_grpc.NetworkServiceStub,
-    signals: br.network_api_pb2.Signals,
+    signals: Sequence[br.common_pb2.SignalId],
     on_subscribe: Callable[[Sequence[br.network_api_pb2.Signal]], None],
     on_change: bool = False,
-) -> grpc.RpcContext:
-    sync = queue.Queue()
+) -> Any:
+    sync: queue.Queue[Any] = queue.Queue()
     Thread(
         target=broker.act_on_signal,
         args=(
@@ -197,7 +197,7 @@ def subscribe(
             signals,
             on_change,  # True: only report when signal changes
             on_subscribe,
-            lambda subscription: (sync.put(subscription)),
+            sync.put,
         ),
     ).start()
     # wait for subscription to settle
@@ -205,7 +205,7 @@ def subscribe(
     return subscription
 
 
-def run(url: str, configuration: str, x_api_key: Optional[str] = None, access_token: Optional[str] = None) -> None:
+def run(url: str, configuration_folder: str, x_api_key: Optional[str] = None, access_token: Optional[str] = None) -> None:
     """Main function, checking arguments passed to script, setting up stubs, configuration and starting Threads."""
     # Setting up stubs and configuration
     intercept_channel = br.create_channel(url, x_api_key, access_token)
@@ -214,8 +214,8 @@ def run(url: str, configuration: str, x_api_key: Optional[str] = None, access_to
     system_stub = br.system_api_pb2_grpc.SystemServiceStub(intercept_channel)
     br.check_license(system_stub)
 
-    print(f"Using configuration {configuration}")
-    br.upload_folder(system_stub, configuration)
+    print(f"Using configuration {configuration_folder}")
+    br.upload_folder(system_stub, configuration_folder)
     br.reload_configuration(system_stub)
 
     signal_creator = br.SignalCreator(system_stub)
@@ -250,7 +250,7 @@ def run(url: str, configuration: str, x_api_key: Optional[str] = None, access_to
     # ecu a, this is where we publish, and
     Thread(
         target=ecu_a,
-        args=(network_stub,signal_creator),
+        args=(network_stub, signal_creator),
     ).start()
 
     # ecu b, bonus, periodically, read using timer.
