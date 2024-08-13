@@ -1,7 +1,9 @@
+from __future__ import annotations
+
 import argparse
 
 
-def parse(argv):
+def parse() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Provide address to RemotiveBroker")
 
     parser.add_argument(
@@ -18,7 +20,7 @@ def parse(argv):
         type=str,
         help="API key is required when accessing brokers running in the cloud",
         required=False,
-        default=None
+        default=None,
     )
 
     parser.add_argument(
@@ -36,7 +38,7 @@ def parse(argv):
         required=False,
         help="Comma separated list of signal names to subscribe on",
         default="Speed",
-        type=lambda s: [item for item in s.split(',')]
+        type=lambda s: list(s.split(",")),
     )
 
     args = parser.parse_args()

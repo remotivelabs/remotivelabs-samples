@@ -1,21 +1,23 @@
 from __future__ import annotations
 
 import argparse
+import sys
 import time
 from typing import Optional
+
 from remotivelabs.broker.sync import (
-    Client,
-    SignalsInFrame,
     BrokerException,
+    Client,
     SignalIdentifier,
+    SignalsInFrame,
 )
 
 
-def run_subscribe_sample(url: str, signals: list[str], secret: Optional[str] = None):
+def run_subscribe_sample(url: str, signals: list[str], secret: Optional[str] = None) -> None:
     client = Client(client_id="Sample client")
     client.connect(url=url, api_key=secret)
 
-    def on_signals(signals_in_frame: SignalsInFrame):
+    def on_signals(signals_in_frame: SignalsInFrame) -> None:
         for signal in signals_in_frame:
             print(signal.to_json())
 
@@ -23,11 +25,11 @@ def run_subscribe_sample(url: str, signals: list[str], secret: Optional[str] = N
 
     try:
 
-        def to_signal_id(signal: str):
+        def to_signal_id(signal: str) -> SignalIdentifier:
             s = signal.split(":")
             if len(s) != 2:
                 print("--signals must be in format namespace:signal_name")
-                exit(1)
+                sys.exit(1)
             return SignalIdentifier(s[1], s[0])
 
         subscription = client.subscribe(
@@ -36,15 +38,13 @@ def run_subscribe_sample(url: str, signals: list[str], secret: Optional[str] = N
         )
     except BrokerException as e:
         print(e)
-        exit(1)
-    except Exception as e:
+        sys.exit(1)
+    except Exception as e:  # pylint: disable=W0718
         print(e)
-        exit(1)
+        sys.exit(1)
 
     try:
-        print(
-            "Broker connection and subscription setup completed, waiting for signals..."
-        )
+        print("Broker connection and subscription setup completed, waiting for signals...")
         while True:
             time.sleep(1)
     except KeyboardInterrupt:
@@ -52,7 +52,7 @@ def run_subscribe_sample(url: str, signals: list[str], secret: Optional[str] = N
         print("Keyboard interrupt received, closing")
 
 
-def main():
+def main() -> None:
     parser = argparse.ArgumentParser(description="Provide address to RemotiveBroker")
 
     parser.add_argument(
@@ -82,18 +82,17 @@ def main():
         default=None,
     )
 
-    parser.add_argument(
-        "-s", "--signals", help="Signal to subscribe to", required=True, nargs="*"
-    )
+    parser.add_argument("-s", "--signals", help="Signal to subscribe to", required=True, nargs="*")
 
     try:
         args = parser.parse_args()
-    except Exception as e:
-        return print("Error specifying signals to use:", e)
+    except argparse.ArgumentError as e:
+        print("Error specifying signals to use:", e)
+        sys.exit(1)
 
     if len(args.signals) == 0:
         print("You must subscribe to at least one signal with --signals namespace:somesignal")
-        exit(1)
+        sys.exit(1)
 
     secret = args.x_api_key if args.x_api_key is not None else args.access_token
     run_subscribe_sample(args.url, args.signals, secret)
