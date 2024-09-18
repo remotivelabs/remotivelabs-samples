@@ -24,3 +24,5 @@ In cloud with api-key (deprecated)
 Generate minimal signal database based on signals in csv
 
     python generate-sigdb.py -s vss_rel_4.2.yaml -t vss_rel_4.2_min.yaml -r signals.csv
+
+> This requires `vss_rel_4.2_min.yaml` which originates from `Covesa` https://github.com/covesa/vehicle_signal_specification/releases

@@ -30,7 +30,7 @@ def run_subscribe_sample(url: str, namespace: str, filename: str, secret: Option
             for signal in signals:
                 bar()
                 csv_writer.writerow(
-                    ["{:.6f}".format(signal.timestamp_us()/1000000) ,signal.name(), signal.value()]
+                    ["{:.6f}".format(time.time()) ,signal.name(), signal.value()]
                 )
 
         csv_logger_fun = lambda signals: csv_logger(csv.writer(

@@ -24,8 +24,11 @@ def generate_db(source_file: str, target_file: str, csv_recording_file: str):
 
     # Create target yaml db file
     for name in signal_names:
-        targe_yaml_db[name] = source_db_yaml[name]
-
+        try:
+            targe_yaml_db[name] = source_db_yaml[name]
+        except KeyError as e:
+            print(e)
+        
     with open(target_file, 'w') as file:
         yaml.dump(targe_yaml_db, file)
 
