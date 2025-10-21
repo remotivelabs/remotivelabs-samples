@@ -22,7 +22,7 @@ function timer_frequency_hz()
 end
 
 -- Invoked with the frequecy returned by "timer_frequency_hz".
--- @param system_timestamp_us: system time stamp 
+-- @param system_timestamp_us: system time stamp
 function timer(system_timestamp_us)
     return return_value_or_bytes(state_of_charge)
 end
@@ -32,6 +32,7 @@ end
 -- @param system_timestamp_us
 -- @param signals: array of signals containing all or a subset of signals declared in "local_signals". Make sure to nil check before use.
 function signals(signals, namespace, signals_timestamp_us, system_timestamp_us)
+    state_of_charge = signals["ID257DIspeed.DI_vehicleSpeed"]
     return return_value_or_bytes(signals["ID257DIspeed.DI_vehicleSpeed"])
 end
 
