@@ -1,58 +1,36 @@
+#!/usr/bin/env python
+
 from __future__ import annotations
 
 import argparse
-import time
-from typing import Optional
-from remotivelabs.broker.sync import (
-    Client,
-    SignalsInFrame,
-    BrokerException,
-    SignalIdentifier,
-)
+from dataclasses import asdict
+import asyncio
+from remotivelabs.broker.client import BrokerClient
+from remotivelabs.broker.auth import ApiKeyAuth, NoAuth
 
 
-def run_subscribe_sample(url: str, signals: list[str], secret: Optional[str] = None):
-    client = Client(client_id="Sample client")
-    client.connect(url=url, api_key=secret)
+class ParseSignals(argparse.Action):
+    def __call__(self, parser, namespace, values, option_string=None):
+        store = getattr(namespace, self.dest, None)
+        if store is None:
+            store = []
 
-    def on_signals(signals_in_frame: SignalsInFrame):
-        for signal in signals_in_frame:
-            print(signal.to_json())
+        temp: dict[str, list[str]] = {}
 
-    client.on_signals = on_signals
+        for item in values:
+            if ":" not in item:
+                raise argparse.ArgumentError(
+                    self, f"Invalid format: '{item}', expected namespace:signal"
+                )
+            ns, sig = item.split(":", 1)
+            temp.setdefault(ns, []).append(sig)
 
-    try:
+        store.extend((ns, sigs) for ns, sigs in temp.items())
 
-        def to_signal_id(signal: str):
-            s = signal.split(":")
-            if len(s) != 2:
-                print("--signals must be in format namespace:signal_name")
-                exit(1)
-            return SignalIdentifier(s[1], s[0])
-
-        subscription = client.subscribe(
-            signals_to_subscribe_to=list(map(to_signal_id, signals)),
-            changed_values_only=False,
-        )
-    except BrokerException as e:
-        print(e)
-        exit(1)
-    except Exception as e:
-        print(e)
-        exit(1)
-
-    try:
-        print(
-            "Broker connection and subscription setup completed, waiting for signals..."
-        )
-        while True:
-            time.sleep(1)
-    except KeyboardInterrupt:
-        subscription.cancel()
-        print("Keyboard interrupt received, closing")
+        setattr(namespace, self.dest, store)
 
 
-def main():
+async def main():
     parser = argparse.ArgumentParser(description="Provide address to RemotiveBroker")
 
     parser.add_argument(
@@ -83,21 +61,24 @@ def main():
     )
 
     parser.add_argument(
-        "-s", "--signals", help="Signal to subscribe to", required=True, nargs="*"
+        "-s",
+        "--signals",
+        help="Signal to subscribe to",
+        required=True,
+        nargs="*",
+        action=ParseSignals,
     )
 
-    try:
-        args = parser.parse_args()
-    except Exception as e:
-        return print("Error specifying signals to use:", e)
-
-    if len(args.signals) == 0:
-        print("You must subscribe to at least one signal with --signals namespace:somesignal")
-        exit(1)
-
-    secret = args.x_api_key if args.x_api_key is not None else args.access_token
-    run_subscribe_sample(args.url, args.signals, secret)
+    args = parser.parse_args()
+    auth = ApiKeyAuth(args.x_api_key) if args.x_api_key is not None else NoAuth()
+    async with BrokerClient(url=args.url, auth=auth) as client:
+        async for signals in await client.subscribe(*args.signals):
+            for signal in signals:
+                print(asdict(signal))
 
 
 if __name__ == "__main__":
-    main()
+    try:
+        asyncio.run(main())
+    except KeyboardInterrupt:
+        pass
