@@ -2,7 +2,7 @@
 
 Remotive Broker enables you to perform computations on a stream of signals on the fly using your own Lua script while the signals are being streamed.
 
-For a broader general overview, take a look at the [Scripted Signals documentation](https://docs.remotivelabs.com/docs/remotive-broker/scripted_signals).
+For a broader general overview, take a look at the [Scripted Signals documentation](https://developer.remotivelabs.com/docs/remotive-broker/scripted_signals).
 
 ## Usage
 
